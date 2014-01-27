@@ -3,15 +3,14 @@
 #include <sys/socket.h>
 
 int
-main()
-{
-  int sock;
+main() {
+    int sock;
+    sock = socket(AF_INET, SOCK_STREAM, 0);
 
-  sock = socket(AF_INET, SOCK_STREAM, 0);
-  if (sock < 0) {
-    printf("socket failed\n");
-    return 1;
-  }
+    if (sock < 0) {
+        printf("socket failed\n");
+        return 1;
+    }
 
-  return 0;
+    return 0;
 }

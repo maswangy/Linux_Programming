@@ -4,22 +4,21 @@
 #include <sys/shm.h>
 
 int
-main(int argc, char *argv[])
-{
-  int shm;
-  struct shmid_ds sds;
+main(int argc, char* argv[]) {
+    int shm;
+    struct shmid_ds sds;
 
-  if (argc != 2) {
-    fprintf(stderr, "Usage : %s shmid\n", argv[0]);
-    return 1;
-  }
+    if (argc != 2) {
+        fprintf(stderr, "Usage : %s shmid\n", argv[0]);
+        return 1;
+    }
 
-  shm = atoi(argv[1]);
+    shm = atoi(argv[1]);
 
-  if (shmctl(shm, IPC_RMID, &sds) != 0) {
-    perror("shmctl");
-    return 1;
-  }
+    if (shmctl(shm, IPC_RMID, &sds) != 0) {
+        perror("shmctl");
+        return 1;
+    }
 
-  return 0;
+    return 0;
 }

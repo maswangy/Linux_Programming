@@ -4,25 +4,24 @@
 #include <sys/shm.h>
 
 int
-main()
-{
-  int shm;
-  char *ptr;
+main() {
+    int shm;
+    char* ptr;
+    shm = shmget(IPC_PRIVATE, 128, IPC_CREAT | 0600);
 
-  shm = shmget(IPC_PRIVATE, 128, IPC_CREAT | 0600);
-  if (shm < 0) {
-    perror("shmget");
-    return 1;
-  }
+    if (shm < 0) {
+        perror("shmget");
+        return 1;
+    }
 
-  ptr = shmat(shm, NULL, 0);
-  if ((int)ptr == -1) {
-    perror("shmat");
-    return 1;
-  }
+    ptr = shmat(shm, NULL, 0);
 
-  strcpy(ptr, "HOGE");
-  shmdt(ptr);
+    if ((int)ptr == -1) {
+        perror("shmat");
+        return 1;
+    }
 
-  return 0;
+    strcpy(ptr, "HOGE");
+    shmdt(ptr);
+    return 0;
 }

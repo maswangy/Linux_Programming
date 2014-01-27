@@ -4,18 +4,15 @@
 #include <unistd.h>
 
 int
-main()
-{
-  int sock;
+main() {
+    int sock;
+    sock = socket(AF_INET, 4000, 5000);
+    write(-1, "hoge", 4);
 
-  sock = socket(AF_INET, 4000, 5000);
+    if (sock < 0) {
+        perror("socket");
+        return 1;
+    }
 
-  write(-1, "hoge", 4);
-
-  if (sock < 0) {
-    perror("socket");
-    return 1;
-  }
-
-  return 0;
+    return 0;
 }

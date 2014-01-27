@@ -5,28 +5,25 @@
 int flag = 0;
 
 void
-sigusr1_handler(int sig)
-{
-  write(1, "signal called\n", 14);
-  flag = 1;
+sigusr1_handler(int sig) {
+    write(1, "signal called\n", 14);
+    flag = 1;
 }
 
 int
-main()
-{
-  printf("pid=%d\n", getpid());
+main() {
+    printf("pid=%d\n", getpid());
+    signal(SIGUSR1, sigusr1_handler);
 
-  signal(SIGUSR1, sigusr1_handler);
+    for (;;) {
+        printf("waiting for signal\n");
+        sleep(5);
 
-  for (;;) {
-    printf("waiting for signal\n");
-    sleep(5);
-
-    if (flag != 0) {
-      printf("break loop\n");
-      break;
+        if (flag != 0) {
+            printf("break loop\n");
+            break;
+        }
     }
-  }
 
-  return 0;
+    return 0;
 }

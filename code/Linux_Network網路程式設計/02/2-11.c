@@ -5,18 +5,16 @@
 #include <errno.h>
 
 int
-main()
-{
-  int sock;
-  sock = socket(3000, 4000, 5000);
+main() {
+    int sock;
+    sock = socket(3000, 4000, 5000);
 
-  if (sock < 0) {
-    close(fileno(stdout));
-    printf("%d\n", errno);
+    if (sock < 0) {
+        close(fileno(stdout));
+        printf("%d\n", errno);
+        perror("socket");
+        return 1;
+    }
 
-    perror("socket");
-    return 1;
-  }
-
- return 0;
+    return 0;
 }

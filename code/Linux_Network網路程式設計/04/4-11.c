@@ -8,22 +8,18 @@
 #include <net/if.h>
 
 int
-main()
-{
-  int fd;
-  struct ifreq ifr;
+main() {
+    int fd;
+    struct ifreq ifr;
+    fd = socket(AF_INET, SOCK_DGRAM, 0);
+    strncpy(ifr.ifr_name, "lo", IFNAMSIZ - 1);
+    strncpy(ifr.ifr_newname, "newloname", IFNAMSIZ - 1);
 
-  fd = socket(AF_INET, SOCK_DGRAM, 0);
+    if (ioctl(fd, SIOCSIFNAME, &ifr) != 0) {
+        perror("ioctl");
+        return 1;
+    }
 
-  strncpy(ifr.ifr_name, "lo", IFNAMSIZ-1);
-  strncpy(ifr.ifr_newname, "newloname", IFNAMSIZ-1);
-
-  if (ioctl(fd, SIOCSIFNAME, &ifr) != 0) {
-    perror("ioctl");
-    return 1;
-  }
-
-  close(fd);
-
-  return 0;
+    close(fd);
+    return 0;
 }
