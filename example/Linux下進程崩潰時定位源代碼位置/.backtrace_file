@@ -1,0 +1,6 @@
+./a.out(OutputBacktrace+0x54)[0x400fc8]
+/lib/x86_64-linux-gnu/libc.so.6(+0x36ff0)[0x7f892f4ccff0]
+libmyhello.so(func+0x1b)[0x7f892f85e6d9]
+./a.out(main+0x3d)[0x4010ff]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf5)[0x7f892f4b7de5]
+./a.out[0x400bf9]
