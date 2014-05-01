@@ -18,7 +18,9 @@ char* FindBaseAddress(const char* SoName) {
     int n = fread(BaseAddr, 1, 20, file);
     BaseAddr[n - 1] = '\0';
     printf("The Base address of the %s is:%s\n", SoName, BaseAddr);
+#if 0
     while(1) {}
+#endif
     return BaseAddr;
 }
 

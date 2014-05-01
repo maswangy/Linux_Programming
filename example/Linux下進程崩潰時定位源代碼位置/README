@@ -10,3 +10,13 @@
 讓程式處於 while(1) 使用下面指令去計算 Base Address 
 grep libmyhello.so /proc/11671/maps | head -1 | awk -F- '{print $1}'
 
+
+
+void func() {
+    char* p = "hello world.\n";
+    p[2] = 'k';  /* sigsegv segmentation fault */
+    printf("%s\n", p);
+}
+
+00000000000006be 是 nm libmyhello.so | ag 'func' 函數起始的offset
+6d9 是p[2] = 'k'; 那行offset 
