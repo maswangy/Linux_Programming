@@ -62,7 +62,7 @@ void OutputBacktrace(int sig) {
     char Stack[50];
     sprintf(Stack, "%p", bt[2]);
     int OffsetAddress = strtol(Stack, NULL, 16) - strtol(BaseAddress, NULL, 16);
-    printf("OffsetAddress:%d\n", OffsetAddress);
+    printf("OffsetAddress:0x%x\n", OffsetAddress);
     PrintLineNumber(So_Name, OffsetAddress);
     exit(-1);
 }
