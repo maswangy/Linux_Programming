@@ -13,10 +13,12 @@ char* FindBaseAddress(const char* SoName) {
     sprintf(file_name, "/proc/%d/maps", pid);
     char cmd[100];
     sprintf(cmd, "grep %s %s | head -1 | awk -F- \'{print $1}\'", SoName, file_name);
+    /*printf("cmd=%s",cmd);*/
     FILE* file = popen(cmd, "r");
     int n = fread(BaseAddr, 1, 20, file);
     BaseAddr[n - 1] = '\0';
     printf("The Base address of the %s is:%s\n", SoName, BaseAddr);
+    while(1) {}
     return BaseAddr;
 }
 

@@ -5,3 +5,8 @@
 1. gcc -fPIC -shared -o libmyhello.so hello.c
 2. make
 
+
+
+讓程式處於 while(1) 使用下面指令去計算 Base Address 
+grep libmyhello.so /proc/11671/maps | head -1 | awk -F- '{print $1}'
+
