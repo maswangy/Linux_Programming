@@ -20,3 +20,5 @@ void func() {
 
 00000000000006be 是 nm libmyhello.so | ag 'func' 函數起始的offset
 6d9 是p[2] = 'k'; 那行offset 
+
+addr2line -f -C -e libmyhello.so offset_address
