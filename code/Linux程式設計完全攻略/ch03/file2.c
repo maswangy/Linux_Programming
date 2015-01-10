@@ -1,7 +1,7 @@
 #include<stdio.h>
-extern char* a;
+extern char *a;
 void test(void) {
-    char* c = "hello";
+    char *c = "hello";
 
     if (a == c) {
         printf("yes,a==c\n");

@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int init_daemon(const char* pname, int facility) {
+int init_daemon(const char *pname, int facility) {
     int pid;
     int i;
     signal(SIGTTOU, SIG_IGN);
@@ -46,8 +46,8 @@ int init_daemon(const char* pname, int facility) {
     return;
 }
 
-int main(int argc, char* argv[]) {
-    FILE* fp;
+int main(int argc, char *argv[]) {
+    FILE *fp;
     time_t ticks;
     init_daemon(argv[0], LOG_KERN);
 

@@ -11,12 +11,12 @@ struct msg_buf {
     char msg[BUFSIZE];
 };
 
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
     key_t key;
     int msgid;
     struct msg_buf msg_snd, msg_rcv;
     struct msginfo buf;
-    char* ptr = "helloworld";
+    char *ptr = "helloworld";
     memset(&msg_snd, '\0', sizeof(struct msg_buf));
     memset(&msg_rcv, '\0', sizeof(struct msg_buf));
     msg_rcv.type = 1;
@@ -33,7 +33,7 @@ int main(int argc, char* argv[]) {
         exit(EXIT_FAILURE);
     }
 
-    printf("msgsnd_return=%d\n", msgsnd(msgid, (void*)&msg_snd, strlen(msg_snd.msg), 0));
+    printf("msgsnd_return=%d\n", msgsnd(msgid, (void *)&msg_snd, strlen(msg_snd.msg), 0));
     msgctl(msgid, MSG_INFO, &buf);
     printf("buf.msgmax=%d\n", buf.msgmax);
     printf("buf.msgmnb=%d\n", buf.msgmnb);
@@ -43,7 +43,7 @@ int main(int argc, char* argv[]) {
     printf("buf.msgssz=%d\n", buf.msgssz);
     printf("buf.msgtql=%d\n", buf.msgtql);
     printf("buf.msgseg=%u\n", buf.msgseg);
-    printf("msgrcv_return=%d\n", msgrcv(msgid, (void*)&msg_rcv, BUFSIZE, msg_rcv.type, 0));
+    printf("msgrcv_return=%d\n", msgrcv(msgid, (void *)&msg_rcv, BUFSIZE, msg_rcv.type, 0));
     printf("rev msg:%s\n", msg_rcv.msg);
     printf("msgctl_return=%d\n", msgctl(msgid, IPC_RMID, 0));
 }

@@ -6,7 +6,7 @@
 char buf1[] = "1234567890";         //
 char buf2[] = "ABCDEFGHIJ";         //
 char buf3[] = "abcdefghij";         //
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
     int fd;
 
     if ((fd = creat("/tmp/test", 0644)) < 0) {           //

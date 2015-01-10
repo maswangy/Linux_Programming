@@ -10,7 +10,7 @@
 
 #define MAXBUF 1024
 
-int main(int argc, char** argv) {
+int main(int argc, char **argv) {
     int sockfd, len;
     struct sockaddr_in dest;
     char buffer[MAXBUF + 1];
@@ -30,12 +30,12 @@ int main(int argc, char** argv) {
     dest.sin_family = AF_INET;
     dest.sin_port = htons(atoi(argv[2]));
 
-    if (inet_aton(argv[1], (struct in_addr*) &dest.sin_addr.s_addr) == 0) {
+    if (inet_aton(argv[1], (struct in_addr *) &dest.sin_addr.s_addr) == 0) {
         perror(argv[1]);
         exit(errno);
     }
 
-    if (connect(sockfd, (struct sockaddr*) &dest, sizeof(dest)) == -1) {
+    if (connect(sockfd, (struct sockaddr *) &dest, sizeof(dest)) == -1) {
         perror("Connect ");
         exit(errno);
     }

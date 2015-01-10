@@ -3,12 +3,12 @@
 #include <stdlib.h>
 #include <pthread.h>
 
-void* thread_function(void* arg);
+void *thread_function(void *arg);
 
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
     int res;
     pthread_t a_thread;
-    void* thread_result;
+    void *thread_result;
     res = pthread_create(&a_thread, NULL, thread_function, NULL);
 
     if (res != 0) {
@@ -37,7 +37,7 @@ int main(int argc, char* argv[]) {
     exit(EXIT_SUCCESS);
 }
 
-void* thread_function(void* arg) {
+void *thread_function(void *arg) {
     int i, res, j;
     sleep(1);
     res = pthread_setcancelstate(PTHREAD_CANCEL_DISABLE, NULL);

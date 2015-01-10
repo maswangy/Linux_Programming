@@ -4,9 +4,9 @@
 #include<utime.h>
 #include<time.h>
 #include<sys/types.h>
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
     struct utimbuf buf;
-    char* ptr;
+    char *ptr;
     time_t tm;
     time(&tm);              //
     buf.actime = tm - 1000;

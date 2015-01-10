@@ -9,9 +9,9 @@
 
 //#include "shmemory.h"
 
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
     int running = 1;
-    char* shm_p = NULL;
+    char *shm_p = NULL;
     int shmid;
     int semid;
     int value;

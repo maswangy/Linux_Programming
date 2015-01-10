@@ -2,8 +2,8 @@
 #include<pwd.h>
 #include<stdlib.h>
 
-int main(int argc, char* argv[]) {
-    struct passwd* ptr;
+int main(int argc, char *argv[]) {
+    struct passwd *ptr;
     uid_t uid;
     uid = atoi(argv[1]);
     ptr = getpwuid(uid);

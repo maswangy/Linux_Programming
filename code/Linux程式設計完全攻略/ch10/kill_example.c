@@ -3,7 +3,7 @@
 #include <signal.h>
 void sig_usr(int sig);
 
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
     int i = 0;
 
     if (signal(SIGUSR1, sig_usr) == SIG_ERR) {

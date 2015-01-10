@@ -2,7 +2,7 @@
 #include <sys/stat.h>
 #include <stdio.h>
 #include <stdlib.h>
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
     struct stat statbuf;
 
     if (stat("test01", &statbuf) < 0) {                //

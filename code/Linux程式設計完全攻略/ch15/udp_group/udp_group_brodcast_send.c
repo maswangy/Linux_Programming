@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 #define BUFLEN 255
-int main(int argc, char** argv) {
+int main(int argc, char **argv) {
     struct sockaddr_in peeraddr, myaddr;
     int sockfd;
     char recmsg[BUFLEN + 1];
@@ -45,7 +45,7 @@ int main(int argc, char** argv) {
         myaddr.sin_addr.s_addr = INADDR_ANY;
     }
 
-    if (bind(sockfd, (struct sockaddr*) &myaddr, sizeof(struct sockaddr_in)) == -1) {
+    if (bind(sockfd, (struct sockaddr *) &myaddr, sizeof(struct sockaddr_in)) == -1) {
         printf("Bind error\n");
         exit(EXIT_FAILURE);
     }
@@ -54,11 +54,11 @@ int main(int argc, char** argv) {
         bzero(recmsg, BUFLEN + 1);
         printf("input message to send:");
 
-        if (fgets(recmsg, BUFLEN, stdin) == (char*) EOF) {
+        if (fgets(recmsg, BUFLEN, stdin) == (char *) EOF) {
             exit(EXIT_FAILURE);
         };
 
-        if (sendto(sockfd, recmsg, strlen(recmsg), 0, (struct sockaddr*) &peeraddr,
+        if (sendto(sockfd, recmsg, strlen(recmsg), 0, (struct sockaddr *) &peeraddr,
                    sizeof(struct sockaddr_in)) < 0) {
             printf("sendto error!\n");
             exit(EXIT_FAILURE);;

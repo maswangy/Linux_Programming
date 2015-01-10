@@ -2,7 +2,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
     if (argc < 3)  {               //check no of args
         fprintf(stderr, "usage %s src_dir dst_src\n", argv[0]);
         exit(EXIT_FAILURE);
@@ -29,7 +29,7 @@ int main(int argc, char* argv[]) {
             }
         } else {                  //
             if (S_ISDIR(stat_dst.st_mode)) { //
-                char* ptr = (char*)malloc(strlen(argv[2]) + 1 + strlen(argv[1]) + 1);
+                char *ptr = (char *)malloc(strlen(argv[2]) + 1 + strlen(argv[1]) + 1);
                 sprintf(ptr, "%s/%s\0", argv[2], argv[1]);
                 cp_file(argv[1], ptr, stat_src.st_mode); //
             } else {                 //
@@ -69,7 +69,7 @@ int main(int argc, char* argv[]) {
             fprintf(stderr, "can't copy a dir to a file\n");
             exit(EXIT_FAILURE);
         } else {                      //
-            char* ptr = (char*)malloc(strlen(argv[1]) + 1 + strlen(argv[2]) + 1);
+            char *ptr = (char *)malloc(strlen(argv[1]) + 1 + strlen(argv[2]) + 1);
             sprintf(ptr, "%s/%s\0", argv[2], argv[1]);
 
             if (-1 == mkdir(ptr, stat_src.st_mode)) {
@@ -83,24 +83,24 @@ int main(int argc, char* argv[]) {
     }
 }
 
-int cp_dir(const char* src, const char* dst) {
-    DIR* dirp = NULL;
+int cp_dir(const char *src, const char *dst) {
+    DIR *dirp = NULL;
 
     if (NULL == (dirp = opendir(src))) {       //
         perror("opendir");
         exit(EXIT_FAILURE);
     }
 
-    struct dirent* entp = NULL;
+    struct dirent *entp = NULL;
 
     while (NULL != (entp = readdir(dirp))) { //
         if (strcmp(entp->d_name, "..") == 0 || strcmp(entp->d_name, ".") == 0) {
             continue;                        //
         }
 
-        char* name_src = (char*) malloc(strlen(src) + 1 + strlen(entp->d_name) + 1);
+        char *name_src = (char *) malloc(strlen(src) + 1 + strlen(entp->d_name) + 1);
         sprintf(name_src, "%s/%s\0", src, entp->d_name);
-        char* name_dst = (char*) malloc(strlen(dst) + 1 + strlen(entp->d_name) + 1);
+        char *name_dst = (char *) malloc(strlen(dst) + 1 + strlen(entp->d_name) + 1);
         sprintf(name_dst, "%s/%s\0", dst, entp->d_name);
         struct stat stat_src;
 

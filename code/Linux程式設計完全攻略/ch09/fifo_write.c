@@ -9,7 +9,7 @@
 
 #define FIFO_NAME "/tmp/my_fifo"
 
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
     int pipe_fd;
     int res;
     char buffer[] = "hello world!";

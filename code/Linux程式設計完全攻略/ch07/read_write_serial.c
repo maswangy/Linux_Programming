@@ -53,62 +53,62 @@ int set_Parity(int fd, int databits, int stopbits, int parity) {
     options.c_cflag &= ~CSIZE;
 
     switch (databits) {
-    case 7:
-        options.c_cflag |= CS7;
-        break;
+        case 7:
+            options.c_cflag |= CS7;
+            break;
 
-    case 8:
-        options.c_cflag |= CS8;
-        break;
+        case 8:
+            options.c_cflag |= CS8;
+            break;
 
-    default:
-        fprintf(stderr, "Unsupported data size\n");
-        return (FALSE);
+        default:
+            fprintf(stderr, "Unsupported data size\n");
+            return (FALSE);
     }
 
     switch (parity) {
-    case 'n':
-    case 'N':
-        options.c_cflag &= ~PARENB;     //Clear parity enable
-        options.c_iflag &= ~INPCK;      // Enable parity checking
-        break;
+        case 'n':
+        case 'N':
+            options.c_cflag &= ~PARENB;     //Clear parity enable
+            options.c_iflag &= ~INPCK;      // Enable parity checking
+            break;
 
-    case 'o':
-    case 'O':
-        options.c_cflag |= (PARODD | PARENB); //set as odd check
-        options.c_iflag |= INPCK;                   //Disnable parity check
-        break;
+        case 'o':
+        case 'O':
+            options.c_cflag |= (PARODD | PARENB); //set as odd check
+            options.c_iflag |= INPCK;                   //Disnable parity check
+            break;
 
-    case 'e':
-    case 'E':
-        options.c_cflag |= PARENB;          //Enable parity
-        options.c_cflag &= ~PARODD;
-        options.c_iflag |= INPCK;           //Disnable parity checking
-        break;
+        case 'e':
+        case 'E':
+            options.c_cflag |= PARENB;          //Enable parity
+            options.c_cflag &= ~PARODD;
+            options.c_iflag |= INPCK;           //Disnable parity checking
+            break;
 
-    case 'S':
-    case 's':  //as no parity
-        options.c_cflag &= ~PARENB;
-        options.c_cflag &= ~CSTOPB;
-        break;
+        case 'S':
+        case 's':  //as no parity
+            options.c_cflag &= ~PARENB;
+            options.c_cflag &= ~CSTOPB;
+            break;
 
-    default:
-        fprintf(stderr, "Unsupported parity\n");
-        return (FALSE);
+        default:
+            fprintf(stderr, "Unsupported parity\n");
+            return (FALSE);
     }
 
     switch (stopbits) {
-    case 1:
-        options.c_cflag &= ~CSTOPB;
-        break;
+        case 1:
+            options.c_cflag &= ~CSTOPB;
+            break;
 
-    case 2:
-        options.c_cflag |= CSTOPB;
-        break;
+        case 2:
+            options.c_cflag |= CSTOPB;
+            break;
 
-    default:
-        fprintf(stderr, "Unsupported stop bits\n");
-        return (FALSE);
+        default:
+            fprintf(stderr, "Unsupported stop bits\n");
+            return (FALSE);
     }
 
     //Set input parity option
@@ -127,11 +127,11 @@ int set_Parity(int fd, int databits, int stopbits, int parity) {
 
     return (TRUE);
 }
-int main(int argc, char** argv) {
+int main(int argc, char **argv) {
     int fd;
     int nread;
-    char* ptr = argv[2];
-    char* dev = argv[1]; //maybe "/dev/ttyS0";
+    char *ptr = argv[2];
+    char *dev = argv[1]; //maybe "/dev/ttyS0";
 
     if (argc < 3) {
         printf("pls usage %s /dev/ttyS[n] your_message.\n", argv[1]);

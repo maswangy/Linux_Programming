@@ -2,7 +2,7 @@
 #include<stdlib.h>
 #include<signal.h>
 void myHandler(int sig);
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
     struct sigaction act, oact;
     act.sa_handler = myHandler;
     sigemptyset(&act.sa_mask); /*initial. to empty mask*/

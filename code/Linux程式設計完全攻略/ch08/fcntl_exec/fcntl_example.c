@@ -4,7 +4,7 @@
 #include<fcntl.h>
 #include<string.h>
 #include<stdlib.h>
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
     int fd, status;
     pid_t pid;
     fd = open("test.txt", O_RDWR | O_APPEND | O_CREAT, 0644);
@@ -26,7 +26,7 @@ int main(int argc, char* argv[]) {
     if (pid == 0) {
         char buf[128];
         sprintf(buf, "%d", fd);
-        execl("./newcode", "newcode", buf, (char*)0);
+        execl("./newcode", "newcode", buf, (char *)0);
     } else {
         wait(&status);
         printf("after child_process write\n");

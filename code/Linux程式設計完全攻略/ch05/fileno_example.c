@@ -5,7 +5,7 @@
 #include<sys/types.h>
 #include<sys/stat.h>
 
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
     int fp1, fp2;
     printf("stdin is:\t%d\n", fileno(stdin));           //
     printf("stdout is:\t%d\n", fileno(stdout));         //

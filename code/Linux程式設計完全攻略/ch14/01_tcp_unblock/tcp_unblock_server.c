@@ -8,7 +8,7 @@
 #include <stdlib.h>
 #include <errno.h>
 #define  BUFSIZE 128
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
     int server_sockfd, client_sockfd;
     int server_len, client_len;
     struct sockaddr_in server_address;
@@ -18,18 +18,18 @@ int main(int argc, char* argv[]) {
     server_sockfd = socket(AF_INET, SOCK_STREAM, 0);
     server_address.sin_family = AF_INET;
 
-    if (inet_aton(argv[1], (struct in_addr*) & server_address.sin_addr.s_addr) == 0) {
+    if (inet_aton(argv[1], (struct in_addr *) & server_address.sin_addr.s_addr) == 0) {
         perror(argv[1]);
         exit(EXIT_FAILURE);
     }
 
     server_address.sin_port = htons(7838);
     server_len = sizeof(server_address);
-    bind(server_sockfd, (struct sockaddr*)&server_address, server_len);
+    bind(server_sockfd, (struct sockaddr *)&server_address, server_len);
     listen(server_sockfd, 5);
     printf("server waiting for connect\n");
     client_len = sizeof(client_address);
-    client_sockfd = accept(server_sockfd, (struct sockaddr*)&client_address, (socklen_t*)&client_len);
+    client_sockfd = accept(server_sockfd, (struct sockaddr *)&client_address, (socklen_t *)&client_len);
 
     for (i = 0; i < 5; i++) {
         memset(char_send, '\0', BUFSIZE);

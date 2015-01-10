@@ -10,16 +10,16 @@ static pthread_rwlock_t rwlock;
 char work_area[WORK_SIZE];
 int time_to_exit;
 
-void* thread_function_read_o(void* arg);
-void* thread_function_read_t(void* arg);
-void* thread_function_write_o(void* arg);
-void* thread_function_write_t(void* arg);
+void *thread_function_read_o(void *arg);
+void *thread_function_read_t(void *arg);
+void *thread_function_write_o(void *arg);
+void *thread_function_write_t(void *arg);
 
 
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
     int res;
     pthread_t a_thread, b_thread, c_thread, d_thread;
-    void* thread_result;
+    void *thread_result;
     res = pthread_rwlock_init(&rwlock, NULL);
 
     if (res != 0) {
@@ -87,7 +87,7 @@ int main(int argc, char* argv[]) {
     exit(EXIT_SUCCESS);
 }
 
-void* thread_function_read_o(void* arg) {
+void *thread_function_read_o(void *arg) {
     printf("thread read one try to get lock\n");
     pthread_rwlock_rdlock(&rwlock);
 
@@ -110,7 +110,7 @@ void* thread_function_read_o(void* arg) {
     pthread_exit(0);
 }
 
-void* thread_function_read_t(void* arg) {
+void *thread_function_read_t(void *arg) {
     printf("thread read one try to get lock\n");
     pthread_rwlock_rdlock(&rwlock);
 
@@ -133,7 +133,7 @@ void* thread_function_read_t(void* arg) {
     pthread_exit(0);
 }
 
-void* thread_function_write_o(void* arg) {
+void *thread_function_write_o(void *arg) {
     printf("this is write thread one try to get lock\n");
 
     while (!time_to_exit) {
@@ -148,7 +148,7 @@ void* thread_function_write_o(void* arg) {
     pthread_exit(0);
 }
 
-void* thread_function_write_t(void* arg) {
+void *thread_function_write_t(void *arg) {
     sleep(10);
 
     while (!time_to_exit) {

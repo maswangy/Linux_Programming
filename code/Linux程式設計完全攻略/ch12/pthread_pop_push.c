@@ -6,7 +6,7 @@
 void cleanup() {
     printf("cleanup\n");
 }
-void* test_cancel(void) {
+void *test_cancel(void) {
     pthread_cleanup_push(cleanup, NULL);
     printf("test_cancel\n");
 
@@ -19,7 +19,7 @@ void* test_cancel(void) {
 }
 int main() {
     pthread_t tid;
-    pthread_create(&tid, NULL, (void*)test_cancel, NULL);
+    pthread_create(&tid, NULL, (void *)test_cancel, NULL);
     sleep(2);
     pthread_cancel(tid);
     pthread_join(tid, NULL);

@@ -1,7 +1,7 @@
 #include<unistd.h>
 #include<stdio.h>
 #include<stdlib.h>
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
     int i;
 
     if ((i = access("/etc/exports", X_OK)) == -1) {

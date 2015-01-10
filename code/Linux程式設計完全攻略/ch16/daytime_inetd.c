@@ -8,9 +8,9 @@
 
 #define MAXLINE     4096    /* max text line length */
 
-int main(int argc, char** argv) {
+int main(int argc, char **argv) {
     socklen_t       len;
-    struct sockaddr* cliaddr;
+    struct sockaddr *cliaddr;
     char            buff[MAXLINE];
     time_t          ticks;
     ticks = time(NULL);

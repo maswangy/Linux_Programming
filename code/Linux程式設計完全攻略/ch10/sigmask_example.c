@@ -4,7 +4,7 @@
 
 static void sig_quit(int);
 
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
     sigset_t    newmask, oldmask, pendmask;
 
     if (signal(SIGQUIT, sig_quit) == SIG_ERR) {

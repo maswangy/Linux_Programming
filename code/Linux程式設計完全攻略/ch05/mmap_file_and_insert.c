@@ -5,10 +5,10 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <string.h>
-int main(int argc, char** argv) {
+int main(int argc, char **argv) {
     int fd;                    //file descriptor
     int length;
-    char* mapped_mem;              //
+    char *mapped_mem;              //
     int pagesize = 0;
     pagesize = getpagesize();          //
     fd = open(argv[1], O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);   //

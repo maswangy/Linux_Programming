@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <sys/socket.h>
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
     in_addr_t net;
     struct in_addr net_addr, ret;
     char buf[128];

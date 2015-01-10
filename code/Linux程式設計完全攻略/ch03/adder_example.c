@@ -7,10 +7,10 @@
 
 extern etext, edata, end;
 
-char* cptr = "Hello World\n";
+char *cptr = "Hello World\n";
 char buffer1[25];
 int main(void) {
-    void showit(char*);
+    void showit(char *);
     int i = 0;
     printf("Adr etext:%8x\tAdr edata:%8x \t Adr end :%8x \n\n", &etext, &edata, &end);
     SHW_ADR("main", main);
@@ -28,11 +28,11 @@ int main(void) {
     return 0;
 }
 
-void showit(char* p) {
-    char* buffer2;
+void showit(char *p) {
+    char *buffer2;
     SHW_ADR("buffer2", buffer2);
 
-    if ((buffer2 = (char*)malloc((unsigned)(strlen(p) + 1))) != NULL) {
+    if ((buffer2 = (char *)malloc((unsigned)(strlen(p) + 1))) != NULL) {
         strcpy(buffer2, p);
         printf("%s", buffer2);
         free(buffer2);

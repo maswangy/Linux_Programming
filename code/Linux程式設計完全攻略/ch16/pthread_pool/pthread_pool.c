@@ -1,11 +1,11 @@
 #include "pthread_pool.h"
 
-PTHREAD_QUEUE_T* pthread_queue_idle;     /* the idle thread double link queue. */
-PTHREAD_QUEUE_T* pthread_queue_busy;      /* the work thread double link queue. */
-TASK_QUEUE_T* task_queue_head;            /* the task queuee single link list. */
+PTHREAD_QUEUE_T *pthread_queue_idle;     /* the idle thread double link queue. */
+PTHREAD_QUEUE_T *pthread_queue_busy;      /* the work thread double link queue. */
+TASK_QUEUE_T *task_queue_head;            /* the task queuee single link list. */
 
 int
-main(int argc, char* argv[]) {
+main(int argc, char *argv[]) {
     pthread_t thread_manager_tid, task_manager_tid, monitor_id;
     init_system();
     pthread_create(&thread_manager_tid, NULL, thread_manager, NULL);   /* create thread to manage the thread pool. */

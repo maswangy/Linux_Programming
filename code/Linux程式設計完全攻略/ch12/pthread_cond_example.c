@@ -15,7 +15,7 @@ struct prodcons {
 };
 
 /* Initialize a buffer */
-void init(struct prodcons* prod) {
+void init(struct prodcons *prod) {
     pthread_mutex_init(&prod->lock, NULL);
     pthread_cond_init(&prod->notempty, NULL);
     pthread_cond_init(&prod->notfull, NULL);
@@ -23,7 +23,7 @@ void init(struct prodcons* prod) {
     prod->writepos = 0;
 }
 /* Store an integer in the buffer */
-void put(struct prodcons* prod, int data) {
+void put(struct prodcons *prod, int data) {
     pthread_mutex_lock(&prod->lock);
 
     /* Wait until buffer is not full */
@@ -45,7 +45,7 @@ void put(struct prodcons* prod, int data) {
     pthread_mutex_unlock(&prod->lock);
 }
 /* Read and remove an integer from the buffer */
-int get(struct prodcons* prod) {
+int get(struct prodcons *prod) {
     int data;
     pthread_mutex_lock(&prod->lock);
 
@@ -72,7 +72,7 @@ int get(struct prodcons* prod) {
 #define OVER (-1)
 struct prodcons buffer;
 /*--------------------------------------------------------*/
-void* producer(void* data) {
+void *producer(void *data) {
     int n;
 
     for (n = 0; n < 5; n++) {
@@ -94,7 +94,7 @@ void* producer(void* data) {
     return NULL;
 }
 /*--------------------------------------------------------*/
-void* consumer(void* data) {
+void *consumer(void *data) {
     int d = 0;
 
     while (1) {
@@ -113,9 +113,9 @@ void* consumer(void* data) {
     return NULL;
 }
 /*--------------------------------------------------------*/
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
     pthread_t th_a, th_b;
-    void* retval;
+    void *retval;
     init(&buffer);
     pthread_create(&th_a, NULL, producer, 0);
     pthread_create(&th_b, NULL, consumer, 0);

@@ -12,7 +12,7 @@
 void handler(int sig) {
     printf("sig=%d\n", sig);
 }
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
     int pid, bytes;
     int sockfd, new_fd;
     socklen_t len;
@@ -29,12 +29,12 @@ int main(int argc, char* argv[]) {
     my_addr.sin_family = AF_INET;
     my_addr.sin_port = htons(atoi(argv[2]));
 
-    if (inet_aton(argv[1], (struct in_addr*) &my_addr.sin_addr.s_addr) == 0) {
+    if (inet_aton(argv[1], (struct in_addr *) &my_addr.sin_addr.s_addr) == 0) {
         perror(argv[1]);
         exit(errno);
     }
 
-    if (bind(sockfd, (struct sockaddr*) &my_addr, sizeof(struct sockaddr)) == -1) {
+    if (bind(sockfd, (struct sockaddr *) &my_addr, sizeof(struct sockaddr)) == -1) {
         perror("bind");
         exit(EXIT_FAILURE);
     }
@@ -49,7 +49,7 @@ int main(int argc, char* argv[]) {
     while (1) {
         printf("wait for new connect\n");
 
-        if ((new_fd = accept(sockfd, (struct sockaddr*) &their_addr, &len)) == -1) {
+        if ((new_fd = accept(sockfd, (struct sockaddr *) &their_addr, &len)) == -1) {
             perror("accept");
             exit(EXIT_FAILURE);
         } else {

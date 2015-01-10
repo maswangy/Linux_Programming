@@ -3,7 +3,7 @@
 #include<stdlib.h>
 #include<errno.h>
 #include<stdio.h>
-void pr_mask(char* str) {
+void pr_mask(char *str) {
     sigset_t sigset01;
     int      errno_save;
     errno_save = errno;

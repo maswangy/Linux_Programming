@@ -1,7 +1,7 @@
 #include<stdio.h>
 #include<unistd.h>
 #include<stdlib.h>
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
     unlink("hard_test");                        //
     printf("befor create hard link\n");
     system("ls -l hard_test");                  //

@@ -6,7 +6,7 @@
 #include<netinet/in.h>
 #include<net/if.h>
 // argv[0] portname ,such as argv[0] eth0
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
     int i;
     struct ifreq ifreq;
     int sock;

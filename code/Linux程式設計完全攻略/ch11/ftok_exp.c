@@ -3,7 +3,7 @@
 #include<sys/stat.h>
 #include<stdlib.h>
 
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
     key_t key;
     int i;
     struct stat buf;

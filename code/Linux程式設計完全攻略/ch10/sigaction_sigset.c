@@ -13,7 +13,7 @@ void handler(int sig) {
     output(sysset);         //in handler to see the process mask set
     printf("return\n");
 }
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
     struct sigaction act;
     sigset_t set, sysset, newset;
     sigemptyset(&set);

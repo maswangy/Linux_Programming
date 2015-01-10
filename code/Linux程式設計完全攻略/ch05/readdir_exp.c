@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <dirent.h>
-int main(int argc, char* argv[]) {
-    DIR* dirp;
-    struct dirent* dp;
+int main(int argc, char *argv[]) {
+    DIR *dirp;
+    struct dirent *dp;
     dirp = opendir(argv[1]);        //open directory stream
 
     while ((dp = readdir(dirp)) != NULL) {

@@ -1,11 +1,11 @@
 #include<stdio.h>
 
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
     struct student {
         char name[10];
         int number;
     };
-    FILE* fp = NULL;
+    FILE *fp = NULL;
     struct student student[1], *qq;
 
     if ((fp = fopen("aa.txt", "r")) == NULL) {

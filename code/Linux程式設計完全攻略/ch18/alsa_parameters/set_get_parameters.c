@@ -13,8 +13,8 @@ perform any sound playback or recording.
 
 int main(void) {
     int rc;
-    snd_pcm_t* handle;
-    snd_pcm_hw_params_t* params;
+    snd_pcm_t *handle;
+    snd_pcm_hw_params_t *params;
     unsigned int val, val2;
     int dir;
     snd_pcm_uframes_t frames;
@@ -51,13 +51,13 @@ int main(void) {
     /* Display information about the PCM interface */
     printf("PCM handle name = '%s'\n", snd_pcm_name(handle));
     printf("PCM state = %s\n", snd_pcm_state_name(snd_pcm_state(handle)));
-    snd_pcm_hw_params_get_access(params, (snd_pcm_access_t*) &val);
+    snd_pcm_hw_params_get_access(params, (snd_pcm_access_t *) &val);
     printf("access type = %s\n", snd_pcm_access_name((snd_pcm_access_t)val));
     snd_pcm_hw_params_get_format(params, &val);
     printf("format = '%s' (%s)\n",
            snd_pcm_format_name((snd_pcm_format_t)val),
            snd_pcm_format_description((snd_pcm_format_t)val));
-    snd_pcm_hw_params_get_subformat(params, (snd_pcm_subformat_t*)&val);
+    snd_pcm_hw_params_get_subformat(params, (snd_pcm_subformat_t *)&val);
     printf("subformat = '%s' (%s)\n",
            snd_pcm_subformat_name((snd_pcm_subformat_t)val),
            snd_pcm_subformat_description((snd_pcm_subformat_t)val));
@@ -71,7 +71,7 @@ int main(void) {
     printf("period size = %d frames\n", (int)frames);
     snd_pcm_hw_params_get_buffer_time(params, &val, &dir);
     printf("buffer time = %d us\n", val);
-    snd_pcm_hw_params_get_buffer_size(params, (snd_pcm_uframes_t*) &val);
+    snd_pcm_hw_params_get_buffer_size(params, (snd_pcm_uframes_t *) &val);
     printf("buffer size = %d frames\n", val);
     snd_pcm_hw_params_get_periods(params, &val, &dir);
     printf("periods per buffer = %d frames\n", val);

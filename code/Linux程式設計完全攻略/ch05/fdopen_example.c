@@ -5,7 +5,7 @@
 #include <stdlib.h>
 int main(void) {
     int fd;
-    FILE* stream;
+    FILE *stream;
     unlink("test.txt");
     fd = open("test.txt", O_CREAT | O_WRONLY, S_IREAD | S_IWRITE); //open
     stream = fdopen(fd, "w");       //

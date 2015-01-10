@@ -3,8 +3,8 @@
 #include <string.h>
 #define prt(CONTENT,MSG) printf(CONTENT":\t%p\n",MSG)
 
-int main(int argc, char* argv[]) {
-    FILE* fp_src, *fp_des;
+int main(int argc, char *argv[]) {
+    FILE *fp_src, *fp_des;
     char buffer[10], buffer1[128];
     int i;
 

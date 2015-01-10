@@ -4,7 +4,7 @@
 #include <sys/un.h>
 #include <unistd.h>
 #include <stdlib.h>
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
     int sockfd;
     int len;
     struct sockaddr_un address;
@@ -20,7 +20,7 @@ int main(int argc, char* argv[]) {
     address.sun_family = AF_UNIX;
     strcpy(address.sun_path, "server_socket");
     len = sizeof(address);
-    result = connect(sockfd, (struct sockaddr*)&address, len);
+    result = connect(sockfd, (struct sockaddr *)&address, len);
 
     if (result == -1) {
         printf("ensure the server is up\n");

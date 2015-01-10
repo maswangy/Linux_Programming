@@ -1,6 +1,6 @@
 #include"test_httpd.h"
 
-int main(int argc, char** argv) {
+int main(int argc, char **argv) {
     struct sockaddr_in addr;
     int sock_fd, addrlen;
     init_daemon(argv[0], LOG_INFO);
@@ -33,7 +33,7 @@ int main(int argc, char** argv) {
     addr.sin_addr.s_addr = inet_addr(ip);
     addrlen = sizeof(struct sockaddr_in);
 
-    if (bind(sock_fd, (struct sockaddr*) &addr, addrlen) < 0) {
+    if (bind(sock_fd, (struct sockaddr *) &addr, addrlen) < 0) {
         wrtinfomsg("bind");
         exit(EXIT_FAILURE);
     }
@@ -47,7 +47,7 @@ int main(int argc, char** argv) {
         int len;
         int new_fd;
         addrlen = sizeof(struct sockaddr_in);
-        new_fd = accept(sock_fd, (struct sockaddr*) &addr, &addrlen);
+        new_fd = accept(sock_fd, (struct sockaddr *) &addr, &addrlen);
 
         if (new_fd < 0) {
             wrtinfomsg("accept");
@@ -71,7 +71,7 @@ int main(int argc, char** argv) {
             bzero(buffer, MAXBUF + 1);
 
             if ((len = recv(new_fd, buffer, MAXBUF, 0)) > 0) {
-                FILE* ClientFP = fdopen(new_fd, "w");
+                FILE *ClientFP = fdopen(new_fd, "w");
 
                 if (ClientFP == NULL) {
                     wrtinfomsg("fdopen");

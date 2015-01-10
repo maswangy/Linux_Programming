@@ -4,8 +4,8 @@
 #include<signal.h>
 #include<termios.h>
 #define PASSWD_LEN 8
-char* getpasswd(char* prompt) {
-    FILE* fp = NULL;
+char *getpasswd(char *prompt) {
+    FILE *fp = NULL;
 
     if (NULL == (fp = fopen(ctermid(NULL), "r+"))) {
         perror("fopen");
@@ -13,7 +13,7 @@ char* getpasswd(char* prompt) {
     }
 
     printf("%s\n", ctermid(NULL));
-    setvbuf(fp, (char*) NULL, _IONBF, 0);
+    setvbuf(fp, (char *) NULL, _IONBF, 0);
     sigset_t myset, setsave;
     sigemptyset(&myset);
     sigaddset(&myset, SIGINT);
@@ -27,7 +27,7 @@ char* getpasswd(char* prompt) {
     fputs(prompt, fp);
     static char buf[PASSWD_LEN + 1];
     int c;
-    char* ptr = buf;
+    char *ptr = buf;
 
     while ((c = getc(fp)) != EOF && c != '\0' && c != '\n' && c != '\r') {
         if (ptr < &buf[PASSWD_LEN]) {
@@ -44,7 +44,7 @@ char* getpasswd(char* prompt) {
     return buf;
 }
 int main(void) {
-    char* ptr = NULL;
+    char *ptr = NULL;
     ptr = getpasswd("#");
     printf("%s\n", ptr);
 }

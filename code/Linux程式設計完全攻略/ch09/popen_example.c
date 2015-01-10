@@ -3,8 +3,8 @@
 #include<stdlib.h>
 #include<limits.h>
 #include<string.h>
-int main(int argc, char* argv[]) {
-    FILE* finput, *foutput;
+int main(int argc, char *argv[]) {
+    FILE *finput, *foutput;
     char buffer[PIPE_BUF];
     int n;
     finput = popen("echo -e test!", "r");

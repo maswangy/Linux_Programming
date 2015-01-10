@@ -1,7 +1,7 @@
 #include <stdio.h>
-void    pr_stdio(const char*, FILE*);
+void    pr_stdio(const char *, FILE *);
 int main(void) {
-    FILE*    fp;
+    FILE    *fp;
     fputs("enter any character\n", stdout);
 
     if (getchar() == EOF) {
@@ -24,7 +24,7 @@ int main(void) {
     pr_stdio("/etc/motd", fp);
     return (0);
 }
-void pr_stdio(const char* name, FILE* fp) {
+void pr_stdio(const char *name, FILE *fp) {
     printf("stream = %s, ", name);
 
     if (fp->_flags & _IO_UNBUFFERED) {      //

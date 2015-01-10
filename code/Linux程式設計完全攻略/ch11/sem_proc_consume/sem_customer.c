@@ -13,7 +13,7 @@ void init() {
     sem_id = semget(key, 2, IPC_CREAT | 0644);
     //printf("sem id is %d\n",sem_id);
 }
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
     init();
     struct sembuf sops[2];
     sops[0].sem_num = 0;
@@ -29,9 +29,9 @@ int main(int argc, char* argv[]) {
         printf("\n\nbefore consume:\n");
         printf("productor is %d\n", semctl(sem_id, 0, GETVAL));
         printf("space  is %d\n", semctl(sem_id, 1, GETVAL));
-        semop(sem_id, (struct sembuf*)&sops[0], 1);     //get the productor to cusume
+        semop(sem_id, (struct sembuf *)&sops[0], 1);    //get the productor to cusume
         printf("now consuming......\n");
-        semop(sem_id, (struct sembuf*)&sops[1], 1);     //now tell the productor can bu produce
+        semop(sem_id, (struct sembuf *)&sops[1], 1);    //now tell the productor can bu produce
         printf("\nafter consume\n");
         printf("products number is %d\n", semctl(sem_id, 0, GETVAL));
         printf("space number is %d\n", semctl(sem_id, 1, GETVAL));

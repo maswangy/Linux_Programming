@@ -8,7 +8,7 @@
 #include<fcntl.h>
 
 #define SOCK_FILE "yangzd"
-int create_local_sock(char* sockfile) {
+int create_local_sock(char *sockfile) {
     int local_fd;
     struct sockaddr_un myaddr;
 
@@ -21,7 +21,7 @@ int create_local_sock(char* sockfile) {
     myaddr.sun_family = AF_LOCAL;
     strncpy(myaddr.sun_path, sockfile, strlen(sockfile));
 
-    if (-1 == bind(local_fd, (struct sockaddr*)&myaddr, sizeof(myaddr))) {
+    if (-1 == bind(local_fd, (struct sockaddr *)&myaddr, sizeof(myaddr))) {
         perror("bind");
         exit(EXIT_FAILURE);
     }
@@ -34,7 +34,7 @@ int create_local_sock(char* sockfile) {
     int new_fd;
     struct sockaddr_un peeraddr;
     int len = sizeof(peeraddr);
-    new_fd = accept(local_fd, (struct sockaddr*)&peeraddr, &len);
+    new_fd = accept(local_fd, (struct sockaddr *)&peeraddr, &len);
 
     if (-1 == new_fd) {
         perror("accept");
@@ -44,7 +44,7 @@ int create_local_sock(char* sockfile) {
     return new_fd;
 }
 
-send_fd(int sock_fd, char* file) {
+send_fd(int sock_fd, char *file) {
     int fd_to_send;
 
     if (-1 == (fd_to_send = open(file, O_RDWR | O_APPEND))) {
@@ -52,7 +52,7 @@ send_fd(int sock_fd, char* file) {
         exit(EXIT_FAILURE);
     }
 
-    struct cmsghdr* cmsg;
+    struct cmsghdr *cmsg;
 
     cmsg = alloca(sizeof(struct cmsghdr) + sizeof(fd_to_send));
 
@@ -101,7 +101,7 @@ send_fd(int sock_fd, char* file) {
     return 1;
 }
 
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
     int sock_fd = 0;
     unlink(SOCK_FILE);
 

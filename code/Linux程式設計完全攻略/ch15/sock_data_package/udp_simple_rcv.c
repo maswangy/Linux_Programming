@@ -7,7 +7,7 @@
 #include <stdlib.h>
 #include <arpa/inet.h>
 
-int main(int argc, char** argv) {
+int main(int argc, char **argv) {
     struct sockaddr_in s_addr;
     struct sockaddr_in c_addr;
     int sock;
@@ -27,7 +27,7 @@ int main(int argc, char** argv) {
     s_addr.sin_port = htons(7838);
     s_addr.sin_addr.s_addr = INADDR_ANY;
 
-    if ((bind(sock, (struct sockaddr*) &s_addr, sizeof(s_addr))) == -1) {
+    if ((bind(sock, (struct sockaddr *) &s_addr, sizeof(s_addr))) == -1) {
         perror("bind");
         exit(errno);
     } else {
@@ -38,7 +38,7 @@ int main(int argc, char** argv) {
 
     while (1) {
         len = recvfrom(sock, buff, sizeof(buff) - 1, 0,
-                       (struct sockaddr*) &c_addr, &addr_len);
+                       (struct sockaddr *) &c_addr, &addr_len);
 
         if (len < 0) {
             perror("recvfrom");

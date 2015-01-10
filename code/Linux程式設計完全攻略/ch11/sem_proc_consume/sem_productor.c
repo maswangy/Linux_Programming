@@ -13,8 +13,8 @@ void init() {
     unsigned short sem_array[2];
     union semun {
         int val;
-        struct semid_ds* buf;
-        unsigned short* array;
+        struct semid_ds *buf;
+        unsigned short *array;
     } arg;
     key = ftok(".", 's');
     sem_id = semget(key, 2, IPC_CREAT | 0644);
@@ -36,7 +36,7 @@ void del() {
     semctl(sem_id, IPC_RMID, 0);
 }
 
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
     struct sembuf sops[2];
     sops[0].sem_num = 0;
     sops[0].sem_op = 1;
@@ -51,9 +51,9 @@ int main(int argc, char* argv[]) {
         printf("\n\nbefore produce:\n");
         printf("productor number is %d\n", semctl(sem_id, 0, GETVAL));
         printf("space number is %d\n", semctl(sem_id, 1, GETVAL));
-        semop(sem_id, (struct sembuf*)&sops[1], 1);     //get the space to instore the productor
+        semop(sem_id, (struct sembuf *)&sops[1], 1);    //get the space to instore the productor
         printf("now producing......\n");
-        semop(sem_id, (struct sembuf*)&sops[0], 1);     //now tell the customer can bu cusume
+        semop(sem_id, (struct sembuf *)&sops[0], 1);    //now tell the customer can bu cusume
         printf("\nafter produce\n");
         printf("spaces number is %d\n", semctl(sem_id, 1, GETVAL));
         printf("productor number is %d\n", semctl(sem_id, 0, GETVAL));

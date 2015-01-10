@@ -24,7 +24,7 @@ void sigio_handler(int signum) {
 
 static recv_buf[MAX_LENTH];
 
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
     int sockfd, on = 1;
     struct sigaction action;
     sigset_t newmask, oldmask;
@@ -38,7 +38,7 @@ int main(int argc, char* argv[]) {
     memset(&ser_addr, 0, sizeof(ser_addr));
     ser_addr.sin_family = AF_INET;
 
-    if (inet_aton(argv[1], (struct in_addr*) & ser_addr.sin_addr.s_addr) == 0) {
+    if (inet_aton(argv[1], (struct in_addr *) & ser_addr.sin_addr.s_addr) == 0) {
         perror(argv[1]);
         exit(EXIT_FAILURE);
     }
@@ -50,7 +50,7 @@ int main(int argc, char* argv[]) {
         exit(EXIT_FAILURE);
     }
 
-    if (bind(sockfd, (struct sockaddr*)&ser_addr, sizeof(ser_addr)) == -1) {
+    if (bind(sockfd, (struct sockaddr *)&ser_addr, sizeof(ser_addr)) == -1) {
         perror("Bind socket failed");
         exit(EXIT_FAILURE);
     }

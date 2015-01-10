@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include <string.h>
 float get_cpu_clock_speed() {
-    FILE* fp;
+    FILE *fp;
     char buffer[1024];
     size_t bytes_read;
-    char* match;
+    char *match;
     float clock_speed;
     fp = fopen("/proc/cpuinfo", "r");
     bytes_read = fread(buffer, 1, sizeof(buffer), fp);

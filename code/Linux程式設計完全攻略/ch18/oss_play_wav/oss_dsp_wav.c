@@ -11,9 +11,9 @@
 #define Sample_Size 16      //there're two kinds of bits,8 bits and 16 bits
 #define Sample_Rate 44100       //sampling rate
 
-int play_sound(char* filename) {
+int play_sound(char *filename) {
     struct stat stat_buf;
-    unsigned char* buf = NULL;
+    unsigned char *buf = NULL;
     int handler, fd;
     int result;
     int arg, status;
@@ -82,7 +82,7 @@ int play_sound(char* filename) {
     return result;
 }
 
-void main(int argc, char* argv[]) {
+void main(int argc, char *argv[]) {
     if (argc != 2) {
         printf("pls usage :%s file.wav\n", argv[0]);
         exit(EXIT_FAILURE);

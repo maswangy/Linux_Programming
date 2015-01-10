@@ -2,9 +2,9 @@
 #include <stdlib.h>
 #include <dirent.h>
 int main(void) {
-    DIR* dirp;
-    struct dirent* dp1 = malloc(sizeof(struct dirent)); //
-    struct dirent* dp2 = malloc(sizeof(struct dirent)); //
+    DIR *dirp;
+    struct dirent *dp1 = malloc(sizeof(struct dirent)); //
+    struct dirent *dp2 = malloc(sizeof(struct dirent)); //
     dirp = opendir(".");
 
     while (1) {

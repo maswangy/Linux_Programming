@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 int factorial(int n);
-int main(int argc, char** argv) {
+int main(int argc, char **argv) {
     int n;
 
     if (argc < 2) {

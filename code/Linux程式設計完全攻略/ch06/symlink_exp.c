@@ -3,7 +3,7 @@
 #include<unistd.h>
 #include<string.h>
 #define BUFSIZE 128
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
     char buf[BUFSIZE];
     memset(buf, '\0', BUFSIZE);
     unlink("sym_link_test");                        //

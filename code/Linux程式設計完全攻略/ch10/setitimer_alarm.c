@@ -6,17 +6,17 @@
 
 void sigroutine(int signo) {
     switch (signo) {
-    case SIGALRM:
-        printf("Catch a signal -- SIGALRM\n");
-        break;
+        case SIGALRM:
+            printf("Catch a signal -- SIGALRM\n");
+            break;
 
-    case SIGVTALRM:
-        printf("Catch a signal -- SIGVTALRM\n");
-        break;
+        case SIGVTALRM:
+            printf("Catch a signal -- SIGVTALRM\n");
+            break;
     }
 }
 
-int main(int argc, char** argv) {
+int main(int argc, char **argv) {
     struct itimerval value, ovalue, value2;
     printf("process id is %d\n", getpid());
     signal(SIGALRM, sigroutine);

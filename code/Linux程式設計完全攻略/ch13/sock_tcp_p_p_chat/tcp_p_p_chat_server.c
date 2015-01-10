@@ -11,7 +11,7 @@
 
 #define MAXBUF 1024
 
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
     int pid;
     int sockfd, new_fd;
     socklen_t len;
@@ -46,7 +46,7 @@ int main(int argc, char* argv[]) {
         my_addr.sin_addr.s_addr = INADDR_ANY;
     }
 
-    if (bind(sockfd, (struct sockaddr*) &my_addr, sizeof(struct sockaddr)) == -1) {
+    if (bind(sockfd, (struct sockaddr *) &my_addr, sizeof(struct sockaddr)) == -1) {
         perror("bind");
         exit(EXIT_FAILURE);
     }
@@ -59,7 +59,7 @@ int main(int argc, char* argv[]) {
     printf("wait for connect\n");
     len = sizeof(struct sockaddr);
 
-    if ((new_fd = accept(sockfd, (struct sockaddr*) &their_addr, &len)) == -1) {
+    if ((new_fd = accept(sockfd, (struct sockaddr *) &their_addr, &len)) == -1) {
         perror("accept");
         exit(EXIT_FAILURE);
     } else {

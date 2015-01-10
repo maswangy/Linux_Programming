@@ -6,7 +6,7 @@
 #include<sys/sem.h>
 #include<sys/types.h>
 
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
     int sem;
     key_t key;
 
@@ -21,7 +21,7 @@ int main(int argc, char* argv[]) {
     }
 
     printf("sem1 id is:%d\n", sem);
-    semctl(sem, 0, IPC_RMID, (struct msquid_ds*)0);     //
+    semctl(sem, 0, IPC_RMID, (struct msquid_ds *)0);    //
     return 0;
 }
 

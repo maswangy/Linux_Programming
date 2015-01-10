@@ -3,14 +3,14 @@
 #include <sys/sem.h>
 #include <errno.h>
 #define MAX_SEMAPHORES  5
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
     int i, ret, semid;
     unsigned short sem_array[MAX_SEMAPHORES];
     unsigned short sem_read_array[MAX_SEMAPHORES];
     union semun {
         int val;
-        struct semid_ds* buf;
-        unsigned short* array;
+        struct semid_ds *buf;
+        unsigned short *array;
     } arg;
     semid = semget(IPC_PRIVATE, MAX_SEMAPHORES, IPC_CREAT | 0666);
 

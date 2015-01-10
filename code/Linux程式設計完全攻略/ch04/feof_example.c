@@ -1,10 +1,10 @@
 #include<stdio.h>
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
     struct student {
         char name[10];
         int number;
     };
-    FILE* fp = NULL;
+    FILE *fp = NULL;
     int i;
     int rc;
     struct student student[100], *qq;

@@ -2,15 +2,15 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
-void* helloworld(char* argc);
+void *helloworld(char *argc);
 int main(int argc, int argv[]) {
     int error;
-    int* temptr;
+    int *temptr;
     pthread_t thread_id;
-    pthread_create(&thread_id, NULL, (void*)*helloworld, "helloworld");
+    pthread_create(&thread_id, NULL, (void *)*helloworld, "helloworld");
     printf("*p=%x,p=%x\n", *helloworld, helloworld);
 
-    if (error = pthread_join(thread_id, (void**)&temptr)) {
+    if (error = pthread_join(thread_id, (void **)&temptr)) {
         perror("pthread_join");
         exit(EXIT_FAILURE);
     }
@@ -22,9 +22,9 @@ int main(int argc, int argv[]) {
     return 0;
 }
 
-void* helloworld(char* argc) {
-    int* p;
-    p = (int*)malloc(10 * sizeof(int));
+void *helloworld(char *argc) {
+    int *p;
+    p = (int *)malloc(10 * sizeof(int));
     printf("the message is %s\n", argc);
     printf("the child id is %u\n", pthread_self());
     memset(p, 'c', 10);

@@ -1,7 +1,7 @@
 #include <stdio.h>
-char* a = "hello";
+char *a = "hello";
 int main(void) {
-    char* b = "hello";
+    char *b = "hello";
     printf("in main:");
 
     if (a == b) {

@@ -2,7 +2,7 @@
 #include<fcntl.h>
 #include<stdlib.h>
 #include<stdio.h>
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
     int accmode, val;
 
     if (argc != 2) {                    //

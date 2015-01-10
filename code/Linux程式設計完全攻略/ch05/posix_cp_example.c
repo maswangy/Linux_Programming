@@ -7,7 +7,7 @@
 #include<fcntl.h>
 #include<sys/types.h>
 
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
     int fd_src, fd_des;
     char buf[128];
     int num;

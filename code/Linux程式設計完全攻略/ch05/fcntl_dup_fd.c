@@ -3,8 +3,8 @@
 #include<stdlib.h>
 #include<unistd.h>
 #include<string.h>
-int main(int argc, char* argv[]) {
-    char* ptr = "helloworld\n";
+int main(int argc, char *argv[]) {
+    char *ptr = "helloworld\n";
     int fd_open, fd_dup;
 
     if ((fd_open = open("tmp1", O_WRONLY | O_CREAT, 0644)) == -1) { //

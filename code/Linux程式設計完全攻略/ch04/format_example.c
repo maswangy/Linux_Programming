@@ -1,8 +1,8 @@
 #include<stdio.h>
 #include<stdlib.h>
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
     char a_buf[256], b_buf[256];
-    FILE* fp;
+    FILE *fp;
 
     if ((fp = fopen("./tmp", "w+")) == NULL) { //
         perror("fopen");

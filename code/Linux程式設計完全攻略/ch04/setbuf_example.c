@@ -1,9 +1,9 @@
 /* Example show usage of setbuf() &setvbuf() */
 #include<stdio.h>
 #include<error.h>
-int main(int argc , char** argv) {
+int main(int argc , char **argv) {
     int i;
-    FILE* fp;
+    FILE *fp;
     char msg1[] = "hello,wolrd\n";
     char msg2[] = "hello\nworld";
     char buf[128];                  //

@@ -10,10 +10,10 @@
 
 extern int h_errno;
 
-int main(int argc, char** argv) {
-    char*   ptr, **pptr;
+int main(int argc, char **argv) {
+    char   *ptr, **pptr;
     char    str[INET_ADDRSTRLEN];
-    struct hostent* hptr;
+    struct hostent *hptr;
 
     while (--argc > 0) {
         ptr = *++argv;
@@ -30,18 +30,18 @@ int main(int argc, char** argv) {
         }
 
         switch (hptr->h_addrtype) {
-        case AF_INET:
-            pptr = hptr->h_addr_list;
+            case AF_INET:
+                pptr = hptr->h_addr_list;
 
-            for (; *pptr != NULL; pptr++) {
-                printf("\taddress: %s\n", inet_ntop(hptr->h_addrtype, *pptr, str, sizeof(str)));
-            }
+                for (; *pptr != NULL; pptr++) {
+                    printf("\taddress: %s\n", inet_ntop(hptr->h_addrtype, *pptr, str, sizeof(str)));
+                }
 
-            break;
+                break;
 
-        default:
-            printf("unknown address type");
-            break;
+            default:
+                printf("unknown address type");
+                break;
         }
     }
 

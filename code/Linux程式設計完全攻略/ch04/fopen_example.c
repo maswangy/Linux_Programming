@@ -1,6 +1,6 @@
 #include<stdio.h>
-int main(int argc, char* argv[]) {
-    FILE* fp = NULL;
+int main(int argc, char *argv[]) {
+    FILE *fp = NULL;
     fp = fopen("try.txt", "r");     //
 
     if (fp == NULL) {       //

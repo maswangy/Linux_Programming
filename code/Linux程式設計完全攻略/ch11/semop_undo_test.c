@@ -13,13 +13,13 @@ static int get_semvalue(void);
 
 union semun {
     int val;                            /* value for SETVAL */
-    struct semid_ds* buf;               /* buffer for IPC_STAT, IPC_SET */
-    unsigned short int* array;          /* array for GETALL, SETALL */
-    struct seminfo* __buf;              /* buffer for IPC_INFO */
+    struct semid_ds *buf;               /* buffer for IPC_STAT, IPC_SET */
+    unsigned short int *array;          /* array for GETALL, SETALL */
+    struct seminfo *__buf;              /* buffer for IPC_INFO */
 };
 
 int sem_id;
-int main(int argc, char* argv) {
+int main(int argc, char *argv) {
     pid_t pid;
     int i;
     int value;
@@ -64,7 +64,7 @@ int main(int argc, char* argv) {
         printf("this is parent ,the current value is %d\n", value);
         printf("the parent will remove the sem\n");
 
-        if (semctl(sem_id, 0, IPC_RMID, (struct msquid_ds*)0) == -1) {
+        if (semctl(sem_id, 0, IPC_RMID, (struct msquid_ds *)0) == -1) {
             perror("semctl");
             exit(EXIT_FAILURE);
         }

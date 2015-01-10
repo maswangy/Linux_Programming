@@ -1,6 +1,6 @@
 #include<stdio.h>
-int main(int argc, char* argv[]) {
-    FILE* fp = NULL;
+int main(int argc, char *argv[]) {
+    FILE *fp = NULL;
     char str[10];
 
     if ((fp = fopen(argv[1], "r")) == NULL) { //

@@ -12,7 +12,7 @@ int file_size;          //the file size
 void sig_alarm(int arg);
 void sig_usr(int sig);
 
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
     pid_t pid;
     int i;
     int fd_src, fd_des;

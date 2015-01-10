@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 static char buff [256];
-static char* string;
+static char *string;
 int main() {
     printf("Please input a string: ");
     gets(string);

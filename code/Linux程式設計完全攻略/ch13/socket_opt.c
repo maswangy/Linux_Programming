@@ -4,7 +4,7 @@
 #include<stdlib.h>
 #include<netinet/in.h>
 #include<netinet/tcp.h>
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
     int rcvbuf_size;
     int sndbuf_size;
     int type = 0;

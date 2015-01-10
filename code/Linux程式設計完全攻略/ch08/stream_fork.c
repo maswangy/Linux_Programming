@@ -2,7 +2,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
     pid_t pid;
     printf("before fork,have enter\n");
     printf("before fork,no enter:pid=%d\t", getpid());

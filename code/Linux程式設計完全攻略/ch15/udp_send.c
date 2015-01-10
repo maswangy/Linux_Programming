@@ -6,7 +6,7 @@
 #include <errno.h>
 #include <stdlib.h>
 #include <arpa/inet.h>
-int main(int argc, char** argv) {
+int main(int argc, char **argv) {
     struct sockaddr_in s_addr;
     int sock;
     int addr_len;
@@ -32,7 +32,7 @@ int main(int argc, char** argv) {
 
     addr_len = sizeof(s_addr);
     strcpy(buff, "hello i'm here");
-    len = sendto(sock, buff, strlen(buff), 0, (struct sockaddr*) &s_addr, addr_len);
+    len = sendto(sock, buff, strlen(buff), 0, (struct sockaddr *) &s_addr, addr_len);
 
     if (len < 0) {
         printf("\n\rsend error.\n\r");

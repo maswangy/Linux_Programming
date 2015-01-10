@@ -3,10 +3,10 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
     int i;
     struct stat buf;
-    char* ptr;
+    char *ptr;
 
     for (i = 1; i < argc; i++) {
         printf("%s: ", argv[i]);

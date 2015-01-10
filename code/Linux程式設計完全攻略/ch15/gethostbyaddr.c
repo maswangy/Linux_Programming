@@ -5,10 +5,10 @@
 #include <sys/socket.h>
 #include <netdb.h>
 #include <netinet/in.h>
-main(int argc, const char** argv) {
+main(int argc, const char **argv) {
     u_int addr;
-    struct hostent* hp;
-    char** p;
+    struct hostent *hp;
+    char **p;
 
     if (argc != 2) {
         printf("usage: %s IP-address\n", argv[0]);
@@ -20,7 +20,7 @@ main(int argc, const char** argv) {
         exit(EXIT_FAILURE);
     }
 
-    hp = gethostbyaddr((char*) &addr, sizeof(addr), AF_INET);
+    hp = gethostbyaddr((char *) &addr, sizeof(addr), AF_INET);
 
     if (hp == NULL) {
         printf("host information for %s no found \n", argv[1]);
@@ -29,7 +29,7 @@ main(int argc, const char** argv) {
 
     for (p = hp->h_addr_list; *p != 0; p++) {
         struct in_addr in;
-        char** q;
+        char **q;
         memcpy(&in.s_addr, *p, sizeof(in.s_addr));
         printf("%s\t%s", inet_ntoa(in), hp->h_name);
 

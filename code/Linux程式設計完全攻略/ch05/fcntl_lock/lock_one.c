@@ -3,7 +3,7 @@
 #include <fcntl.h>
 #include <string.h>
 #include <time.h>
-struct flock* file_lock(short type, short whence) {
+struct flock *file_lock(short type, short whence) {
     static struct flock ret;
     ret.l_type = type ;
     ret.l_start = 0;
@@ -13,7 +13,7 @@ struct flock* file_lock(short type, short whence) {
     return &ret;
 }
 
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
     int fd = open(argv[1], O_WRONLY | O_APPEND);
     int i;
     time_t now;

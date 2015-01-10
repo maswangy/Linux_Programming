@@ -1,10 +1,10 @@
 #include<unistd.h>
 #include<stdio.h>
 #include<string.h>
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
     int i;
     int fd;
-    char* ptr = "helloworld\n";
+    char *ptr = "helloworld\n";
     fd = atoi(argv[1]);
     i = write(fd, ptr, strlen(ptr));
 

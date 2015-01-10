@@ -10,7 +10,7 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
     int client_fd;
 
     if (-1 == (client_fd = socket(AF_INET, SOCK_STREAM, 0))) {
@@ -26,7 +26,7 @@ int main(int argc, char* argv[]) {
 
     server_addr.sin_addr.s_addr = inet_addr("10.34.130.31");
 
-    if (-1 == connect(client_fd, (struct sockaddr*)&server_addr, sizeof(server_addr))) {
+    if (-1 == connect(client_fd, (struct sockaddr *)&server_addr, sizeof(server_addr))) {
         perror("connect");
         exit(EXIT_FAILURE);
     }
@@ -64,7 +64,7 @@ int main(int argc, char* argv[]) {
         exit(EXIT_FAILURE);
     }
 
-    if (-1 == connect(client_fd, (struct sockaddr*)&server_addr, sizeof(server_addr))) {
+    if (-1 == connect(client_fd, (struct sockaddr *)&server_addr, sizeof(server_addr))) {
         perror("connect");
         exit(EXIT_FAILURE);
     }

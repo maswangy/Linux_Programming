@@ -4,14 +4,14 @@
 #include <fcntl.h>
 #include <string.h>
 #include <stdlib.h>
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
     pid_t pid;
     int fd;
     int i = 1;
     int status;
-    char* ch1 = "hello";
-    char* ch2 = "world";
-    char* ch3 = "IN";
+    char *ch1 = "hello";
+    char *ch2 = "world";
+    char *ch3 = "IN";
 
     if ((fd = open("test.txt", O_RDWR | O_CREAT, 0644)) == -1) {
         perror("parent open");

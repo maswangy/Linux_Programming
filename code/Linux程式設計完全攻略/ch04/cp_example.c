@@ -2,8 +2,8 @@
 #include<string.h>
 #include<stdlib.h>
 
-int main(int argc, char* argv[]) {
-    FILE* fp_src, *fp_des;
+int main(int argc, char *argv[]) {
+    FILE *fp_src, *fp_des;
     char buf[128];
     int num;
 

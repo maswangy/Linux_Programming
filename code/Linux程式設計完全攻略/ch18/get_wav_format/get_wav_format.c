@@ -2,7 +2,7 @@
 #include<string.h>
 #include<stdlib.h>
 #include"wav.h"
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
     struct RIFF_HEADER myriff;
     struct WAVE_FORMAT mywav;
     struct FACT_BLOCK myfact;
@@ -12,7 +12,7 @@ int main(int argc, char* argv[]) {
         exit(EXIT_FAILURE);
     }
 
-    FILE* fp = NULL;
+    FILE *fp = NULL;
 
     if (NULL == (fp = fopen(argv[1], "r"))) {
         perror("fopen");

@@ -9,13 +9,13 @@
 
 #define BUFLEN 255
 
-int main(int argc, char** argv) {
+int main(int argc, char **argv) {
     struct sockaddr_in peeraddr;
     struct in_addr ia;
     int sockfd;
     char recmsg[BUFLEN + 1];
     unsigned int socklen, n;
-    struct hostent* group;
+    struct hostent *group;
     struct ip_mreq mreq;
     sockfd = socket(AF_INET, SOCK_DGRAM, 0);
 
@@ -27,7 +27,7 @@ int main(int argc, char** argv) {
     bzero(&mreq, sizeof(struct ip_mreq));
 
     if (argv[1]) {
-        if ((group = gethostbyname(argv[1])) == (struct hostent*) 0) {
+        if ((group = gethostbyname(argv[1])) == (struct hostent *) 0) {
             perror("gethostbyname");
             exit(EXIT_FAILURE);
         }
@@ -36,7 +36,7 @@ int main(int argc, char** argv) {
         exit(EXIT_FAILURE);
     }
 
-    bcopy((void*) group->h_addr, (void*) &ia, group->h_length);
+    bcopy((void *) group->h_addr, (void *) &ia, group->h_length);
     bcopy(&ia, &mreq.imr_multiaddr.s_addr, sizeof(struct in_addr));
 
     //mreq.imr_interface.s_addr = htonl(INADDR_ANY);
@@ -67,14 +67,14 @@ int main(int argc, char** argv) {
         exit(EXIT_FAILURE);
     }
 
-    if (bind(sockfd, (struct sockaddr*) &peeraddr, sizeof(struct sockaddr_in)) == -1) {
+    if (bind(sockfd, (struct sockaddr *) &peeraddr, sizeof(struct sockaddr_in)) == -1) {
         printf("Bind error\n");
         exit(EXIT_FAILURE);
     }
 
     for (;;) {
         bzero(recmsg, BUFLEN + 1);
-        n = recvfrom(sockfd, recmsg, BUFLEN, 0, (struct sockaddr*) &peeraddr, &socklen);
+        n = recvfrom(sockfd, recmsg, BUFLEN, 0, (struct sockaddr *) &peeraddr, &socklen);
 
         if (n < 0) {
             printf("recvfrom err in udptalk!\n");

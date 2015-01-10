@@ -3,14 +3,14 @@
 #include<stdlib.h>
 #include<unistd.h>
 #include<signal.h>
-void* sigone_program(void* arg);
-void* sigtwo_program(void* arg);
+void *sigone_program(void *arg);
+void *sigtwo_program(void *arg);
 void report(int);
 pthread_t thread_one, thread_two;
 
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
     int i;
-    void* status;
+    void *status;
 
     if (pthread_create(&thread_one, NULL, sigone_program, NULL) != 0) {
         fprintf(stderr, "pthread_create failure\n");
@@ -59,7 +59,7 @@ int main(int argc, char* argv[]) {
     pthread_join(thread_one, NULL);
     return 0;
 }
-void* sigone_program(void* arg) {
+void *sigone_program(void *arg) {
     int i;
     __sigset_t set;
     signal(SIGUSR1, report);
@@ -76,7 +76,7 @@ void report(int sig) {
     printf("\nin signal ,the sig=%d\t,the thread id=%u\n", sig, pthread_self());
 }
 
-void* sigtwo_program(void* arg) {
+void *sigtwo_program(void *arg) {
     int i;
     signal(SIGUSR2, report);
 

@@ -7,12 +7,12 @@
 #include <sys/sem.h>
 
 #include <string.h>
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
     int running = 1;
     int shid;
     int semid;
     int value;
-    void* sharem = NULL;
+    void *sharem = NULL;
     struct sembuf  sem_b;
     sem_b.sem_num = 0;
     sem_b.sem_flg = SEM_UNDO;

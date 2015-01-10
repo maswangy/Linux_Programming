@@ -5,9 +5,9 @@
 *ptr: the ds of thread_node of current thread.
 *return :nothing.void * just avoid warning.
 */
-void*
-child_work(void* ptr) {
-    THREAD_NODE* self = (THREAD_NODE*) ptr;
+void *
+child_work(void *ptr) {
+    THREAD_NODE *self = (THREAD_NODE *) ptr;
     /*modify the tid attribute the first time exec */
     pthread_mutex_lock(&self->mutex);
     self->tid = syscall(SYS_gettid);
@@ -45,7 +45,7 @@ child_work(void* ptr) {
          *if on task ,make self idle and add to the idle queue.
          */
         if (task_queue_head->head != NULL) {
-            TASK_NODE* temp = task_queue_head->head;
+            TASK_NODE *temp = task_queue_head->head;
             /*get the first task */
             task_queue_head->head = task_queue_head->head->next;
             /*modify self thread attribute */
@@ -65,7 +65,7 @@ child_work(void* ptr) {
 
             /*self is the last execte thread */
             if (pthread_queue_busy->head == self
-                    && pthread_queue_busy->rear == self) {
+                && pthread_queue_busy->rear == self) {
                 pthread_queue_busy->head = pthread_queue_busy->rear = NULL;
                 self->next = self->prev = NULL;
             }
@@ -96,7 +96,7 @@ child_work(void* ptr) {
 
             /*now the idle queue is empty */
             if (pthread_queue_idle->head == NULL
-                    || pthread_queue_idle->head == NULL) {
+                || pthread_queue_idle->head == NULL) {
                 pthread_queue_idle->head = pthread_queue_idle->rear = self;
                 self->next = self->prev = NULL;
             } else {
@@ -121,8 +121,8 @@ child_work(void* ptr) {
 */
 void
 create_pthread_pool(void) {
-    THREAD_NODE* temp =
-        (THREAD_NODE*) malloc(sizeof(THREAD_NODE) * THREAD_DEF_NUM);
+    THREAD_NODE *temp =
+        (THREAD_NODE *) malloc(sizeof(THREAD_NODE) * THREAD_DEF_NUM);
 
     if (temp == NULL) {
         printf(" malloc failure\n");
@@ -150,7 +150,7 @@ create_pthread_pool(void) {
         pthread_cond_init(&temp[i].cond, NULL);
         pthread_mutex_init(&temp[i].mutex, NULL);
         /*create this thread */
-        pthread_create(&temp[i].tid, NULL, child_work, (void*) &temp[i]);
+        pthread_create(&temp[i].tid, NULL, child_work, (void *) &temp[i]);
     }
 
     /*modify the idle thread queue attribute */
@@ -168,7 +168,7 @@ void
 init_system(void) {
     /*init the pthread_queue_idle */
     pthread_queue_idle =
-        (PTHREAD_QUEUE_T*) malloc(sizeof(PTHREAD_QUEUE_T));
+        (PTHREAD_QUEUE_T *) malloc(sizeof(PTHREAD_QUEUE_T));
     pthread_queue_idle->number = 0;
     pthread_queue_idle->head = NULL;
     pthread_queue_idle->rear = NULL;
@@ -176,14 +176,14 @@ init_system(void) {
     pthread_cond_init(&pthread_queue_idle->cond, NULL);
     /*init the pthread_queue_busy */
     pthread_queue_busy =
-        (PTHREAD_QUEUE_T*) malloc(sizeof(PTHREAD_QUEUE_T));
+        (PTHREAD_QUEUE_T *) malloc(sizeof(PTHREAD_QUEUE_T));
     pthread_queue_busy->number = 0;
     pthread_queue_busy->head = NULL;
     pthread_queue_busy->rear = NULL;
     pthread_mutex_init(&pthread_queue_busy->mutex, NULL);
     pthread_cond_init(&pthread_queue_busy->cond, NULL);
     /*init the task_queue_head */
-    task_queue_head = (TASK_QUEUE_T*) malloc(sizeof(TASK_QUEUE_T));
+    task_queue_head = (TASK_QUEUE_T *) malloc(sizeof(TASK_QUEUE_T));
     task_queue_head->head = NULL;
     task_queue_head->number = 0;
     pthread_cond_init(&task_queue_head->cond, NULL);
@@ -200,11 +200,11 @@ init_system(void) {
 *return :nothing.
 */
 
-void*
-thread_manager(void* ptr) {
+void *
+thread_manager(void *ptr) {
     while (1) {
-        THREAD_NODE* temp_thread = NULL;
-        TASK_NODE* temp_task = NULL;
+        THREAD_NODE *temp_thread = NULL;
+        TASK_NODE *temp_task = NULL;
         /*
          *get a new task, and modify the task_queue.
          *if no task block om task_queue_head->cond.
@@ -285,10 +285,10 @@ thread_manager(void* ptr) {
 *ptr: the fd come from listen thread that can communicate to the client.
 *return:nothing. void * only used to avoid waring.
 */
-void*
-prcoess_client(void* ptr) {
+void *
+prcoess_client(void *ptr) {
     int net_fd;
-    net_fd = atoi((char*) ptr);
+    net_fd = atoi((char *) ptr);
     struct info client_info;
     memset(&client_info, '\0', sizeof(client_info));
 
@@ -381,8 +381,8 @@ clean:
 *return:nothing.
 */
 
-void*
-task_manager(void* ptr) {
+void *
+task_manager(void *ptr) {
     int listen_fd;
 
     if (-1 == (listen_fd = socket(AF_INET, SOCK_STREAM, 0))) {
@@ -406,9 +406,9 @@ task_manager(void* ptr) {
     myaddr.sin_port = htons(PORT);
 
     myaddr.sin_addr.s_addr =
-        ((struct sockaddr_in*) & (ifr.ifr_addr))->sin_addr.s_addr;
+        ((struct sockaddr_in *) & (ifr.ifr_addr))->sin_addr.s_addr;
 
-    if (-1 == bind(listen_fd, (struct sockaddr*) &myaddr, sizeof(myaddr))) {
+    if (-1 == bind(listen_fd, (struct sockaddr *) &myaddr, sizeof(myaddr))) {
         perror("bind");
         goto clean;
     }
@@ -427,13 +427,13 @@ task_manager(void* ptr) {
         socklen_t len = sizeof(client);
 
         if (-1 ==
-                (newfd = accept(listen_fd, (struct sockaddr*) &client, &len))) {
+            (newfd = accept(listen_fd, (struct sockaddr *) &client, &len))) {
             perror("accept");
             goto clean;
         }
 
-        TASK_NODE* temp = NULL;
-        TASK_NODE* newtask = (TASK_NODE*) malloc(sizeof(TASK_NODE));
+        TASK_NODE *temp = NULL;
+        TASK_NODE *newtask = (TASK_NODE *) malloc(sizeof(TASK_NODE));
 
         if (newtask == NULL) {
             printf("malloc error");
@@ -444,7 +444,7 @@ task_manager(void* ptr) {
          *initial the attribute of the task.
          *because this task havn't add to system,so,no need lock the mutex.
          */
-        newtask->arg = (void*) malloc(128);
+        newtask->arg = (void *) malloc(128);
         memset(newtask->arg, '\0', 128);
         sprintf(newtask->arg, "%d", newfd);
         newtask->fun = prcoess_client;
@@ -483,11 +483,11 @@ clean:
 *ptr: not used ,only to avoid warning for pthread_create
 *return: nothing.
 */
-void*
-monitor(void* ptr) {
+void *
+monitor(void *ptr) {
     /*in order to prevent warning. */
     ptr = ptr;
-    THREAD_NODE* temp_thread = NULL;
+    THREAD_NODE *temp_thread = NULL;
 
     while (1) {
         pthread_mutex_lock(&pthread_queue_busy->mutex);

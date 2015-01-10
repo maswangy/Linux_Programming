@@ -34,16 +34,16 @@ char back[128];
 char home_dir[128];
 
 
-void wrtinfomsg(char* msg) {
+void wrtinfomsg(char *msg) {
     syslog(LOG_INFO, "%s", msg);
 }
 
 
-int get_arg(char* cmd) {
-    FILE* fp;
+int get_arg(char *cmd) {
+    FILE *fp;
     char buffer[1024];
     size_t bytes_read;
-    char* match;
+    char *match;
     fp = fopen("/etc/test_httpd.conf", "r");
     bytes_read = fread(buffer, 1, sizeof(buffer), fp);
     fclose(fp);
@@ -115,7 +115,7 @@ char file_type(mode_t st_mode) {
 }
 
 //search the up-path of dirpath
-char* dir_up(char* dirpath) {
+char *dir_up(char *dirpath) {
     static char Path[MAXPATH];
     int len;
     strcpy(Path, dirpath);
@@ -135,16 +135,16 @@ char* dir_up(char* dirpath) {
 
 
 //send the path data to client ;if path is a file ,send the data, if path is a dir, list
-void GiveResponse(FILE* client_sock, char* Path) {
-    struct dirent* dirent;
+void GiveResponse(FILE *client_sock, char *Path) {
+    struct dirent *dirent;
     struct stat info;
     char Filename[MAXPATH];
-    DIR* dir;
+    DIR *dir;
     int fd, len, ret;
-    char* p, *realPath, *realFilename, *nport;
-    struct passwd* p_passwd;
-    struct group* p_group;
-    char* p_time;
+    char *p, *realPath, *realFilename, *nport;
+    struct passwd *p_passwd;
+    struct group *p_group;
+    char *p_time;
     //get th dir or file
     len = strlen(home_dir) + strlen(Path) + 1;
     realPath = malloc(len + 1);
@@ -173,7 +173,7 @@ void GiveResponse(FILE* client_sock, char* Path) {
     if (S_ISREG(info.st_mode)) {
         fd = open(realPath, O_RDONLY);
         len = lseek(fd, 0, SEEK_END);
-        p = (char*) malloc(len + 1);
+        p = (char *) malloc(len + 1);
         bzero(p, len + 1);
         lseek(fd, 0, SEEK_SET);
         ret = read(fd, p, len);
@@ -258,7 +258,7 @@ out:
 }
 
 
-void init_daemon(const char* pname, int facility) {
+void init_daemon(const char *pname, int facility) {
     int pid;
     int i;
     signal(SIGTTOU, SIG_IGN);
@@ -294,7 +294,7 @@ void init_daemon(const char* pname, int facility) {
 }
 
 
-int get_addr(char* str) {
+int get_addr(char *str) {
     int inet_sock;
     struct ifreq ifr;
     inet_sock = socket(AF_INET, SOCK_DGRAM, 0);
@@ -305,6 +305,6 @@ int get_addr(char* str) {
         exit(EXIT_FAILURE);
     }
 
-    sprintf(ip, "%s", inet_ntoa(((struct sockaddr_in*) & (ifr.ifr_addr))->sin_addr));
+    sprintf(ip, "%s", inet_ntoa(((struct sockaddr_in *) & (ifr.ifr_addr))->sin_addr));
 }
 

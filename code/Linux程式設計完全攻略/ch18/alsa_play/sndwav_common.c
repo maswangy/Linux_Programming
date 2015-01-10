@@ -7,33 +7,33 @@
 
 #include "sndwav_common.h"
 
-int SNDWAV_P_GetFormat(WAVContainer_t* wav, snd_pcm_format_t* snd_format) {
+int SNDWAV_P_GetFormat(WAVContainer_t *wav, snd_pcm_format_t *snd_format) {
     if (LE_SHORT(wav->format.format) != WAV_FMT_PCM) {
         return -1;
     }
 
     switch (LE_SHORT(wav->format.sample_length)) {
-    case 16:
-        *snd_format = SND_PCM_FORMAT_S16_LE;
-        break;
+        case 16:
+            *snd_format = SND_PCM_FORMAT_S16_LE;
+            break;
 
-    case 8:
-        *snd_format = SND_PCM_FORMAT_U8;
-        break;
+        case 8:
+            *snd_format = SND_PCM_FORMAT_U8;
+            break;
 
-    default:
-        *snd_format = SND_PCM_FORMAT_UNKNOWN;
-        break;
+        default:
+            *snd_format = SND_PCM_FORMAT_UNKNOWN;
+            break;
     }
 
     return 0;
 }
 
-ssize_t SNDWAV_ReadPcm(SNDPCMContainer_t* sndpcm, size_t rcount) {
+ssize_t SNDWAV_ReadPcm(SNDPCMContainer_t *sndpcm, size_t rcount) {
     ssize_t r;
     size_t result = 0;
     size_t count = rcount;
-    uint8_t* data = sndpcm->data_buf;
+    uint8_t *data = sndpcm->data_buf;
 
     if (count != sndpcm->chunk_size) {
         count = sndpcm->chunk_size;
@@ -64,10 +64,10 @@ ssize_t SNDWAV_ReadPcm(SNDPCMContainer_t* sndpcm, size_t rcount) {
     return rcount;
 }
 
-ssize_t SNDWAV_WritePcm(SNDPCMContainer_t* sndpcm, size_t wcount) {
+ssize_t SNDWAV_WritePcm(SNDPCMContainer_t *sndpcm, size_t wcount) {
     ssize_t r;
     ssize_t result = 0;
-    uint8_t* data = sndpcm->data_buf;
+    uint8_t *data = sndpcm->data_buf;
 
     if (wcount < sndpcm->chunk_size) {
         snd_pcm_format_set_silence(sndpcm->format,
@@ -101,8 +101,8 @@ ssize_t SNDWAV_WritePcm(SNDPCMContainer_t* sndpcm, size_t wcount) {
     return result;
 }
 
-int SNDWAV_SetParams(SNDPCMContainer_t* sndpcm, WAVContainer_t* wav) {
-    snd_pcm_hw_params_t* hwparams;
+int SNDWAV_SetParams(SNDPCMContainer_t *sndpcm, WAVContainer_t *wav) {
+    snd_pcm_hw_params_t *hwparams;
     snd_pcm_format_t format;
     uint32_t exact_rate;
     uint32_t buffer_time, period_time;
@@ -193,7 +193,7 @@ int SNDWAV_SetParams(SNDPCMContainer_t* sndpcm, WAVContainer_t* wav) {
     sndpcm->bits_per_frame = sndpcm->bits_per_sample * LE_SHORT(wav->format.channels);
     sndpcm->chunk_bytes = sndpcm->chunk_size * sndpcm->bits_per_frame / 8;
     /* Allocate audio data buffer */
-    sndpcm->data_buf = (uint8_t*)malloc(sndpcm->chunk_bytes);
+    sndpcm->data_buf = (uint8_t *)malloc(sndpcm->chunk_bytes);
 
     if (!sndpcm->data_buf) {
         fprintf(stderr, "Error malloc: [data_buf]\n");

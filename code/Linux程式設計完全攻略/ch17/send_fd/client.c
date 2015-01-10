@@ -7,7 +7,7 @@
 #include<errno.h>
 
 #define SOCK_FILE "yangzd"
-int create_local_sock(char* sockfile) {
+int create_local_sock(char *sockfile) {
     int local_fd = 0;
     struct sockaddr_un serveraddr;
 
@@ -20,7 +20,7 @@ int create_local_sock(char* sockfile) {
     serveraddr.sun_family = AF_LOCAL;
     strncpy(serveraddr.sun_path, sockfile, strlen(sockfile));
 
-    if (-1 == connect(local_fd, (struct sockaddr*)&serveraddr, sizeof(serveraddr))) {
+    if (-1 == connect(local_fd, (struct sockaddr *)&serveraddr, sizeof(serveraddr))) {
         perror("connect");
         exit(EXIT_FAILURE);
     }
@@ -28,8 +28,8 @@ int create_local_sock(char* sockfile) {
     return local_fd;
 }
 
-static int recv_fd(int fd, int* fd_to_recv, char* buf, int len) {
-    struct cmsghdr* cmsg;
+static int recv_fd(int fd, int *fd_to_recv, char *buf, int len) {
+    struct cmsghdr *cmsg;
     cmsg = alloca(sizeof(struct cmsghdr) + sizeof(fd_to_recv));
     cmsg->cmsg_len = sizeof(struct cmsghdr) + sizeof(fd_to_recv);
     cmsg->cmsg_level = SOL_SOCKET;
@@ -60,10 +60,10 @@ static int recv_fd(int fd, int* fd_to_recv, char* buf, int len) {
     return 0;
 }
 
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
     int sock_fd = 0;
     int file_fd;
-    char* ptr = "now write data to file\n";
+    char *ptr = "now write data to file\n";
     char buf[129];
     memset(buf, '\0', 128);
     sock_fd = create_local_sock(SOCK_FILE);

@@ -6,7 +6,7 @@
 #include<stdlib.h>
 
 extern int errno;
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
     pid_t pid_one, pid_wait;
     int status;
 

@@ -5,15 +5,15 @@
 #include<sys/ipc.h>
 #include<string.h>
 
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
     key_t key;
     int shm_id;
-    char* ptr;
+    char *ptr;
     key = ftok("/", 10);
     shm_id = shmget(key, 100, IPC_CREAT | SHM_R);
     printf("get the shm id is %d\n", shm_id);
 
-    if ((ptr = (char*)shmat(shm_id, NULL, SHM_RDONLY)) == NULL) {
+    if ((ptr = (char *)shmat(shm_id, NULL, SHM_RDONLY)) == NULL) {
         if (shmctl(shm_id, IPC_RMID, NULL) == -1) {
             perror("Failed to  remove memory segment");
         }

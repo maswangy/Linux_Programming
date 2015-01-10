@@ -8,32 +8,32 @@
 
 #define WAV_PRINT_MSG
 
-char* WAV_P_FmtString(uint16_t fmt) {
+char *WAV_P_FmtString(uint16_t fmt) {
     switch (fmt) {
-    case WAV_FMT_PCM:
-        return "PCM";
-        break;
+        case WAV_FMT_PCM:
+            return "PCM";
+            break;
 
-    case WAV_FMT_IEEE_FLOAT:
-        return "IEEE FLOAT";
-        break;
+        case WAV_FMT_IEEE_FLOAT:
+            return "IEEE FLOAT";
+            break;
 
-    case WAV_FMT_DOLBY_AC3_SPDIF:
-        return "DOLBY AC3 SPDIF";
-        break;
+        case WAV_FMT_DOLBY_AC3_SPDIF:
+            return "DOLBY AC3 SPDIF";
+            break;
 
-    case WAV_FMT_EXTENSIBLE:
-        return "EXTENSIBLE";
-        break;
+        case WAV_FMT_EXTENSIBLE:
+            return "EXTENSIBLE";
+            break;
 
-    default:
-        break;
+        default:
+            break;
     }
 
     return "NON Support Fmt";
 }
 
-void WAV_P_PrintHeader(WAVContainer_t* container) {
+void WAV_P_PrintHeader(WAVContainer_t *container) {
     printf("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");
     printf("\n");
     printf("File Magic:         [%c%c%c%c]\n",
@@ -71,13 +71,13 @@ void WAV_P_PrintHeader(WAVContainer_t* container) {
     printf("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");
 }
 
-int WAV_P_CheckValid(WAVContainer_t* container) {
+int WAV_P_CheckValid(WAVContainer_t *container) {
     if (container->header.magic != WAV_RIFF ||
-            container->header.type != WAV_WAVE ||
-            container->format.magic != WAV_FMT ||
-            container->format.fmt_size != LE_INT(16) ||
-            (container->format.channels != LE_SHORT(1) && container->format.channels != LE_SHORT(2)) ||
-            container->chunk.type != WAV_DATA) {
+        container->header.type != WAV_WAVE ||
+        container->format.magic != WAV_FMT ||
+        container->format.fmt_size != LE_INT(16) ||
+        (container->format.channels != LE_SHORT(1) && container->format.channels != LE_SHORT(2)) ||
+        container->chunk.type != WAV_DATA) {
         fprintf(stderr, "non standard wav file.\n");
         return -1;
     }
@@ -85,12 +85,12 @@ int WAV_P_CheckValid(WAVContainer_t* container) {
     return 0;
 }
 
-int WAV_ReadHeader(int fd, WAVContainer_t* container) {
+int WAV_ReadHeader(int fd, WAVContainer_t *container) {
     assert((fd >= 0) && container);
 
     if (read(fd, &container->header, sizeof(container->header)) != sizeof(container->header) ||
-            read(fd, &container->format, sizeof(container->format)) != sizeof(container->format) ||
-            read(fd, &container->chunk, sizeof(container->chunk)) != sizeof(container->chunk)) {
+        read(fd, &container->format, sizeof(container->format)) != sizeof(container->format) ||
+        read(fd, &container->chunk, sizeof(container->chunk)) != sizeof(container->chunk)) {
         fprintf(stderr, "Error WAV_ReadHeader\n");
         return -1;
     }
@@ -105,7 +105,7 @@ int WAV_ReadHeader(int fd, WAVContainer_t* container) {
     return 0;
 }
 
-int WAV_WriteHeader(int fd, WAVContainer_t* container) {
+int WAV_WriteHeader(int fd, WAVContainer_t *container) {
     assert((fd >= 0) && container);
 
     if (WAV_P_CheckValid(container) < 0) {
@@ -113,8 +113,8 @@ int WAV_WriteHeader(int fd, WAVContainer_t* container) {
     }
 
     if (write(fd, &container->header, sizeof(container->header)) != sizeof(container->header) ||
-            write(fd, &container->format, sizeof(container->format)) != sizeof(container->format) ||
-            write(fd, &container->chunk, sizeof(container->chunk)) != sizeof(container->chunk)) {
+        write(fd, &container->format, sizeof(container->format)) != sizeof(container->format) ||
+        write(fd, &container->chunk, sizeof(container->chunk)) != sizeof(container->chunk)) {
         fprintf(stderr, "Error WAV_WriteHeader\n");
         return -1;
     }

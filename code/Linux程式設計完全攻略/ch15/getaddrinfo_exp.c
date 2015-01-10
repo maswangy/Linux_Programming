@@ -4,7 +4,7 @@
 #include <netinet/in.h>
 #include <sys/socket.h>
 #include <sys/types.h>
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
     int rc;
     char ipbuf[16];
     struct addrinfo hints, *addr;
@@ -16,12 +16,12 @@ int main(int argc, char* argv[]) {
         do {
             printf("ip: %s\t",
                    inet_ntop(AF_INET,
-                             &(((struct sockaddr_in*)addr->ai_addr)->sin_addr),
+                             &(((struct sockaddr_in *)addr->ai_addr)->sin_addr),
                              ipbuf,
                              sizeof(ipbuf)));
             printf("host:%s\t", addr->ai_canonname);
             printf("length:%d\t", addr->ai_addrlen);
-            printf("port:%d\n", ntohs(((struct sockaddr_in*)addr->ai_addr)->sin_port));
+            printf("port:%d\n", ntohs(((struct sockaddr_in *)addr->ai_addr)->sin_port));
         } while ((addr = addr->ai_next) != NULL);
 
         return 0;

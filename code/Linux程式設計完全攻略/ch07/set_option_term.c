@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
     int fd, c, res;
     struct termios oldtio, newtio;
     char buf[255];

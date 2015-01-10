@@ -5,7 +5,7 @@
 #include <semaphore.h>
 #include <string.h>
 
-void* thread_function(void* arg);
+void *thread_function(void *arg);
 
 pthread_mutex_t work_mutex;
 
@@ -13,10 +13,10 @@ pthread_mutex_t work_mutex;
 char work_area[WORK_SIZE];
 int time_to_exit = 0;
 
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
     int res;
     pthread_t a_thread;
-    void* thread_result;
+    void *thread_result;
     res = pthread_mutex_init(&work_mutex, NULL); //init mutex
 
     if (res != 0) {
@@ -64,7 +64,7 @@ int main(int argc, char* argv[]) {
     exit(EXIT_SUCCESS);
 }
 
-void* thread_function(void* arg) {
+void *thread_function(void *arg) {
     sleep(1);
     pthread_mutex_lock(&work_mutex);
 

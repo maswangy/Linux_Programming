@@ -10,11 +10,11 @@
 #define NAME_SIZE 256
 
 struct fnode {
-    struct fnode* next;
+    struct fnode *next;
     char name[NAME_SIZE];
 };
 
-struct fnode* insert_list(struct fnode* temp, struct fnode* head) {
+struct fnode *insert_list(struct fnode *temp, struct fnode *head) {
     if (head == NULL) { //if linklist is empty,for temp is the first one
         head = temp;
         return head;
@@ -26,9 +26,9 @@ struct fnode* insert_list(struct fnode* temp, struct fnode* head) {
         return head;
     }
 
-    struct fnode* next = head->next;
+    struct fnode *next = head->next;
 
-    struct fnode* prev = head;
+    struct fnode *prev = head;
 
     while (next != NULL && strcmp(temp->name, next->name) > 0) {
         next = next->next;
@@ -44,17 +44,17 @@ output_type_perm(mode_t mode) {
     char  type[7] = {'p', 'c', 'd', 'b', '-', 'l', 's'};
     int index = ((mode >> 12) & 0xF) / 2;
     printf("%c", type[index]);
-    char* perm[8] = {"---", "--x", "-w-", "-wx", "r--", "r-x", "rw-", "rwx"}; //rwx
+    char *perm[8] = {"---", "--x", "-w-", "-wx", "r--", "r-x", "rw-", "rwx"}; //rwx
     printf("%s", perm[mode >> 6 & 07]);
     printf("%s", perm[mode >> 3 & 07]);
     printf("%s", perm[mode >> 0 & 07]);
 }
 
 void output_user_group(uid_t uid, gid_t gid) {
-    struct passwd* user;
+    struct passwd *user;
     user = getpwuid(uid);
     printf("  %s", user->pw_name);
-    struct group* group;
+    struct group *group;
     group = getgrgid(gid);
     printf(" %s", group->gr_name);
 }
@@ -67,8 +67,8 @@ output_mtime(time_t mytime) {
     printf("  %s", buf);
 }
 
-void output_info(struct fnode* head) {
-    struct fnode* temp = head;
+void output_info(struct fnode *head) {
+    struct fnode *temp = head;
 
     while (temp != NULL) {
         struct stat mystat;
@@ -87,9 +87,9 @@ void output_info(struct fnode* head) {
         temp = temp->next;
     }
 }
-void free_list(struct fnode* ptr) {
-    struct fnode* temp = ptr;
-    struct fnode* link = ptr;
+void free_list(struct fnode *ptr) {
+    struct fnode *temp = ptr;
+    struct fnode *link = ptr;
 
     while (ptr) {
         temp = ptr;
@@ -97,7 +97,7 @@ void free_list(struct fnode* ptr) {
         free(temp);
     }
 }
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
     if (argc < 2) {
         printf("usage :%s dir_name\n", argv[0]);
         exit(EXIT_FAILURE);
@@ -106,7 +106,7 @@ int main(int argc, char* argv[]) {
     int i;
 
     for (i = 1; i < argc; i++) {
-        struct fnode* linklist = NULL;
+        struct fnode *linklist = NULL;
         struct stat stat_info;
 
         if (stat(argv[i], &stat_info) == -1) {
@@ -115,7 +115,7 @@ int main(int argc, char* argv[]) {
         }
 
         if (S_ISREG(stat_info.st_mode)) {   //regular file
-            struct fnode* temp = (struct fnode*)malloc(sizeof(struct fnode));
+            struct fnode *temp = (struct fnode *)malloc(sizeof(struct fnode));
 
             if (NULL == temp) {
                 perror("malloc");
@@ -130,7 +130,7 @@ int main(int argc, char* argv[]) {
         } else if (S_ISDIR(stat_info.st_mode)) {
             char buf[NAME_SIZE];
             getcwd(buf, 128);
-            DIR*  dirp = NULL;
+            DIR  *dirp = NULL;
             dirp = opendir(argv[i]);
 
             if (NULL == dirp) {
@@ -138,10 +138,10 @@ int main(int argc, char* argv[]) {
                 exit(EXIT_FAILURE);
             }
 
-            struct dirent* entp = NULL;
+            struct dirent *entp = NULL;
 
             while (entp = readdir(dirp)) {
-                struct fnode* temp = (struct fnode*)malloc(sizeof(struct fnode));
+                struct fnode *temp = (struct fnode *)malloc(sizeof(struct fnode));
 
                 if (NULL == temp) {
                     perror("malloc");

@@ -10,21 +10,21 @@
 #define DIR_FILE 2
 
 typedef struct node {
-    struct node* next;
+    struct node *next;
     unsigned int level;
-    char* name;
-    char* fullname;
+    char *name;
+    char *fullname;
 } filenode;
 
 
 typedef struct head {
-    struct node* head;
-    struct node* rear;
+    struct node *head;
+    struct node *rear;
 } headnode;
 
-int insert_sort(headnode* link_stack, filenode* new) {
-    filenode* next = link_stack->head;
-    filenode* prev = NULL;
+int insert_sort(headnode *link_stack, filenode *new) {
+    filenode *next = link_stack->head;
+    filenode *prev = NULL;
 
     while (next) {
         if (strcmp(new->name, next->name) > 0) {
@@ -50,15 +50,15 @@ int insert_sort(headnode* link_stack, filenode* new) {
     }
 }
 
-headnode* read_dir_to_link_stack(char* dir, int level) {
-    DIR* dirp = NULL;
+headnode *read_dir_to_link_stack(char *dir, int level) {
+    DIR *dirp = NULL;
 
     if (NULL == (dirp = opendir(dir))) {
         perror("opendir");
         exit(EXIT_FAILURE);
     }
 
-    headnode* ptr = (headnode*)malloc(sizeof(headnode));
+    headnode *ptr = (headnode *)malloc(sizeof(headnode));
 
     if (ptr == NULL) {
         perror("malloc");
@@ -67,13 +67,13 @@ headnode* read_dir_to_link_stack(char* dir, int level) {
 
     ptr->head = NULL;
     ptr->rear = NULL;
-    struct dirent* entp = NULL;
+    struct dirent *entp = NULL;
 
     while (NULL != (entp = readdir(dirp))) {
         if (strcmp(entp->d_name, "..") == 0 || strcmp(entp->d_name, ".") == 0) { //ignore ./ ../
             continue;
         } else {
-            filenode* temp = (filenode*)malloc(sizeof(filenode));
+            filenode *temp = (filenode *)malloc(sizeof(filenode));
 
             if (temp == NULL) {
                 perror("malloc");
@@ -82,9 +82,9 @@ headnode* read_dir_to_link_stack(char* dir, int level) {
 
             temp->next = NULL;
             temp->level = level;
-            temp->name = (char*)malloc(strlen(entp->d_name) + 1);
+            temp->name = (char *)malloc(strlen(entp->d_name) + 1);
             sprintf(temp->name , "%s\0", entp->d_name);
-            temp->fullname = (char*)malloc(strlen(dir) + 1 + strlen(entp->d_name) + 1);
+            temp->fullname = (char *)malloc(strlen(dir) + 1 + strlen(entp->d_name) + 1);
             sprintf(temp->fullname, "%s/%s\0", dir, entp->d_name);
             insert_sort(ptr, temp);
         }
@@ -96,7 +96,7 @@ headnode* read_dir_to_link_stack(char* dir, int level) {
 /*
     type:1, regufile. 2 dir.
 */
-void out_file_info(filenode* ptr, int type) {
+void out_file_info(filenode *ptr, int type) {
     int i;
     printf("|");
 
@@ -108,7 +108,7 @@ void out_file_info(filenode* ptr, int type) {
     printf("%s\n", ptr->name);
 }
 
-void pop_file_tree(headnode* link_stack) {
+void pop_file_tree(headnode *link_stack) {
     while (link_stack->head != NULL) {
         struct stat stat_src;
 
@@ -117,7 +117,7 @@ void pop_file_tree(headnode* link_stack) {
         }
 
         if (S_ISDIR(stat_src.st_mode)) {
-            filenode* temp = link_stack->head;
+            filenode *temp = link_stack->head;
             link_stack->head = link_stack->head->next;
 
             if (link_stack->head == NULL) {
@@ -130,7 +130,7 @@ void pop_file_tree(headnode* link_stack) {
             free(temp->fullname);
             free(temp);
         } else {
-            filenode* temp = link_stack->head;
+            filenode *temp = link_stack->head;
             link_stack->head = link_stack->head->next;
 
             if (link_stack->head == NULL) {
@@ -145,8 +145,8 @@ void pop_file_tree(headnode* link_stack) {
     }
 }
 
-dir_tree(char* dirname, headnode* link_stack, int level) {
-    headnode* ret = NULL;
+dir_tree(char *dirname, headnode *link_stack, int level) {
+    headnode *ret = NULL;
     ret = read_dir_to_link_stack(dirname, level + 1);
 
     if (link_stack->head != NULL && ret->head != NULL) {
@@ -166,7 +166,7 @@ dir_tree(char* dirname, headnode* link_stack, int level) {
     pop_file_tree(link_stack);
 }
 
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
     if (argc != 2) {
         fprintf(stderr, "pls useage %s dir_name\n", argv[0]);
         exit(EXIT_FAILURE);
@@ -183,7 +183,7 @@ int main(int argc, char* argv[]) {
         fprintf(stderr, "%s [error opening dir]\n", argv[1]);
         exit(EXIT_FAILURE);
     } else if (S_ISDIR(stat_src.st_mode)) {
-        headnode* link_stack = (headnode*)malloc(sizeof(headnode));
+        headnode *link_stack = (headnode *)malloc(sizeof(headnode));
 
         if (link_stack == NULL) {
             perror("malloc");

@@ -15,5 +15,5 @@ int main() {
         perror("ioctl");
     }
 
-    printf("%s\n", inet_ntoa(((struct sockaddr_in*) & (ifr.ifr_addr))->sin_addr));
+    printf("%s\n", inet_ntoa(((struct sockaddr_in *) & (ifr.ifr_addr))->sin_addr));
 }

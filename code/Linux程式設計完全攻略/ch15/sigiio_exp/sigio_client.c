@@ -10,7 +10,7 @@
 #include <signal.h>
 #define MAX_LENTH 1500
 
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
     struct sockaddr_in addr;
     int sock_fd, ret;
     char snd_buf[MAX_LENTH];
@@ -23,7 +23,7 @@ int main(int argc, char* argv[]) {
     memset(&addr, 0, sizeof(addr));
     addr.sin_family =  AF_INET;
 
-    if (inet_aton(argv[1], (struct in_addr*)&addr.sin_addr.s_addr) == 0) {
+    if (inet_aton(argv[1], (struct in_addr *)&addr.sin_addr.s_addr) == 0) {
         perror(argv[1]);
         exit(EXIT_FAILURE);
     }
@@ -35,7 +35,7 @@ int main(int argc, char* argv[]) {
         exit(EXIT_FAILURE);
     }
 
-    if (ret = connect(sock_fd, (struct sockaddr*)&addr, sizeof(addr)) == -1) {
+    if (ret = connect(sock_fd, (struct sockaddr *)&addr, sizeof(addr)) == -1) {
         perror("Connect");
         exit(EXIT_FAILURE);
     }

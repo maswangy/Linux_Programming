@@ -18,7 +18,7 @@
 #include "wav_parser.h"
 #include "sndwav_common.h"
 
-ssize_t SNDWAV_P_SaveRead(int fd, void* buf, size_t count) {
+ssize_t SNDWAV_P_SaveRead(int fd, void *buf, size_t count) {
     ssize_t result = 0, res;
 
     while (count > 0) {
@@ -32,13 +32,13 @@ ssize_t SNDWAV_P_SaveRead(int fd, void* buf, size_t count) {
 
         count -= res;
         result += res;
-        buf = (char*)buf + res;
+        buf = (char *)buf + res;
     }
 
     return result;
 }
 
-void SNDWAV_Play(SNDPCMContainer_t* sndpcm, WAVContainer_t* wav, int fd) {
+void SNDWAV_Play(SNDPCMContainer_t *sndpcm, WAVContainer_t *wav, int fd) {
     int load, ret;
     off64_t written = 0;
     off64_t c;
@@ -88,9 +88,9 @@ void SNDWAV_Play(SNDPCMContainer_t* sndpcm, WAVContainer_t* wav, int fd) {
     }
 }
 
-int main(int argc, char* argv[]) {
-    char* filename;
-    char* devicename = "default";
+int main(int argc, char *argv[]) {
+    char *filename;
+    char *devicename = "default";
     int fd;
     WAVContainer_t wav;
     SNDPCMContainer_t playback;

@@ -7,7 +7,7 @@ struct msgbuf {
     int type;
     char ptr[0];
 };
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
     key_t key;
     key = ftok(argv[1], 100);
     int msgid;
@@ -20,7 +20,7 @@ int main(int argc, char* argv[]) {
             printf("pls input msg to send:");
             char buf[128];
             fgets(buf, 128, stdin);
-            struct msgbuf* ptr = malloc(sizeof(struct msgbuf) + strlen(buf) + 1);
+            struct msgbuf *ptr = malloc(sizeof(struct msgbuf) + strlen(buf) + 1);
             ptr->type = 1;
             memcpy(ptr->ptr, buf, strlen(buf) + 1);
             msgsnd(msgid, ptr, strlen(buf) + 1, 0);
