@@ -7,16 +7,16 @@ main()
    struct group *groupinfo;
    char **ptr;
 
-   /* Àò±o¸s²Õ¦¨­û­Ó¼Æ¨Ã¬°ªş¥[¸s²ÕID°}¦C¤À°tªÅ¶¡ */
+   /* ç²å¾—ç¾¤çµ„æˆå“¡å€‹æ•¸ä¸¦ç‚ºé™„åŠ ç¾¤çµ„IDé™£åˆ—åˆ†é…ç©ºé–“ */
    num_grp = getgroups(0,grouplist);  
    grouplist = (gid_t *)xmalloc((size_t)(sizeof(gid_t)*num_grp));
 
-   /* Àò±oªş¥[¸s²ÕID */
+   /* ç²å¾—é™„åŠ ç¾¤çµ„ID */
    if ((mem_grp = getgroups(num_grp, grouplist))<0)
       err_exit("");
    printf("there are %d supplementary groups",mem_grp);
 
-   /* ¦C¥X¨C­Ó¸s²Õªº¦W¦r¡B¸s²ÕID¥H¤Î¸s²Õ¦¨­û¦W */
+   /* åˆ—å‡ºæ¯å€‹ç¾¤çµ„çš„åå­—ã€ç¾¤çµ„IDä»¥åŠç¾¤çµ„æˆå“¡å */
    for (i=0; i<mem_grp; i++) {
       groupinfo = getgrgid(grouplist[i]);
       printf("\ngroup name is: %s \n", groupinfo->gr_name);

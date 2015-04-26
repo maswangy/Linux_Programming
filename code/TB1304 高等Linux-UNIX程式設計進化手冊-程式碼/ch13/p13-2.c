@@ -1,10 +1,10 @@
 #include "ch13.h"
 #define NUM_THREADS    4 
 
-void Hello(void * t)     /* °õ¦æºü¶}©l¨ç¼Æ */
+void Hello(void * t)     /* ç£…ï¸½ç‹ç§¨ï¹ã„§è®¡ */
 {
    pthread_t my_tid;
-   my_tid = pthread_self();   /* Àò±o¥Ø«e°õ¦æºüTID */
+   my_tid = pthread_self();   /* è‰çœ”ãƒ˜ç¡ç£…ï¸½ç‹TID */
    printf("\tThread %d: my tid is %lx, Hello World!\n", t, my_tid);
 }
 int main ()
@@ -17,5 +17,5 @@ int main ()
       printf("Created thread %lx\n", tid);
    }
    printf("Good bye\n");
-   pthread_exit(NULL);     /* ²×¤î°õ¦æºü */
+   pthread_exit(NULL);     /* æ²§ã‚ç£…ï¸½ç‹ */
 }

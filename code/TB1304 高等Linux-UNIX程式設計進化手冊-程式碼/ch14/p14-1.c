@@ -1,7 +1,7 @@
 #include "ch14.h"
 pthread_key_t key;
 pthread_once_t key_once= PTHREAD_ONCE_INIT;
-/* «Ø¥ßkey¡A³z¹Lpthread_once½T«O¥u«Ø¥ß¤@¦¸ */
+/* å»ºç«‹keyï¼Œé€épthread_onceç¢ºä¿åªå»ºç«‹ä¸€æ¬¡ */
 void key_once_initial(void)
 {
 int rv;
@@ -10,16 +10,16 @@ int rv;
    check_error(rv,"Create key");
 }
 
-/* °õ¦æºü¶}©l¨ç¼Æ¡A¡C¡C¡C*/
+/* åŸ·è¡Œç·’é–‹å§‹å‡½æ•¸ï¼Œã€‚ã€‚ã€‚*/
 void *thread_routine(void *arg)
 {
    int rv;
    pthread_t tid;
    tid = pthread_self();
    printf("%s call pthread_once, TID=%lx\n",arg,tid);
-   rv = pthread_once(&key_once, key_once_initial); /*«Ø¥ßkey¤@¦¸¥B¶È¤@¦¸ */
+   rv = pthread_once(&key_once, key_once_initial); /*å»ºç«‹keyä¸€æ¬¡ä¸”åƒ…ä¸€æ¬¡ */
    check_error(rv, "Once init");
-   // ... ¨Ï¥Î°õ¦æºü±M¦³¸ê®ÆÁä©M§¹¦¨°õ¦æºü¨ä¥L¤u§@ªºµ{¦¡½X
+   // ... ä½¿ç”¨åŸ·è¡Œç·’å°ˆæœ‰è³‡æ–™éµå’Œå®ŒæˆåŸ·è¡Œç·’å…¶ä»–å·¥ä½œçš„ç¨‹å¼ç¢¼
    return NULL;
 }
 int main(int argc, char*arg[])

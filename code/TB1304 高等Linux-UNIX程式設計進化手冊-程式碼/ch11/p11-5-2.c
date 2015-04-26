@@ -5,27 +5,27 @@ int main()
    struct data_to_pass my_request;
    char client_fifo_name[256];
    pid_t mypid;
-   /* ¶}±ÒªA°ÈºŞ½u */   
+   /* é–‹å•Ÿæœå‹™ç®¡ç·š */   
    server_fifo_fd = open(SERVER_FIFO_NAME, O_WRONLY);
    if (server_fifo_fd == -1) 
        err_exit("Sorry, no server");
-   /* «Ø¥ß¥H°õ¦æºüID©R¦Wªº«È¤á±µ¦¬¦³¦WºŞ½u */
+   /* å»ºç«‹ä»¥åŸ·è¡Œç·’IDå‘½åçš„å®¢æˆ¶æ¥æ”¶æœ‰åç®¡ç·š */
    mypid = getpid();
    sprintf(client_fifo_name, CLIENT_FIFO_NAME, mypid);
    if (mkfifo(client_fifo_name, 0777) == -1)
        err_exit(client_fifo_name);
-   /* ¦VªA°È°õ¦æºü³sÄò¶Ç°e©M±µ¦¬¸ê®Æ */
+   /* å‘æœå‹™åŸ·è¡Œç·’é€£çºŒå‚³é€å’Œæ¥æ”¶è³‡æ–™ */
    while (1) {
-       /* §Î¦¨µ¹ªA°È°õ¦æºüªº¸ê®Æ */
+       /* å½¢æˆçµ¦æœå‹™åŸ·è¡Œç·’çš„è³‡æ–™ */
        printf ("Enter your request:");
        fgets (my_request.data, BUFFER_SIZE, stdin);
        if (strcmp(my_request.data,"bye\n")==0
                       ||strcmp(my_request.data, "BYE\n")==0)
            break;
        my_request.client_pid = mypid;
-       /* ¦VªA°È°õ¦æºüµo¥X½Ğ¨D */
+       /* å‘æœå‹™åŸ·è¡Œç·’ç™¼å‡ºè«‹æ±‚ */
        write(server_fifo_fd, &my_request, sizeof(my_request));
-       /* ±qªA°È°õ¦æºü±µ¦¬¦^µª¡A¬°¦¹¡A¥ı¶}±Ò«È¤á±µ¦¬¦³¦WºŞ½u */
+       /* å¾æœå‹™åŸ·è¡Œç·’æ¥æ”¶å›ç­”ï¼Œç‚ºæ­¤ï¼Œå…ˆé–‹å•Ÿå®¢æˆ¶æ¥æ”¶æœ‰åç®¡ç·š */
        client_fifo_fd = open (client_fifo_name, O_RDONLY);
        if (client_fifo_fd != -1) {
            if (read (client_fifo_fd, &my_request, sizeof(my_request)) > 0) {
@@ -34,7 +34,7 @@ int main()
            close(client_fifo_fd); 
        }
     }
-     /* Ãö³¬ªA°ÈFIFO¨Ã²¾°£«È¤á±µ¦¬FIFO */   
+     /* é—œé–‰æœå‹™FIFOä¸¦ç§»é™¤å®¢æˆ¶æ¥æ”¶FIFO */   
     close(server_fifo_fd);
     unlink(CLIENT_FIFO_NAME);
     exit(EXIT_SUCCESS);

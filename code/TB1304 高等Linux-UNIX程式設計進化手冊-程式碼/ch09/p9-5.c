@@ -4,13 +4,13 @@ static struct termios old_term, new_term;
 void do_exit(int);
 void set_tty()
 {
-   /* ¤£³B²z´«¦æ©M´«¦æ²Å¡A©¿²¤BREAK±ø¥ó */
+   /* ä¸è™•ç†æ›è¡Œå’Œæ›è¡Œç¬¦ï¼Œå¿½ç•¥BREAKæ¢ä»¶ */
    new_term.c_iflag &= ~(ICRNL|IGNCR|INLCR|IGNBRK|BRKINT);
-   new_term.c_oflag &= ~OPOST;           /* µL¹ê²{©w¸qªº¿é¥X³B²z */
-   new_term.c_lflag |= ISIG | NOFLSH;    /* ²£¥Í²×ºİ°T¸¹¡A¦ı¤£²M°£¿é¥X¦î¦C */
-   new_term.c_lflag &= ~(ICANON);        /* «D¥[¤u¼Ò¦¡ */
-   new_term.c_cc[VINTR] = 7;              /* Ctrl-g §@¬°¤¤Â_¦r¤¸ */
-   new_term.c_cc[VQUIT] = 8;              /* Ctrl-h §@¬°Â÷¶}¦r¤¸ */
+   new_term.c_oflag &= ~OPOST;           /* ç„¡å¯¦ç¾å®šç¾©çš„è¼¸å‡ºè™•ç† */
+   new_term.c_lflag |= ISIG | NOFLSH;    /* ç”¢ç”Ÿçµ‚ç«¯è¨Šè™Ÿï¼Œä½†ä¸æ¸…é™¤è¼¸å‡ºä½‡åˆ— */
+   new_term.c_lflag &= ~(ICANON);        /* éåŠ å·¥æ¨¡å¼ */
+   new_term.c_cc[VINTR] = 7;              /* Ctrl-g ä½œç‚ºä¸­æ–·å­—å…ƒ */
+   new_term.c_cc[VQUIT] = 8;              /* Ctrl-h ä½œç‚ºé›¢é–‹å­—å…ƒ */
    new_term.c_cc[VMIN]  = 1;
    new_term.c_cc[VTIME] = 0;
    tcsetattr(TTY_OUTPUT, TCSADRAIN, &new_term);
@@ -18,7 +18,7 @@ void set_tty()
 void tty_init()
 {
    tcgetattr(TTY_OUTPUT, &old_term);
-   new_term = old_term;         /* Àx¦s²×ºİ°_©lª¬ºA */
+   new_term = old_term;         /* å„²å­˜çµ‚ç«¯èµ·å§‹ç‹€æ…‹ */
    signal(SIGTERM, do_exit);
    signal(SIGQUIT, do_exit);
    signal(SIGINT,  do_exit);
@@ -50,13 +50,13 @@ int main()
    return 0;
 }
 
-/* §ïµ½³¡¤À */
+/* æ”¹å–„éƒ¨åˆ† */
 /*
 void restore_tty()
 {
-   signal(SIGTSTP, SIG_DFL);                     /* ¹w³]°T¸¹±±¨î½X¡A¤¤¤îµ{¦¡ */
-   tcsetattr(TTY_OUTPUT, TCSADRAIN, &old_term);  /* ÁÙ­ì²×ºİ¬°­ì¼Ò¦¡ */
-   raise (SIGTSTP);                              /* ¦A¦¸²£¥Í¸Ó°T¸¹µ¹shell */
+   signal(SIGTSTP, SIG_DFL);                     /* é è¨­è¨Šè™Ÿæ§åˆ¶ç¢¼ï¼Œä¸­æ­¢ç¨‹å¼ */
+   tcsetattr(TTY_OUTPUT, TCSADRAIN, &old_term);  /* é‚„åŸçµ‚ç«¯ç‚ºåŸæ¨¡å¼ */
+   raise (SIGTSTP);                              /* å†æ¬¡ç”¢ç”Ÿè©²è¨Šè™Ÿçµ¦shell */
 }
 void tty_end()
 {

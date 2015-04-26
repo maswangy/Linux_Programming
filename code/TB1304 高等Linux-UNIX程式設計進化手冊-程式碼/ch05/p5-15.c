@@ -1,7 +1,7 @@
 #include "ch05.h"
 #define SCORES_FILE "/tmp/score"
-static uid_t euid, ruid;  /* Àx¦s¦³®Ä©M¹ê»ÚUIDS*/
-void do_setuid(void)      /* ÁÙ­ì­ì¨Óªº¦³®ÄUID */
+static uid_t euid, ruid;  /* å„²å­˜æœ‰æ•ˆå’Œå¯¦éš›UIDS*/
+void do_setuid(void)      /* é‚„åŸåŸä¾†çš„æœ‰æ•ˆUID */
 {
    int status;
 #ifdef _POSIX_SAVED_IDS
@@ -13,7 +13,7 @@ void do_setuid(void)      /* ÁÙ­ì­ì¨Óªº¦³®ÄUID */
       err_exit("Couldn't set uid");
 }
 
-void undo_setuid(void) /* ³]©w¦³®ÄUID¬°¹ê»ÚUID */
+void undo_setuid(void) /* è¨­å®šæœ‰æ•ˆUIDç‚ºå¯¦éš›UID */
 {   int status;
 #ifdef _POSIX_SAVED_IDS
    status = setuid(ruid);
@@ -24,16 +24,16 @@ void undo_setuid(void) /* ³]©w¦³®ÄUID¬°¹ê»ÚUID */
       err_exit("Couldn't set uid");
 }
 
-int record_score(int score) /* °O¿ı±o¤À */
+int record_score(int score) /* è¨˜éŒ„å¾—åˆ† */
 {
    FILE *stream;
    char *myname;
-   do_setuid ();     /* Åı´åÀ¸ªÌ¦³Åª¼g±o¤ÀÀÉ®×ªºÅv§Q */
-   stream = fopen (SCORES_FILE, "a");   /* ¶}±Ò±o¤ÀÀÉ®× */
-   undo_setuid();    /* ¦¬¦^´åÀ¸ªÌÅª¼g±o¤ÀÀÉ®×ªºÅv§Q,¤£¼vÅT«á­±ªº¼g¤J¾Ş§@ */
-   /* ¼g±o¤À¦Ü°O¤ÀÀÉ®× */
+   do_setuid ();     /* è®“æ¸¸æˆ²è€…æœ‰è®€å¯«å¾—åˆ†æª”æ¡ˆçš„æ¬Šåˆ© */
+   stream = fopen (SCORES_FILE, "a");   /* é–‹å•Ÿå¾—åˆ†æª”æ¡ˆ */
+   undo_setuid();    /* æ”¶å›æ¸¸æˆ²è€…è®€å¯«å¾—åˆ†æª”æ¡ˆçš„æ¬Šåˆ©,ä¸å½±éŸ¿å¾Œé¢çš„å¯«å…¥æ“ä½œ */
+   /* å¯«å¾—åˆ†è‡³è¨˜åˆ†æª”æ¡ˆ */
    if (stream) {
-      myname = cuserid((char *)NULL);  /* ´åÀ¸°õ¦æªÌªº¨Ï¥ÎªÌ¦WºÙ */
+      myname = cuserid((char *)NULL);  /* æ¸¸æˆ²åŸ·è¡Œè€…çš„ä½¿ç”¨è€…åç¨± */
       if (score < 0)
          fprintf (stream, "%10s: Couldn't lift the caber.\n",myname);
       else
@@ -46,10 +46,10 @@ int record_score(int score) /* °O¿ı±o¤À */
 }
 int main(void)
 {
-   /* Àx¦s¹ê»Ú©M¦³®Ä¨Ï¥ÎªÌIDs */
+   /* å„²å­˜å¯¦éš›å’Œæœ‰æ•ˆä½¿ç”¨è€…IDs */
    ruid = getuid();
    euid = geteuid();
-   undo_setuid();             /* Åı´åÀ¸ªÌ¥u¦³¥L¦Û¤vªºÅv§Q */
-   /* ¶i¦æ´åÀ¸¨Ã°O¿ı±o¤À */
+   undo_setuid();             /* è®“æ¸¸æˆ²è€…åªæœ‰ä»–è‡ªå·±çš„æ¬Šåˆ© */
+   /* é€²è¡Œæ¸¸æˆ²ä¸¦è¨˜éŒ„å¾—åˆ† */
    /* ... */
 }

@@ -1,36 +1,36 @@
 #include "ch11.h"
-union semun {  /* »¡©úsemunµ²ºc */
+union semun {  /* èªªæ˜semunçµæ§‹ */
    int val;
    struct semid_ds *buf;
    unsigned short *array;
 };
-/* ²¾°£¯S®íªº°T¸¹¶q¶°¦X */
+/* ç§»é™¤ç‰¹æ®Šçš„è¨Šè™Ÿé‡é›†åˆ */
 #define rm_semaphore(sid) semctl(sid, 0, IPC_RMID,0)
-/* µ¹¯S®íªº°T¸¹¶q½áªì­È */
+/* çµ¦ç‰¹æ®Šçš„è¨Šè™Ÿé‡è³¦åˆå€¼ */
 void init_a_semaphore( int sid, int semnum, int initval)
 {
    union semun semopts;    
    semopts.val = initval;
    semctl( sid, semnum, SETVAL, semopts);
 }
-/* µ¹¯S®íªº°T¸¹¶q¶°¦X½áªì­È */
+/* çµ¦ç‰¹æ®Šçš„è¨Šè™Ÿé‡é›†åˆè³¦åˆå€¼ */
 void init_all_semaphore( int sid, int val_array[])
 {
    union semun semopts; 
    semopts.array = val_array;
    semctl( sid, 0, SETALL, semopts);
 }
-/* §ïÅÜ°T¸¹¶q¶°¦Xªº¦s¨úÅv­­,Åv­­°Ñ¼Æ¥²¶·¬O§Î¦p"660"ªº¦r¦ê */
+/* æ”¹è®Šè¨Šè™Ÿé‡é›†åˆçš„å­˜å–æ¬Šé™,æ¬Šé™åƒæ•¸å¿…é ˆæ˜¯å½¢å¦‚"660"çš„å­—ä¸² */
 int changemode(int sid, char *mode)
 {
    int rc;
    union semun semopts;    
    struct semid_ds mysemds;
-   semopts.buf = &mysemds;    /* ¨Ïsemopts.buf «ü¦V§Ú­Ì¦Û¤v©w¸qªº½w¨R°Ï */
-   /* Àò±o¤º©w¸ê®Æµ²ºcªº¥Ø«e­È */
+   semopts.buf = &mysemds;    /* ä½¿semopts.buf æŒ‡å‘æˆ‘å€‘è‡ªå·±å®šç¾©çš„ç·©æ²–å€ */
+   /* ç²å¾—å…§å®šè³‡æ–™çµæ§‹çš„ç›®å‰å€¼ */
    if ((rc = semctl(sid, 0, IPC_STAT, semopts)) == -1)
       return -1;
-   sscanf(mode, "%o", &semopts.buf->sem_perm.mode); /* §ïÅÜ¦s¨úÅv­­ */
-   /* §ó·s¤º©w¸ê®Æµ²ºc */
+   sscanf(mode, "%o", &semopts.buf->sem_perm.mode); /* æ”¹è®Šå­˜å–æ¬Šé™ */
+   /* æ›´æ–°å…§å®šè³‡æ–™çµæ§‹ */
    return(semctl(sid, 0, IPC_SET, semopts));
 }

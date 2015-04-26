@@ -3,13 +3,13 @@ int main(void)
 {
    int fifo_fd, n, total_bytes = 0;
    char readbuf[PIPE_BUF];
-   /* ­YªGFIFO¤£¦s¦b¡A«Ø¥ß¥¦*/
+   /* è‹¥æœFIFOä¸å­˜åœ¨ï¼Œå»ºç«‹å®ƒ*/
    if (access(FIFO_FILE, F_OK) == -1)
        if (mkfifo(FIFO_FILE, 0666) != 0) {
            printf( "Could not create fifo %s\n", FIFO_FILE);
            exit(EXIT_FAILURE);
        }
-   /* ¶}±Ò¦¹FIFOÀÉ®× */
+   /* é–‹å•Ÿæ­¤FIFOæª”æ¡ˆ */
    if ((fifo_fd = open(FIFO_FILE, O_RDONLY)) <0 ){
        printf( "Could not open fifo %s\n", FIFO_FILE);
        exit(EXIT_FAILURE);

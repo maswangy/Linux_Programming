@@ -3,31 +3,31 @@ int main(void)
 {
     int fd;
     off_t fdpos;
-    if((fd = open("tempfile", O_RDWR|O_CREAT, 0666)) < 0)    /* ¶}±ÒÀÉ®× */
+    if((fd = open("tempfile", O_RDWR|O_CREAT, 0666)) < 0)    /* é–‹å•Ÿæª”æ¡ˆ */
        err_exit("open error");
-    /* ¹ïÀÉ®×§À¤Î¨ä«áªºÂX¥R³¡¤À¸m¼gÂê */
+    /* å°æª”æ¡ˆå°¾åŠå…¶å¾Œçš„æ“´å……éƒ¨åˆ†ç½®å¯«éŽ– */
     if (SET_LOCK(fd, F_WRLCK, 0, SEEK_END, 0) == -1) 
        printf("%d set write lock failed\n", getpid());
     else
        printf("%d set write lock success\n", getpid());
-    /* ©w¦ìÀÉ®×¦ì¸m©ó¥Ø«eÀÉ®×§À¡A¨Ã¼g¤J8­Ó¦r¤¸ */
+    /* å®šä½æª”æ¡ˆä½ç½®æ–¼ç›®å‰æª”æ¡ˆå°¾ï¼Œä¸¦å¯«å…¥8å€‹å­—å…ƒ */
     fdpos = lseek(fd, 0L, SEEK_END);
     write(fd, "8 bytes.", 8);   
-    /* ¥ø¹ÏÄÀ©ñ«e­±³]©wªº¼gÂê¡A¦ý¹ê»Ú¨Ã¥¼ÄÀ©ñ¡A¦]¬°ÀÉ®×§Àªº¦ì¸m¤w«á²¾ */
+    /* ä¼åœ–é‡‹æ”¾å‰é¢è¨­å®šçš„å¯«éŽ–ï¼Œä½†å¯¦éš›ä¸¦æœªé‡‹æ”¾ï¼Œå› ç‚ºæª”æ¡ˆå°¾çš„ä½ç½®å·²å¾Œç§» */
     if (un_lock(fd, 0L, SEEK_END, 0) == -1) 
        err_exit("UN_LOCK error")
     else
        printf("%d un_lock(fd,0,SEEK_END,0) success\n", getpid());
-    /* Åý¤l°õ¦æºü¦b¸Ó°Ï°ì³]©wÅªÂêÅçÃÒ¤÷°õ¦æºü¬O§_¤w¥¿½TÄÀ©ñ¨ä¼gÂê */
-    if (vfork()== 0){   /* ¤l°õ¦æºü */
-        /* ¹ï¾ã­ÓÀÉ®×¸m¼gÂê¡A¤£¯à³]©wªí©ú¤÷°õ¦æºü¦³Âê°Ï°ì¥¼ÄÀ©ñ */
+    /* è®“å­åŸ·è¡Œç·’åœ¨è©²å€åŸŸè¨­å®šè®€éŽ–é©—è­‰çˆ¶åŸ·è¡Œç·’æ˜¯å¦å·²æ­£ç¢ºé‡‹æ”¾å…¶å¯«éŽ– */
+    if (vfork()== 0){   /* å­åŸ·è¡Œç·’ */
+        /* å°æ•´å€‹æª”æ¡ˆç½®å¯«éŽ–ï¼Œä¸èƒ½è¨­å®šè¡¨æ˜Žçˆ¶åŸ·è¡Œç·’æœ‰éŽ–å€åŸŸæœªé‡‹æ”¾ */
        if (SET_LOCK(fd, F_WRLCK, 0, SEEK_SET, 0) == -1)
           printf("%d: there are some locks on the file\n",getpid());
        else
           printf("%d: no any locks on the file\n",getpid());
        exit(EXIT_SUCCESS);
     }
-    /* ¤÷°õ¦æºü */
-    sleep(5);       /* ½T«O¤÷°õ¦æºü«áÂ÷¶} */
+    /* çˆ¶åŸ·è¡Œç·’ */
+    sleep(5);       /* ç¢ºä¿çˆ¶åŸ·è¡Œç·’å¾Œé›¢é–‹ */
     exit(EXIT_SUCCESS);
 }

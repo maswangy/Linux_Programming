@@ -10,7 +10,7 @@ int main()
    rlim_t j,k=RLIM_INFINITY;
 
    getrlimit(RLIMIT_AS,&rlt);
-   if (rlt.rlim_cur==RLIM_INFINITY){ /* ­YªGªÅ¶¡µL­­¨î¡AÂ÷¶}°õ¦æ */
+   if (rlt.rlim_cur==RLIM_INFINITY){ /* è‹¥æœç©ºé–“ç„¡é™åˆ¶ï¼Œé›¢é–‹åŸ·è¡Œ */
       printf("no limit on virture memory\n");
       exit(0);
    }

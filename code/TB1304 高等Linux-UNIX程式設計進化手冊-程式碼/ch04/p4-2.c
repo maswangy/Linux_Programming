@@ -1,20 +1,20 @@
-#include ¡§ch04.h¡¨
+#include â€œch04.hâ€
 int main(void)
 {
     int         link_value;
-    const char  *path1 = ¡§testfile1¡¨;
-    const char  *path2 = ¡§testfile2¡¨;
+    const char  *path1 = â€œtestfile1â€;
+    const char  *path2 = â€œtestfile2â€;
     struct stat orig_buf, new_buf;
-    printf (¡§create testfile\n¡¨);
+    printf (â€œcreate testfile\nâ€);
     creat (path1, S_IRWXU|S_IRWXG|S_IRWXO);
-    stat (path1, &orig_buf);    /* ¨ú±oÀÉ®×ª¬ºA */
-    printf (¡§testfile1 status: orig_buf.st_nlink=%d\n¡¨, orig_buf.st_nlink );
-    printf (¡§create link from %s to %s\n¡¨,path1,path2);
-    if (link (path1, path2))    /* «Ø¥ß·sªº³s½u */
-       err_exit (¡§link() call failed¡¨);
-    printf (¡§link() call successful\n¡¨);
-    stat (path1, &new_buf);   /* ¦A¦¸¨úÀÉ®×ª¬ºAÀËµø·sªº³s½u¼Æ */
-    printf (¡§new_buf.st_nlink=%d\n¡¨, new_buf.st_nlink );
+    stat (path1, &orig_buf);    /* å–å¾—æª”æ¡ˆç‹€æ…‹ */
+    printf (â€œtestfile1 status: orig_buf.st_nlink=%d\nâ€, orig_buf.st_nlink );
+    printf (â€œcreate link from %s to %s\nâ€,path1,path2);
+    if (link (path1, path2))    /* å»ºç«‹æ–°çš„é€£ç·š */
+       err_exit (â€œlink() call failedâ€);
+    printf (â€œlink() call successful\nâ€);
+    stat (path1, &new_buf);   /* å†æ¬¡å–æª”æ¡ˆç‹€æ…‹æª¢è¦–æ–°çš„é€£ç·šæ•¸ */
+    printf (â€œnew_buf.st_nlink=%d\nâ€, new_buf.st_nlink );
 	return (EXIT_SUCCESS);
 }
 

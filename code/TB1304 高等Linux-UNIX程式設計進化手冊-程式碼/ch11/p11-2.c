@@ -6,19 +6,19 @@ int main(void)
     FILE *stream; 
     if ( pipe(fd) != 0) 
         err_exit("pipe creation failed");
-    if ((pid = fork())== 0) { /* ¤l°õ¦æºü */
-        close(fd[1]);            /* ¤£¨Ï¥ÎºŞ½uªº¼gºİ */
-        dup2(fd[0],0);           /* Ãö³¬stdin,­«·s¾É¦VºŞ½uªº¿é¤Jºİ¦Üstdin */
-        close(fd[0]);            /* Ãö³¬³o­Ó¤£¦A¦³¥Îªº´y­z¦r */
-        /* ¥Îcat¹LÂo¿é¥X */
+    if ((pid = fork())== 0) { /* å­åŸ·è¡Œç·’ */
+        close(fd[1]);            /* ä¸ä½¿ç”¨ç®¡ç·šçš„å¯«ç«¯ */
+        dup2(fd[0],0);           /* é—œé–‰stdin,é‡æ–°å°å‘ç®¡ç·šçš„è¼¸å…¥ç«¯è‡³stdin */
+        close(fd[0]);            /* é—œé–‰é€™å€‹ä¸å†æœ‰ç”¨çš„æè¿°å­— */
+        /* ç”¨catéæ¿¾è¼¸å‡º */
         if (execl("/bin/cat","cat", NULL/*"-n"*/, NULL) == -1)
             err_exit("Unable to run cat"); 
-    } else {                      /* ¤÷°õ¦æºü */
-        close(fd[0]);            /* ¤£¨Ï¥ÎºŞ½uªº¿é¤Jºİ */
+    } else {                      /* çˆ¶åŸ·è¡Œç·’ */
+        close(fd[0]);            /* ä¸ä½¿ç”¨ç®¡ç·šçš„è¼¸å…¥ç«¯ */
         printf("you can type a line and the line will echoed:\n");
-        dup2(fd[1],1);           /* Ãö³¬stdout,­«·s¾É¦VºŞ½uªº¿é¥Xºİ¦Üstdout */
+        dup2(fd[1],1);           /* é—œé–‰stdout,é‡æ–°å°å‘ç®¡ç·šçš„è¼¸å‡ºç«¯è‡³stdout */
         close(fd[1]);
         while (gets(buffer) != NULL)
-           puts(buffer);         /* ¼g¦ÜºŞ½u*/
+           puts(buffer);         /* å¯«è‡³ç®¡ç·š*/
     }
  } 

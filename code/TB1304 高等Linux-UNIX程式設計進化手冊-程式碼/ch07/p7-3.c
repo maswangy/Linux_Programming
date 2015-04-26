@@ -2,7 +2,7 @@
 void (*signal(int sig, void (*handler) (int))) (int) 
 {
     struct sigaction act, oact;
-    /* ÀË¬d°T¸¹*/
+    /* æµªç©ç™Ÿè…¹*/
     if (handler == SIG_ERR || sig<1 || sig>=NSIG){ 
        errno = EINVAL;
        return SIG_ERR;

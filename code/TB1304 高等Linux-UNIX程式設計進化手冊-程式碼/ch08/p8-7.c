@@ -1,7 +1,7 @@
 #include "ch08.h"
 #define DEFAULT_NSECS 100000
 struct timeval t1, t2;
-void alrm_handler (int signal)  /* ©w®É¾¹¨ì´Á°T¸¹±±¨î½X,¿é¥X¹ê»Ú¶¡¹j®É¶¡ */
+void alrm_handler (int signal)  /* å®šæ™‚å™¨åˆ°æœŸè¨Šè™Ÿæ§åˆ¶ç¢¼,è¼¸å‡ºå¯¦éš›é–“éš”æ™‚é–“ */
 {
    gettimeofday(&t2, NULL);
    printf ("time interval %ld:\n", t2.tv_sec*1000000+t2.tv_usec
@@ -16,7 +16,7 @@ main(int argc, char **argv)
    sigset_t allsigs;
    i.it_interval.tv_sec=0;
    i.it_interval.tv_usec=DEFAULT_NSECS;
-   switch (argc) {   /* ³B²z°Ñ¼Æ*/
+   switch (argc) {   /* è™•ç†åƒæ•¸*/
    case 1:
       break;
    case 2:
@@ -34,14 +34,14 @@ main(int argc, char **argv)
       exit(2);
    }
    i.it_value=i.it_interval;
-   /* ³]©w°T¸¹±±¨î½X */
+   /* è¨­å®šè¨Šè™Ÿæ§åˆ¶ç¢¼ */
    sigemptyset(&sa.sa_mask);
    sigaddset(&sa.sa_mask,SIGALRM);
    sa.sa_flags=0;
    sa.sa_handler=alrm_handler;
    if (sigaction(SIGALRM, &sa, NULL)<0)  
       err_exit("sigaction");
-   gettimeofday(&t1, NULL);     /* °O¿ı©w®É¶}©l®É¶¡*/
+   gettimeofday(&t1, NULL);     /* è¨˜éŒ„å®šæ™‚é–‹å§‹æ™‚é–“*/
    if (setitimer(ITIMER_REAL, &i, NULL)<0)
       err_exit("setitimer");
    sigemptyset(&allsigs);

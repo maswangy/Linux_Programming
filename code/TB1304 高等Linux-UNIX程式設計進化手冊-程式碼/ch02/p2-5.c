@@ -4,20 +4,20 @@ int main (int argc, char *argv[])
    int n;
    FILE *from, *to;
    char buf[BUFSIZ] ;
-   if (argc != 3) {    /*ÀË¬d°Ñ¼Æ¡C*/
+   if (argc != 3) {    /*æª¢æŸ¥åƒæ•¸ã€‚*/
       fprintf(stderr, "Usage : %s from-file to-file\n", *argv) ;
       exit (1);
    }
-   if ((from = fopen(argv[1],"r")) == NULL)  /* ¬°Åª¦Ó¶}±ÒÀÉ®×from */
+   if ((from = fopen(argv[1],"r")) == NULL)  /* ç‚ºè®€è€Œé–‹å•Ÿæª”æ¡ˆfrom */
       err_exit (argv[1] ) ; 
-	   /* ¥H¥[¤J¼Ò¦¡¶}±ÒÀÉ®×to. ­Y¦¹ÀÉ®×¤£¦s¦b¡Afopen ±N«Ø¥ß¥¦¡C*/
+	   /* ä»¥åŠ å…¥æ¨¡å¼é–‹å•Ÿæª”æ¡ˆto. è‹¥æ­¤æª”æ¡ˆä¸å­˜åœ¨ï¼Œfopen å°‡å»ºç«‹å®ƒã€‚*/
    if ((to=fopen(argv[2], "a")) == NULL)
       err_exit(argv[2] ) ;
-	   /* ²{¦b¨C¦¸¥i¥H±qÀÉ®×fromÅª¤J¨Ã¼g¦Üto. ª`·N§Ú­Ì¼g¥Xªº¦r¤¸­Ó¼Æ¬O¹ê»ÚÅª¤J
-      ªº¦r¤¸­Ó¼Æ¦Ó¤£Á`¬OBUFSIZ¦ì¤¸²Õ¡C*/
+	   /* ç¾åœ¨æ¯æ¬¡å¯ä»¥å¾žæª”æ¡ˆfromè®€å…¥ä¸¦å¯«è‡³to. æ³¨æ„æˆ‘å€‘å¯«å‡ºçš„å­—å…ƒå€‹æ•¸æ˜¯å¯¦éš›è®€å…¥
+      çš„å­—å…ƒå€‹æ•¸è€Œä¸ç¸½æ˜¯BUFSIZä½å…ƒçµ„ã€‚*/
    while ((n = fread(buf, sizeof(char),BUFSIZ,from)) > 0)
       fwrite (buf, sizeof(char),n,to) ;
-	   /*Ãö³¬ÀÉ®×*/
+	   /*é—œé–‰æª”æ¡ˆ*/
    fclose (from) ;
    fclose (to) ;
    exit (0) ;

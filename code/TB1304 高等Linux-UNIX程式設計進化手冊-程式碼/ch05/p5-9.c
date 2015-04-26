@@ -2,9 +2,9 @@
 static void setup_core_dumping (void)
 {
    struct rlimit rlim;
-   if (getrlimit(RLIMIT_CORE, &rlim) != 0)   /* ¨ú±o­­¨î­È  */
+   if (getrlimit(RLIMIT_CORE, &rlim) != 0)   /* å–å¾—é™åˆ¶å€¼  */
       err_exit("getting core file size maximum limit ");
-   rlim.rlim_cur = rlim.rlim_max;              /* ¥Îµw­­¨î¸m´«³n­­¨î  */
-   if (setrlimit(RLIMIT_CORE, &rlim) != 0)   /* ­«·s³]©w­­¨î­È  */
+   rlim.rlim_cur = rlim.rlim_max;              /* ç”¨ç¡¬é™åˆ¶ç½®æ›è»Ÿé™åˆ¶  */
+   if (setrlimit(RLIMIT_CORE, &rlim) != 0)   /* é‡æ–°è¨­å®šé™åˆ¶å€¼  */
       err_exit("setting core file size limit to maximum ");
 }

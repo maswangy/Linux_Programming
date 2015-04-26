@@ -7,22 +7,22 @@ int input_timeout(int filedes, unsigned int seconds)
     int n;
     char buf[1024];
 
-    FD_ZERO(&set);             /* °_©lÀÉ®×´y­z¦r¶°¦X */
+    FD_ZERO(&set);             /* èµ·å§‹æª”æ¡ˆæè¿°å­—é›†åˆ */
     FD_SET(filedes, &set);
-    timeout.tv_sec = seconds;  /* °_©ltimeout¸ê®Æµ²ºc */
+    timeout.tv_sec = seconds;  /* èµ·å§‹timeoutè³‡æ–™çµæ§‹ */
     timeout.tv_usec = 0;
 
-    /* select®É¶¡¨ì´Á¶Ç¦^0¡F¿é¤J´Nºü¶Ç¦^1¡F¥X²{¿ù»~¶Ç¦^-1 */
+    /* selectæ™‚é–“åˆ°æœŸå‚³å›0ï¼›è¼¸å…¥å°±ç·’å‚³å›1ï¼›å‡ºç¾éŒ¯èª¤å‚³å›-1 */
 again:
-    if ((n = select(FD_SETSIZE, &set, NULL, NULL, &timeout)) < 0) { //¥X²{¿ù»~
+    if ((n = select(FD_SETSIZE, &set, NULL, NULL, &timeout)) < 0) { //å‡ºç¾éŒ¯èª¤
         if (errno = EINTR) 
             goto again;
     }
-    else if (n > 0) {   //¿é¤J´Nºü
+    else if (n > 0) {   //è¼¸å…¥å°±ç·’
         n = read(filedes,buf,sizeof(buf));
         printf("read data:  %s\n",buf);
     }
-    else  //®É¶¡¨ì´Á
+    else  //æ™‚é–“åˆ°æœŸ
         printf("tiomeout for select\n");
     return n;
 }

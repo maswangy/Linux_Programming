@@ -4,39 +4,39 @@ int a[SIZE],b[SIZE];
 int max;
 pthread_mutex_t mtx = PTHREAD_MUTEX_INITIALIZER;
 
-void max_fun(int *arg)    /* ­pºâmax(max, arg[]) */
+void max_fun(int *arg)    /* è¨ˆç®—max(max, arg[]) */
 {
    int * ap=arg;
    int rv, i, l_max;
-   for (i=1; i<SIZE; i++){ // §ä¥X°}¦Cap¤¤ªº³Ì¤j­È
+   for (i=1; i<SIZE; i++){ // æ‰¾å‡ºé™£åˆ—apä¸­çš„æœ€å¤§å€¼
       if (ap[i] > l_max) 
          l_max = ap[i];
    }
-   /* ­pºâmax(L_max, max),»Ý¤¬¥¸°Ê§@ */
-   rv = pthread_mutex_lock(&mtx);      // Àò±o¤¬¥¸ÅÜ¼Æ
+   /* è¨ˆç®—max(L_max, max),éœ€äº’æ–¥å‹•ä½œ */
+   rv = pthread_mutex_lock(&mtx);      // ç²å¾—äº’æ–¥è®Šæ•¸
    check_error(rv, "mutex_lock ");
    if (l_max > max)
       max = l_max;
-   rv = pthread_mutex_unlock(&mtx);   // ÄÀ©ñ¤¬¥¸ÅÜ¼Æ
+   rv = pthread_mutex_unlock(&mtx);   // é‡‹æ”¾äº’æ–¥è®Šæ•¸
    check_error(rv, "mutex_unlock ");
    pthread_exit(NULL);       
 }
 
 int main(void)
 {
-   pthread_t tid1,tid2;    // °õ¦æºü¼Ð»x
+   pthread_t tid1,tid2;    // åŸ·è¡Œç·’æ¨™èªŒ
    int i, rv;
    
-   for (i=1; i<SIZE; i++){ // ²£¥Í°}¦C¤¸¯Àªº¸ê®Æ
+   for (i=1; i<SIZE; i++){ // ç”¢ç”Ÿé™£åˆ—å…ƒç´ çš„è³‡æ–™
       a[i]=rand();
       b[i]=rand();
    }
-   /* «Ø¥ß2­Ó°õ¦æºü°õ¦æ¨ç¼Æmax_fun()¤À§O³B²z°}¦Ca©Mb */
+   /* å»ºç«‹2å€‹åŸ·è¡Œç·’åŸ·è¡Œå‡½æ•¸max_fun()åˆ†åˆ¥è™•ç†é™£åˆ—aå’Œb */
    rv = pthread_create(&tid1, NULL, (void*(*)())max_fun, a);
    check_error(rv, "pthread_create: tid1");
    rv = pthread_create(&tid2, NULL, (void*(*)())max_fun, b);
    check_error(rv, "pthread_create: tid2");
-   /* µ¥«Ý2­Ó°õ¦æºüµ²§ô */
+   /* ç­‰å¾…2å€‹åŸ·è¡Œç·’çµæŸ */
    pthread_join(tid1, NULL);
    pthread_join(tid2, NULL);
    printf ("max value = %d\n", max);

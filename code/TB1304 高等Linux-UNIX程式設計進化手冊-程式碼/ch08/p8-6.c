@@ -9,10 +9,10 @@ int main(int argc, char ** argv)
 {
   clock_t  start, stop;
   struct tms buffer;
-  signal(SIGALRM, alarm_handler);  /* ³]©w°T¸¹±±¨î½X */
+  signal(SIGALRM, alarm_handler);  /* è¨­å®šè¨Šè™ŸæŽ§åˆ¶ç¢¼ */
   start = times(&buffer);
   alarm(1);
-  while (!gotit);                  /* µ¥«Ý©w®É¾¹¨ì®É */
+  while (!gotit);                  /* ç­‰å¾…å®šæ™‚å™¨åˆ°æ™‚ */
   stop = times(&buffer);
   printf("%ld clock ticks per second (start=%ld, stop=%ld)\n",
 	  stop-start, start, stop);

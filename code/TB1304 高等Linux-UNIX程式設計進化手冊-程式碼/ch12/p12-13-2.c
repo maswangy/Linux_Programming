@@ -1,13 +1,13 @@
 #include "ch12.h"
-#include "p12-8.c"   // socket_connect.c, µ{¦¡12-8
+#include "p12-8.c"   // socket_connect.c, ç¨‹å¼12-8
 int main(int argc, char **argv)
 {
     int connfd, n, result;
     char buf[256];
-    connfd = socket_connect(NULL, "2003");    /* »PªA°È«Ø¥ß³s½u */
-    write(connfd, argv[1], sizeof(argv[1]));  /* ¦VªA°È¶Ç°e¸ê®Æ */
-    n = read(connfd, buf, sizeof(buf));        /* ÅªªA°Èªº¦^°e¸ê®Æ */
-    buf[n] = 0;  /* ²×¤î²Å */
+    connfd = socket_connect(NULL, "2003");    /* èˆ‡æœå‹™å»ºç«‹é€£ç·š */
+    write(connfd, argv[1], sizeof(argv[1]));  /* å‘æœå‹™å‚³é€è³‡æ–™ */
+    n = read(connfd, buf, sizeof(buf));        /* è®€æœå‹™çš„å›é€è³‡æ–™ */
+    buf[n] = 0;  /* çµ‚æ­¢ç¬¦ */
     printf("string from server = %s\n", buf);
     close(connfd);
     exit(0);

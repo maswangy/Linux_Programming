@@ -1,26 +1,26 @@
 #include "ch14.h"
 int count;
-int i=-1;             // ¨ú®øÂI¼Ğ§Ó
-volatile int val=0;   // volatile­×¹¢¥H¨¾½sÄ¶¾¹¹ï¥¦¶i¦æ§ïµ½
+int i=-1;             // å–æ¶ˆé»æ¨™å¿—
+volatile int val=0;   // volatileä¿®é£¾ä»¥é˜²ç·¨è­¯å™¨å°å®ƒé€²è¡Œæ”¹å–„
 
-void *thread_routine(void *arg)   // °õ¦æºü¶}©l¨ç¼Æ 
+void *thread_routine(void *arg)   // åŸ·è¡Œç·’é–‹å§‹å‡½æ•¸ 
 {
    int state = PTHREAD_CANCEL_DISABLE;
    int oldstate, j;
    for (count=1;;count++) {
-      for(j=0;j<1000;j++)   // Ãş¤ñ¤u§@
+      for(j=0;j<1000;j++)   // é¡æ¯”å·¥ä½œ
          val=(val*j)/count;
       if (count%1024 ==0){
          i=1;
-         pthread_testcancel(); // // ¨C¹j2048­Ó­¡¥N¦^À³¤@¦¸¨ú®ø½Ğ¨D
+         pthread_testcancel(); // // æ¯éš”2048å€‹è¿­ä»£å›æ‡‰ä¸€æ¬¡å–æ¶ˆè«‹æ±‚
       } else if ((count-100)%2048 == 0) {
-         /* ¶i¤J¤£¥i¨ú®ø¤u§@°Ï */
-         pthread_setcancelstate(state, &oldstate); // ¤£®e³\³Q¨ú®ø
+         /* é€²å…¥ä¸å¯å–æ¶ˆå·¥ä½œå€ */
+         pthread_setcancelstate(state, &oldstate); // ä¸å®¹è¨±è¢«å–æ¶ˆ
          for(j=0;j<1000000;j++)
             val=(val*j)/count;
-         pthread_setcancelstate(oldstate, &state);  // ÁÙ­ì¥H«eªº¥i¨ú®øª¬ºA
+         pthread_setcancelstate(oldstate, &state);  // é‚„åŸä»¥å‰çš„å¯å–æ¶ˆç‹€æ…‹
          i=0;      
-         pthread_testcancel(); // ¤§«á¤Î®É¦^À³¥i¯à¥X²{ªºÄa±¾¨ú®ø½Ğ¨D
+         pthread_testcancel(); // ä¹‹å¾ŒåŠæ™‚å›æ‡‰å¯èƒ½å‡ºç¾çš„æ‡¸æ›å–æ¶ˆè«‹æ±‚
       } 
    }
 }
@@ -32,7 +32,7 @@ int main(void)
    rv=pthread_create(&tid, NULL, thread_routine, NULL);
    check_error(rv,"Create thread");
    sleep(3);
-   rv=pthread_cancel(tid);              // ¦V°õ¦æºüµo¥X¨ú®ø½Ğ¨D
+   rv=pthread_cancel(tid);              // å‘åŸ·è¡Œç·’ç™¼å‡ºå–æ¶ˆè«‹æ±‚
    check_error(rv, "cancel thread");
    rv=pthread_join(tid, &result);
    if (result == PTHREAD_CANCELED)

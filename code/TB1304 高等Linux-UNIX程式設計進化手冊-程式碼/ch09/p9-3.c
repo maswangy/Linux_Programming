@@ -3,14 +3,14 @@ int set_termios(int desc)
 {
     struct termios settings;
     int result;    
-    result = tcgetattr(desc, &settings); /* ¨ú±o¥Ø«e²×ºİÄİ©Ê */
+    result = tcgetattr(desc, &settings); /* å–å¾—ç›®å‰çµ‚ç«¯å±¬æ€§ */
     if (result < 0) {
         perror("error in tcgetattr"); return 0;
     }
-    settings.c_iflag &= ~ISTRIP;    /* ²M°£ISTRIP */
-    settings.c_lflag &= ~(ICANON | ECHO | ISIG);  /* ³]©w«D¥[¤u¿é¤J */
-    settings.c_oflag |= OPOST ;                   /* ³]©w¹ê²{©w¸qªº¿é¥X³B²z */
-    result = tcsetattr(desc, TCSANOW, &settings); /* ¨Ï·s³]©w¥ß§Y¥Í®Ä */
+    settings.c_iflag &= ~ISTRIP;    /* æ¸…é™¤ISTRIP */
+    settings.c_lflag &= ~(ICANON | ECHO | ISIG);  /* è¨­å®šéåŠ å·¥è¼¸å…¥ */
+    settings.c_oflag |= OPOST ;                   /* è¨­å®šå¯¦ç¾å®šç¾©çš„è¼¸å‡ºè™•ç† */
+    result = tcsetattr(desc, TCSANOW, &settings); /* ä½¿æ–°è¨­å®šç«‹å³ç”Ÿæ•ˆ */
     if (result < 0) {
         perror("error in tcgetattr"); return 0;
     }

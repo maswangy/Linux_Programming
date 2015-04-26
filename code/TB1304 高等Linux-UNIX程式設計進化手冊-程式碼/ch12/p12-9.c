@@ -7,14 +7,14 @@ int main(int argc, char **argv)
    char recvbuff[MAXBUFFSIZE], *host;
    struct sockaddr_in servaddr;
    
-   if(argc < 2)    /* ÀË¬d°Ñ¼Æ */
+   if(argc < 2)    /* æª¢æŸ¥åƒæ•¸ */
       host = NULL;
    else
       host = argv[1]; 
-   sockfd = socket_connect(host,"13");  /* «Ø¥ß®M±µ¦r¨Ã«Ø¥ß»PªA°Èªº³s½u */
-   /* ÅªªA°Èªº¦^µª¨ÃÅã¥Üµ²ªG */
+   sockfd = socket_connect(host,"13");  /* å»ºç«‹å¥—æŽ¥å­—ä¸¦å»ºç«‹èˆ‡æœå‹™çš„é€£ç·š */
+   /* è®€æœå‹™çš„å›žç­”ä¸¦é¡¯ç¤ºçµæžœ */
    while((n = read(sockfd,recvbuff,MAXBUFFSIZE)) > 0){
-      recvbuff[n] = 0;    /* ¶ñ¤J²×¤î²Å */
+      recvbuff[n] = 0;    /* å¡«å…¥çµ‚æ­¢ç¬¦ */
       fputs(recvbuff,stdout);
    }
    if(n<0)

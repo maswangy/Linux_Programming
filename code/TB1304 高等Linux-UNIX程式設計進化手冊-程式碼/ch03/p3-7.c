@@ -9,14 +9,14 @@ int main(void)
    int nbytes=0, j=0, nwrite, ntimes = 1, success=0;
    char *ptr;
 
-   if(set_nonblock_flag(STDOUT_FILENO, 1) < 0)     /* ³]©wµLªý¶ëI/O */
+   if(set_nonblock_flag(STDOUT_FILENO, 1) < 0)     /* è¨­å®šç„¡é˜»å¡žI/O */
       err_exit("set nonblock flag failed ");   
    while (nbytes+sizeof(fmt) < B_SIZE) {
       sprintf(&buf[nbytes],fmt,j++);
       nbytes += sizeof(fmt);
    }
 
-   /* ±Nbuf¤¤ªº¸ê®Æ¼g¦Ü¼Ð­ã¿é¥X¡Aª½¨ì¥þ³¡¼g¥X */
+   /* å°‡bufä¸­çš„è³‡æ–™å¯«è‡³æ¨™å‡†è¼¸å‡ºï¼Œç›´åˆ°å…¨éƒ¨å¯«å‡º */
    for(ptr=buf; nbytes >0; ntimes++){
       errno = 0;
       nwrite = write(STDOUT_FILENO, ptr, nbytes);

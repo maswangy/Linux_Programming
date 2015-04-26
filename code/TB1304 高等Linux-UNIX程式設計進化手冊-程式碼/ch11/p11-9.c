@@ -2,7 +2,7 @@
 int open_semaphore_set( key_t keyval, int numsems )
 {
    int sid;
-   if (!numsems)  // §Ú­Ì­n¨D¤£½×«Ø¥ßÁÙ¬OÀò±o°T¸¹¶q³£¥²¶·«ü©ú¶°¦X¤¤°T¸¹¶qªº­Ó¼Æ
+   if (!numsems)  // æˆ‘å€‘è¦æ±‚ä¸è«–å»ºç«‹é‚„æ˜¯ç²å¾—è¨Šè™Ÿé‡éƒ½å¿…é ˆæŒ‡æ˜é›†åˆä¸­è¨Šè™Ÿé‡çš„å€‹æ•¸
       return(-1);
    if((sid = semget( keyval, numsems, IPC_CREAT | 0660 )) == -1)
       return(-1);

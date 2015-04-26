@@ -1,5 +1,5 @@
 #include "ch04.h"
-#include "y_or_n_ques.c"    /* µ{¦¡2-1 */
+#include "y_or_n_ques.c"    /* ç¨‹å¼2-1 */
 int main(int argc, char*argv[])
 {
     if(argc != 2){
@@ -7,12 +7,12 @@ int main(int argc, char*argv[])
        exit(EXIT_FAILURE);
     }
 
-    /* «Ø¥ß·s¥Ø¿ı */
+    /* å»ºç«‹æ–°ç›®éŒ„ */
     if( mkdir(argv[1], S_IRWXU|S_IRGRP|S_IXGRP|S_IROTH) < 0)
        err_exit("mkdir failed");
     printf("you made a directory %s\n",argv[1]);
 
-    /* ²¾°£¦¹·s¥Ø¿ı*/
+    /* ç§»é™¤æ­¤æ–°ç›®éŒ„*/
      if (!y_or_n_ques("Do you really need the directory?")) {     
        if (rmdir(argv[1])<0)
           err_exit("rmdir failed");

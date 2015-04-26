@@ -1,5 +1,5 @@
 #include "ch12.h"
-#include "p12-7.c"   // make_socket.c", µ{¦¡12-7
+#include "p12-7.c"   // make_socket.c", ç¨‹å¼12-7
 void doit(int);
 int main(void)
 {
@@ -7,23 +7,23 @@ int main(void)
    int server_len, client_len;
    struct sockaddr_in client_address;
    server_sockfd = make_socket(SOCK_STREAM, 2003);
-   /* «Ø¥ß³s½u¦î¦C¡A©¿²¤¤l°õ¦æºü²×¤î°T¸¹ */
+   /* å»ºç«‹é€£ç·šä½‡åˆ—ï¼Œå¿½ç•¥å­åŸ·è¡Œç·’çµ‚æ­¢è¨Šè™Ÿ */
    listen(server_sockfd, 5);
    signal(SIGCHLD, SIG_IGN);
    while(1) {
       printf("server waiting\n");
-      /* ±µ¦¬³s½u */
+      /* æ¥æ”¶é€£ç·š */
       client_len = sizeof(client_address);
       client_sockfd = accept(server_sockfd, 
             (struct sockaddr *)&client_address, &client_len);
-      /* ¬°³o­Ó«È¤á«Ø¥ß¤@­Ó¤l°õ¦æºü */
-       if(fork() == 0) {             /* ­Y¬°¤l°õ¦æºü¡A±µ¦¬¨Ã¦^µª«È¤áªº°T®§ */
-         close(server_sockfd);      /* ¤l°õ¦æºüÃö³¬ºÊÅ¥®M±µ¦r */
-         doit(client_sockfd);       /* ³B²z«È¤áªº½Ğ¨D */
-         close(client_sockfd);      /* ³B²z§¹²¦Ãö³¬®M±µ¦r */
-         exit(0);                     /* ¤l°õ¦æºü²×¤î */
+      /* ç‚ºé€™å€‹å®¢æˆ¶å»ºç«‹ä¸€å€‹å­åŸ·è¡Œç·’ */
+       if(fork() == 0) {             /* è‹¥ç‚ºå­åŸ·è¡Œç·’ï¼Œæ¥æ”¶ä¸¦å›ç­”å®¢æˆ¶çš„è¨Šæ¯ */
+         close(server_sockfd);      /* å­åŸ·è¡Œç·’é—œé–‰ç›£è½å¥—æ¥å­— */
+         doit(client_sockfd);       /* è™•ç†å®¢æˆ¶çš„è«‹æ±‚ */
+         close(client_sockfd);      /* è™•ç†å®Œç•¢é—œé–‰å¥—æ¥å­— */
+         exit(0);                     /* å­åŸ·è¡Œç·’çµ‚æ­¢ */
       } else {
-         close(client_sockfd);     /* ¤÷°õ¦æºüÃö³¬³Q³s½uªº®M±µ¦r */
+         close(client_sockfd);     /* çˆ¶åŸ·è¡Œç·’é—œé–‰è¢«é€£ç·šçš„å¥—æ¥å­— */
       }
    }
 }
@@ -31,7 +31,7 @@ void doit(client_sockfd)
 {
    char buf[255];
    int n;
-   /* ±µ¦¬¨Ã¦^À³«È¤áªº°T®§ */
+   /* æ¥æ”¶ä¸¦å›æ‡‰å®¢æˆ¶çš„è¨Šæ¯ */
    n = read(client_sockfd, buf, sizeof(buf));
    buf[n] = 0;
    sleep(1);

@@ -8,25 +8,25 @@ int main(void)
    struct sockaddr_in name;
    char message[MAXMSG];
 
-   /* «Ø¥ß¸ê®Æ³ø®M±µ¦r */
+   /* å»ºç«‹è³‡æ–™å ±å¥—æ¥å­— */
    sock = make_socket(SOCK_DGRAM, 0);
 
-   /* ¬d¥X¨Ã¦C¦L¨t²Î½áµ¹ªº³q°T°ğ­È */
+   /* æŸ¥å‡ºä¸¦åˆ—å°ç³»çµ±è³¦çµ¦çš„é€šè¨ŠåŸ å€¼ */
    size = sizeof(name);
    if (getsockname(sock, (struct sockaddr *)&name, (socklen_t *)&size)) 
       err_exit("getting socket name");
    printf("Socket has port #%d\n", ntohs(name.sin_port));
 
    while(1){
-      /* ±q®M±µ¦rÅª¸ê®Æ */
+      /* å¾å¥—æ¥å­—è®€è³‡æ–™ */
       size = sizeof(name);
       nbytes = recvfrom(sock, message, MAXMSG, 0,
                   (struct sockaddr *)&name, (socklen_t *)&size);
       if (nbytes < 0)
          err_exit("recfrom (server)");
-      /* ¦C¦L¥X¦¬¨ìªº°T®§ */
+      /* åˆ—å°å‡ºæ”¶åˆ°çš„è¨Šæ¯ */
       printf("Server got message: %s\n", message);
-      /* ±N°T®§¶Ç¦^µ¹¶Ç°eªÌ */
+      /* å°‡è¨Šæ¯å‚³å›çµ¦å‚³é€è€… */
       nbytes = sendto(sock, message, nbytes, 0,(struct sockaddr *)&name, size);
       if (nbytes < 0)
          err_exit("sendto(server)");

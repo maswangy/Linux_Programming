@@ -3,19 +3,19 @@ int main(int argc, char *argv[])
 {
    char *host, **names, **addrs, myname[256];
    struct hostent *hostinfo;
-   /* ³]©w¥D¹q¸£¬°«ü¥O¦æ°Ñ¼Æ¯S®íªº¦W¦r©Îµ{¦¡°õ¦æ©Ò¦b¾÷¾¹ªº¦W¦r */
+   /* è¨­å®šä¸»é›»è…¦ç‚ºæŒ‡ä»¤è¡Œåƒæ•¸ç‰¹æ®Šçš„åå­—æˆ–ç¨‹å¼åŸ·è¡Œæ‰€åœ¨æ©Ÿå™¨çš„åå­— */
    if(argc > 1) 
   host = argv[1];
    else {
       gethostname(myname, 255);
       host = myname;
    }   
-   hostinfo = gethostbyname(host);       /* ¨ú±o¥D¹q¸£¦ì§}°T®§ */
+   hostinfo = gethostbyname(host);       /* å–å¾—ä¸»é›»è…¦ä½å€è¨Šæ¯ */
    if(!hostinfo) {
       fprintf(stderr, "cannot get info for host: %s\n", host);
       exit(1);
    }
-   /* ³ø§i¥¦ªº¥¿¦¡¦W©M§O¦W */
+   /* å ±å‘Šå®ƒçš„æ­£å¼åå’Œåˆ¥å */
    printf("results for host %s:\n", host);
    printf("Official name: %s\n", hostinfo->h_name);
    printf("\t Aliases:");
@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
       printf(" %s\n", *names);
       names++;
    }
-    /* ³ø§iIP¦ì§} */
+    /* å ±å‘ŠIPä½å€ */
    addrs = hostinfo->h_addr_list;
    while(*addrs) {
       printf("\taddress:%s\n",inet_ntoa(*(struct in_addr*)*addrs));

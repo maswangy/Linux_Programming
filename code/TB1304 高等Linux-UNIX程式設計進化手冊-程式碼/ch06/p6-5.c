@@ -1,12 +1,12 @@
 #include "ch06.h"
 #include "p6-3.c" //pr_exit()
 
-/*  parse--¤À¸Ñbuf¤¤ªº«ü¥O¬°¿W¥ßªº°Ñ¼Æ  */
+/*  parse--åˆ†è§£bufä¸­çš„æŒ‡ä»¤ç‚ºç¨ç«‹çš„åƒæ•¸  */
 void parse(char *buf, char *args[])
 {
    int i=0;
    while (*buf != '\0') {
-      /* ¥ÎªÅ¦r¤¸'\0'´À¥NªÅ¥Õ¦r¤¸¨Ï±o«e¤@°Ñ¼Æ¥HªÅ¦r¤¸µ²§ô  */       
+      /* ç”¨ç©ºå­—å…ƒ'\0'æ›¿ä»£ç©ºç™½å­—å…ƒä½¿å¾—å‰ä¸€åƒæ•¸ä»¥ç©ºå­—å…ƒçµæŸ  */       
       args[i++]=buf;
       while ((*buf!=' ')&&(*buf!='\t')&&(*buf!='\n')) buf++;
       while ((*buf==' ')||(*buf=='\t'||(*buf=='\n'))) *buf++ = '\0';
@@ -14,19 +14,19 @@ void parse(char *buf, char *args[])
    args[i]='\0';
 }
 
-/*  execute--­l¥Í¤@¤l°õ¦æºü°õ¦æ¦¹µ{¦¡  */
+/*  execute--è¡ç”Ÿä¸€å­åŸ·è¡Œç·’åŸ·è¡Œæ­¤ç¨‹å¼  */
 void execute(char *args[])
 {
    int pid, status;
-   /*  «Ø¥ß¤@¤l°õ¦æºü  */
+   /*  å»ºç«‹ä¸€å­åŸ·è¡Œç·’  */
    if ((pid=fork()) <0) 
       err_exit("fork");
-   /*  ¤l°õ¦æºü°õ¦æif¤ºªºµ{¦¡½X  */
+   /*  å­åŸ·è¡Œç·’åŸ·è¡Œifå…§çš„ç¨‹å¼ç¢¼  */
    if (pid==0) {
       execvp(*args,args);
       err_exit("execvp");
    } 
-   /*  ¤÷°õ¦æºüµ¥«İ¤l°õ¦æºü§¹¦¨  */
+   /*  çˆ¶åŸ·è¡Œç·’ç­‰å¾…å­åŸ·è¡Œç·’å®Œæˆ  */
    waitpid(pid, &status, 0);
    pr_exit(status,pid);
 }
@@ -36,15 +36,15 @@ int main(void)
    char *args[64], *cp;
 
    for (;;) {
-     printf("Command: ");   // Á|¥X´£¥Ü²Å
-     cp = fgets (buf, sizeof(buf), stdin);    //Åª¤J«ü¥O
-     if (cp == (char *)NULL || *cp == '\n'){  // ªÅ¦æªí¥ÜÂ÷¶}
+     printf("Command: ");   // èˆ‰å‡ºæç¤ºç¬¦
+     cp = fgets (buf, sizeof(buf), stdin);    //è®€å…¥æŒ‡ä»¤
+     if (cp == (char *)NULL || *cp == '\n'){  // ç©ºè¡Œè¡¨ç¤ºé›¢é–‹
         printf("quit\n");
         exit(EXIT_SUCCESS);
      }
-     /*  ¤À¸Ñ¦r¦ê¬°°Ñ¼Æ  */
+     /*  åˆ†è§£å­—ä¸²ç‚ºåƒæ•¸  */
      parse(buf, args);
-     /*  °õ¦æ«ü¥O  */
+     /*  åŸ·è¡ŒæŒ‡ä»¤  */
      execute(args);
    }
 }

@@ -13,16 +13,16 @@ void sig_handler(int sig, siginfo_t *sip, void *extra)
         return;
     }
     printf ("\tsi_code %d, ", sip->si_code);
-    switch (sig){  /* ¹ï¤£¦Pªº°T¸¹¡A®Ú¾Úsi_codeªº­È¹ï°T¸¹­ì¦]¶i¦æ¤£¦Pªº§P§O */
+    switch (sig){  /* å°ä¸åŒçš„è¨Šè™Ÿï¼Œæ ¹æ“šsi_codeçš„å€¼å°è¨Šè™ŸåŸå› é€²è¡Œä¸åŒçš„åˆ¤åˆ¥ */
     case SIGFPE: 
        if (sip->si_code==FPE_INTDIV)
           printf ("integer divided by zero");
        else if (sip->si_code==FPE_FLTDIV)
           printf ("floating point divided by zero");
-       else /* ¡K ¨ä¥¦±¡§Î */
+       else /* â€¦ å…¶å®ƒæƒ…å½¢ */
           printf ("overflow or something else");
        printf (" at address %x\n", sip->si_addr);
-       siglongjmp(again, 1); /* ¶Ç¦^®É²¤¹L¥X¿ùÂI */
+       siglongjmp(again, 1); /* å‚³å›æ™‚ç•¥éå‡ºéŒ¯é» */
        break;
     case SIGSEGV: 
        if (sip->si_code == SEGV_MAPERR)
@@ -30,43 +30,43 @@ void sig_handler(int sig, siginfo_t *sip, void *extra)
        else
            printf ("unprivileged access address:");
        printf("%x\n", sip->si_addr);
-       exit(0);   /* ³o¬O³Ì«á¶Ç°eªº°T¸¹¡Aµ{¦¡±q³o¸Ì²×¤î°õ¦æ */
+       exit(0);   /* é€™æ˜¯æœ€å¾Œå‚³é€çš„è¨Šè™Ÿï¼Œç¨‹å¼å¾é€™è£¡çµ‚æ­¢åŸ·è¡Œ */
     case SIGCHLD:
        if (sip->si_code == CLD_KILLED)
            printf("\tChild %d was killed\n",sip->si_pid);
        else 
            printf("\tChild exited with exit_status: %d\n",sip->si_status);
-       killed = 1;         /* ³]©w°T¸¹³B²z§¹²¦¼Ğ§Ó */
+       killed = 1;         /* è¨­å®šè¨Šè™Ÿè™•ç†å®Œç•¢æ¨™å¿— */
        break;
     default:
        printf("others\n");
        exit(0);
    }
 }
-void (*fun)(int)=NULL;   /* ÄaªÅªº¨ç¼Æ«ü¼Ğ */
+void (*fun)(int)=NULL;   /* æ‡¸ç©ºçš„å‡½æ•¸æŒ‡æ¨™ */
 int a, b=0;
 int main(void)
 {
    struct sigaction sa;
-   /* ³]©w°T¸¹±±¨î½X */
+   /* è¨­å®šè¨Šè™Ÿæ§åˆ¶ç¢¼ */
    sigemptyset(&sa.sa_mask);
-   sa.sa_flags = SA_SIGINFO;         /* ¨Ï¥Î±a¤T­Ó°Ñ¼Æªº°T¸¹±±¨î½X */
+   sa.sa_flags = SA_SIGINFO;         /* ä½¿ç”¨å¸¶ä¸‰å€‹åƒæ•¸çš„è¨Šè™Ÿæ§åˆ¶ç¢¼ */
    sa.sa_sigaction = sig_handler;
    sigaction(SIGCHLD, &sa, 0);
    sigaction(SIGFPE, &sa, 0);
    sigaction(SIGSEGV, &sa, 0);
-   /* «Ø¥ß¤@­Ó¤l°õ¦æºü,µM«ákill¥¦ */ 
-   if (pkid = fork()){     /* ¤÷°õ¦æºü */
+   /* å»ºç«‹ä¸€å€‹å­åŸ·è¡Œç·’,ç„¶å¾Œkillå®ƒ */ 
+   if (pkid = fork()){     /* çˆ¶åŸ·è¡Œç·’ */
        printf("I am father,My pid=%d. \n",getpid());
        printf("I forked and killed a child whose pid is %d\n", pkid);
        kill(pkid,SIGTERM); 
-       while (!killed);              /* µ¥«İª½¨ì¤l°õ¦æºüÂ÷¶} */
+       while (!killed);              /* ç­‰å¾…ç›´åˆ°å­åŸ·è¡Œç·’é›¢é–‹ */
        kill(getpid(),SIGFPE);
-       if (sigsetjmp(again,1))      /* ³]©w«D§½³¡±±¨îÂà²¾Àô¹Ò */
+       if (sigsetjmp(again,1))      /* è¨­å®šéå±€éƒ¨æ§åˆ¶è½‰ç§»ç’°å¢ƒ */
           goto L1;
-       a=a/b;            /* ¯BÂI¨Ò¥~«á±N±q°T¸¹±±¨î½X¶Ç¦^¨ì¤W¤@±Ô­z */ 
+       a=a/b;            /* æµ®é»ä¾‹å¤–å¾Œå°‡å¾è¨Šè™Ÿæ§åˆ¶ç¢¼å‚³å›åˆ°ä¸Šä¸€æ•˜è¿° */ 
 L1:
-      (*fun)(a);        /* ªÅ«ü¼Ğ±N¾É­P¨ç¼Æ©I¥s²£¥Í¬q¿ù, °T¸¹±±¨î½X¤£¶Ç¦^ */
-   } else               /* ¤l°õ¦æºü */
-       while(1);        /* ¤l°õ¦æºüµ¥«İ³Qkill */
+      (*fun)(a);        /* ç©ºæŒ‡æ¨™å°‡å°è‡´å‡½æ•¸å‘¼å«ç”¢ç”Ÿæ®µéŒ¯, è¨Šè™Ÿæ§åˆ¶ç¢¼ä¸å‚³å› */
+   } else               /* å­åŸ·è¡Œç·’ */
+       while(1);        /* å­åŸ·è¡Œç·’ç­‰å¾…è¢«kill */
 }

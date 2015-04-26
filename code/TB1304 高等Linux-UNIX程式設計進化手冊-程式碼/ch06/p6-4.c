@@ -8,15 +8,15 @@ int main(void)
    pid_t pid;
    int status;
 
-   if ((pid = fork()) == 0)  /* ­l¥Í¤l°õ¦æºü1 */
-      exit(0);               /* ¤l°õ¦æºü1¼Ğ·ÇÂ÷¶} */
-   if ((pid = fork()) == 0)  /* ­l¥Í¤l°õ¦æºü2 */
-      abort();      /* ¤l°õ¦æºü2²£¥ÍSIGABRT°T¸¹Â÷¶} */
-   if ((pid = fork()) == 0) {   /* ­l¥Í¤l°õ¦æºü3 */
-      status/=zero;   /* ¤l°õ¦æºü3¦]0§@°£¼Æ²£¥ÍSIGFPE°T¸¹Â÷¶} */
+   if ((pid = fork()) == 0)  /* è¡ç”Ÿå­åŸ·è¡Œç·’1 */
+      exit(0);               /* å­åŸ·è¡Œç·’1æ¨™æº–é›¢é–‹ */
+   if ((pid = fork()) == 0)  /* è¡ç”Ÿå­åŸ·è¡Œç·’2 */
+      abort();      /* å­åŸ·è¡Œç·’2ç”¢ç”ŸSIGABRTè¨Šè™Ÿé›¢é–‹ */
+   if ((pid = fork()) == 0) {   /* è¡ç”Ÿå­åŸ·è¡Œç·’3 */
+      status/=zero;   /* å­åŸ·è¡Œç·’3å› 0ä½œé™¤æ•¸ç”¢ç”ŸSIGFPEè¨Šè™Ÿé›¢é–‹ */
       exit(0);
    }
-   while ((pid = wait(&status)) >= 0) /* µ¥«İ¤l°õ¦æºü  */
+   while ((pid = wait(&status)) >= 0) /* ç­‰å¾…å­åŸ·è¡Œç·’  */
       pr_exit(status, pid);
    perror("wait over");
    exit(EXIT_SUCCESS);

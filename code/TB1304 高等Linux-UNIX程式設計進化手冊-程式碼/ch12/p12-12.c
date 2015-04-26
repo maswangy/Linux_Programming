@@ -3,13 +3,13 @@ int check_peer(int sockfd, in_addr_t *refuse_addr_list)
    socklen_t  len;
    struct sockaddr_in addr,raddr;
    in_addr_t s_addr, *ap;
-   /* ÀËµø»P§Ú³s½uªº¬O½Ö */
+   /* æª¢è¦–èˆ‡æˆ‘é€£ç·šçš„æ˜¯èª° */
    len = sizeof(raddr);
    if (getpeername(sockfd, (struct sockaddr *)&raddr, &len) < 0){
       printf("getpeername with socket %d failed\n", sockfd);
       return -1;
    }
-   /* ©Úµ´¨Ó¦Û¯S©w¦ì§}ªº³s½u */
+   /* æ‹’çµ•ä¾†è‡ªç‰¹å®šä½å€çš„é€£ç·š */
    s_addr = raddr.sin_addr.s_addr;
    ap = refuse_addr_list;
    for (; ap!=0; ap++)

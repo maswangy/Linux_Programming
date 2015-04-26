@@ -7,11 +7,11 @@ int main(void)
    }un;
    struct utsname uts;
    un.inum = 0x0102;
-   /* ¦C¦L¥X°Ê§@¨t²Î¤Î¨äª©¥»¸¹ */
+   /* åˆ—å°å‡ºå‹•ä½œç³»çµ±åŠå…¶ç‰ˆæœ¬è™Ÿ */
    if(uname(&uts) < 0) 
       err_exit("Could not get host information\n");
    printf(" %s-%s-%s: ", uts.machine, uts.sysname, uts.release);
-    /* ÀËÅç¦ì¤¸²Õ¶¶§Ç */
+    /* æª¢é©—ä½å…ƒçµ„é †åº */
    if(sizeof(short) != 2)
       printf("sizeof short =%d\n",sizeof(short));
    else if(un.c[0]==1 && un.c[1]==2)

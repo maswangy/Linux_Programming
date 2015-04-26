@@ -1,5 +1,5 @@
 #include "ch09.h"
-struct termios saved_attributes;        /* ¥Î¸ÓÅÜ¼ÆÀx¦s­ì¨Óªº²×ºİÄİ©Ê */
+struct termios saved_attributes;        /* ç”¨è©²è®Šæ•¸å„²å­˜åŸä¾†çš„çµ‚ç«¯å±¬æ€§ */
 void resume_input_mode(void)
 {
    tcsetattr(STDIN_FILENO, TCSANOW, &saved_attributes);
@@ -8,14 +8,14 @@ void set_input_mode(int fd)
 {
    struct termios tattr;
    char *name;
-   if (!isatty(fd)) { /* ½T«Ofd ¬O²×ºİ */
+   if (!isatty(fd)) { /* ç¢ºä¿fd æ˜¯çµ‚ç«¯ */
       fprintf(stderr, "Not a terminal.\n"); exit (EXIT_FAILURE);
    }
-   tcgetattr(fd, &saved_attributes); /* Àx¦s¥Ø«e²×ºİÄİ©Ê*/
-	   /* ³]©w²×ºİ¬°«D¥[¤u¡B¤£¦^À³¼Ò¦¡ */
+   tcgetattr(fd, &saved_attributes); /* å„²å­˜ç›®å‰çµ‚ç«¯å±¬æ€§*/
+	   /* è¨­å®šçµ‚ç«¯ç‚ºéåŠ å·¥ã€ä¸å›æ‡‰æ¨¡å¼ */
    tcgetattr(fd, &tattr);
-   tattr.c_lflag &= ~(ICANON|ECHO); /* ²M°£ ICANON©MECHO */
-   tattr.c_cc[VMIN] = 1;  /* µ¥«İ¦Ü¤ÖÅª¤@­Ó¦r¤¸ */
+   tattr.c_lflag &= ~(ICANON|ECHO); /* æ¸…é™¤ ICANONå’ŒECHO */
+   tattr.c_cc[VMIN] = 1;  /* ç­‰å¾…è‡³å°‘è®€ä¸€å€‹å­—å…ƒ */
    tattr.c_cc[VTIME] = 0;
    tcsetattr (STDIN_FILENO, TCSAFLUSH, &tattr);
 }
@@ -30,6 +30,6 @@ int main (void)
        else
           printf("I read %c\n",c);
     }
-    resume_input_mode(); /* ÁÙ­ì²×ºİÄİ©Ê */
+    resume_input_mode(); /* é‚„åŸçµ‚ç«¯å±¬æ€§ */
     return EXIT_SUCCESS;
  }

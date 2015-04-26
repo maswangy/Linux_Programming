@@ -1,40 +1,40 @@
 #include "p11-12.h"
 
-int main(void) /* ªA°Èµ{¦¡ */
+int main(void) /* æœå‹™ç¨‹å¼ */
 {
     struct exchange *shm;
     int producer_ok,consumer_ok,i;
     int shmid;
     char readbuf[BUFSIZ];
 
-    /* «Ø¥ß°T¸¹¶qconsumer©Mproducer */
+    /* å»ºç«‹è¨Šè™Ÿé‡consumerå’Œproducer */
     consumer_ok = open_semaphore_set(key1, 1);
     producer_ok= open_semaphore_set(key2, 1);
-    init_a_semaphore(consumer_ok, 0, 1);  /* ¸T¤î®ø¶O */
-    init_a_semaphore(producer_ok, 0, 0);  /* ®e³\¥Í²£ */
+    init_a_semaphore(consumer_ok, 0, 1);  /* ç¦æ­¢æ¶ˆè²» */
+    init_a_semaphore(producer_ok, 0, 0);  /* å®¹è¨±ç”Ÿç”¢ */
 
-    /* Àò±o¨Ã³s½u¦W¬°"shared"ªº¦@¨ÉÀx¦s¬q */
+    /* ç²å¾—ä¸¦é€£ç·šåç‚º"shared"çš„å…±äº«å„²å­˜æ®µ */
     shm = (struct exchange *)shminit(ftok("shared",0),&shmid);
 
-    /* ±q¼Ğ­ã¿é¤JÅª¸ê®Æ¨Ã¼g¦Ü¦@¨ÉÀx¦s¬q */
+    /* å¾æ¨™å‡†è¼¸å…¥è®€è³‡æ–™ä¸¦å¯«è‡³å…±äº«å„²å­˜æ®µ */
     for ( i=0; ; i++ ) {
-         /* Åª¤J¸ê®Æ */
-        semaphore_P(consumer_ok);   /* µ¥«İ«È¤á°õ¦æºüÄÀ©ñ¦@¨ÉÀx¦s¬q */
+         /* è®€å…¥è³‡æ–™ */
+        semaphore_P(consumer_ok);   /* ç­‰å¾…å®¢æˆ¶åŸ·è¡Œç·’é‡‹æ”¾å…±äº«å„²å­˜æ®µ */
         printf("Enter some text:");
         fgets(readbuf,BUFSIZ,stdin);
-         /* ¶ñ¥R¦@¨ÉÀx¦s½w¨R */
+         /* å¡«å……å…±äº«å„²å­˜ç·©æ²– */
         shm->seq = i;
         sprintf(shm->buf, "%s",readbuf);
-        semaphore_V(producer_ok);  /* ®e³\«È¤á°õ¦æºü¨ú¸ê®Æ */
+        semaphore_V(producer_ok);  /* å®¹è¨±å®¢æˆ¶åŸ·è¡Œç·’å–è³‡æ–™ */
         if (strncmp(readbuf, "end", 3) == 0 )
             break;
     }
-    semaphore_P(consumer_ok); /* µ¥«İ«È¤á°õ¦æºü®ø¶O§¹²¦ */
-    /* ²¾°£°T¸¹¶q */
+    semaphore_P(consumer_ok); /* ç­‰å¾…å®¢æˆ¶åŸ·è¡Œç·’æ¶ˆè²»å®Œç•¢ */
+    /* ç§»é™¤è¨Šè™Ÿé‡ */
     rm_semaphore(producer_ok);
     rm_semaphore(consumer_ok);
 
-    /* ¤ÀÂ÷¨Ã²¾°£¦@¨ÉÀx¦s¬q */
+    /* åˆ†é›¢ä¸¦ç§»é™¤å…±äº«å„²å­˜æ®µ */
     shmdt(shm);
     shmctl(shmid, IPC_RMID, (struct shmid_ds *)NULL);
     exit(0);

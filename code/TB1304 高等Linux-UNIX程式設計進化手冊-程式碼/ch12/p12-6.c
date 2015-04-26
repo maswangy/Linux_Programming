@@ -9,18 +9,18 @@ void init_sockaddr(struct sockaddr_in *name, const char *hostname,
    }
    else
       host = hostname;
-   /* ¨ú±o¥D¹q¸£¦ì§}°T®§ */
+   /* å–å¾—ä¸»é›»è…¦ä½å€è¨Šæ¯ */
    if ((hp = gethostbyname(host)) == NULL){
       printf("Unknown host: %s\n", host);
       exit(-1);
    }
-   /* ¶ñ¤J¦øªA¾¹ªºIP¦ì§}©M³q°T°ð */
+   /* å¡«å…¥ä¼ºæœå™¨çš„IPä½å€å’Œé€šè¨ŠåŸ  */
    bzero(name,sizeof(struct sockaddr));
    if (hp->h_addrtype == AF_INET){   
       name->sin_family = AF_INET;
       bcopy(hp->h_addr_list[0], &name->sin_addr, hp->h_length);
       if (serv == NULL)
-         name->sin_port = htons(0); /* ¥Ñ¨t²Î¿ï¨ú¤@­Ó¾A·íªº³q°T°ð */
+         name->sin_port = htons(0); /* ç”±ç³»çµ±é¸å–ä¸€å€‹é©ç•¶çš„é€šè¨ŠåŸ  */
       else
          name->sin_port = htons(atoi(serv));
    } else {

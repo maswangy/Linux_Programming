@@ -2,10 +2,10 @@ int make_socket(int type, unsigned short int port)
 {
    int sock;
    struct sockaddr_in name;
-   /* «Ø¥ß®M±µ¦r */
+   /* å»ºç«‹å¥—æŽ¥å­— */
    if ((sock = socket(AF_INET, type, 0)) < 0)
       err_exit("socket");
-   /* ©R¦W¸Ó®M±µ¦r */
+   /* å‘½åè©²å¥—æŽ¥å­— */
    name.sin_family = AF_INET;
    name.sin_port = htons (port);
    name.sin_addr.s_addr = htonl (INADDR_ANY);

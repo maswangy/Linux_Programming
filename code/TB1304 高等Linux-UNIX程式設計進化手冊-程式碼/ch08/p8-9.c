@@ -1,12 +1,12 @@
 #include "ch08.h"
 #define OUR_CLOCK CLOCK_REALTIME
 timer_t mytimer;
-void timer_intr(int signo, siginfo_t *extra, void *cruft) // ©w®É¾¹¨ì´Á°T¸¹±±¨î½X
+void timer_intr(int signo, siginfo_t *extra, void *cruft) // å®šæ™‚å™¨åˆ°æœŸè¨Šè™Ÿæ§åˆ¶ç¢¼
 {
    int noverflow;
-   if (signo==SIGINT) /* ¨Ï¥ÎªÌ¿é¤JªºCRTL/C°T¸¹¡A²×¤îµ{¦¡°õ¦æ */
+   if (signo==SIGINT) /* ä½¿ç”¨è€…è¼¸å…¥çš„CRTL/Cè¨Šè™Ÿï¼Œçµ‚æ­¢ç¨‹å¼åŸ·è¡Œ */
       exit(1);  
-   /* ÀËµø¬O§_¦³¹O®É */
+   /* æª¢è¦–æ˜¯å¦æœ‰é€¾æ™‚ */
    if (noverflow = timer_getoverrun(*(timer_t *)extra->si_value.sival_ptr))
       printf("timer has overflowerd--error\n");
    printf("timer expiration\n");
@@ -20,34 +20,34 @@ main(int argc, char **argv)
    struct sigaction sa;
    sigset_t allsigs;
    struct sigevent timer_event;
-   /* ­º¥ı½T«O¦s¦b©Ò§Æ±æªº®ÉÁé */
+   /* é¦–å…ˆç¢ºä¿å­˜åœ¨æ‰€å¸Œæœ›çš„æ™‚é¾ */
    if (clock_getres(OUR_CLOCK, &resolution)<0)
       err_exit("clock_getres");
    printf("Clock resolution %d sec %d nsec\n", 
              resolution.tv_sec, resolution.tv_nsec);
-   /* ³]©w©w®É¾¹¨ì´Á°T¸¹ª¾·|¼Ò¦¡ */
-   timer_event.sigev_notify=SIGEV_SIGNAL; /* ²£¥Í°T¸¹ */
-   timer_event.sigev_signo=SIGRTMIN;       /* ­n¶Ç°eªº°T¸¹ */
-   timer_event.sigev_value.sival_ptr=(void *)&mytimer; /* Äâ±a©w®É¾¹ID«ü¼Ğ */
-   /* «Ø¥ß©w®É¾¹ */
+   /* è¨­å®šå®šæ™‚å™¨åˆ°æœŸè¨Šè™ŸçŸ¥æœƒæ¨¡å¼ */
+   timer_event.sigev_notify=SIGEV_SIGNAL; /* ç”¢ç”Ÿè¨Šè™Ÿ */
+   timer_event.sigev_signo=SIGRTMIN;       /* è¦å‚³é€çš„è¨Šè™Ÿ */
+   timer_event.sigev_value.sival_ptr=(void *)&mytimer; /* æ”œå¸¶å®šæ™‚å™¨IDæŒ‡æ¨™ */
+   /* å»ºç«‹å®šæ™‚å™¨ */
    if (timer_create(OUR_CLOCK, &timer_event, &mytimer)<0) 
       err_exit("timer_create");
-   /* ®·®»©w®É¾¹¨ì´Á°T¸¹ */
+   /* æ•æ‰å®šæ™‚å™¨åˆ°æœŸè¨Šè™Ÿ */
    sigemptyset(&sa.sa_mask);
-   sigaddset(&sa.sa_mask,SIGRTMIN);  /* ±±¨î½X¨ç¼Æ¤¤«Ì½ªSIGRTMIN°T¸¹ */
-   sa.sa_flags=SA_SIGINFO;             /* ¹ê®É°T¸¹ */
+   sigaddset(&sa.sa_mask,SIGRTMIN);  /* æ§åˆ¶ç¢¼å‡½æ•¸ä¸­å±è”½SIGRTMINè¨Šè™Ÿ */
+   sa.sa_flags=SA_SIGINFO;             /* å¯¦æ™‚è¨Šè™Ÿ */
    sa.sa_sigaction=timer_intr;
    sigaction(SIGRTMIN, &sa, NULL);
-   /* ®·®»Ctr-c°T¸¹ */
+   /* æ•æ‰Ctr-cè¨Šè™Ÿ */
    sigaction(SIGINT, &sa, NULL);
-   /* ½T©w©w®É®É¶¡¨Ã³]©w©w®É¾¹ */
+   /* ç¢ºå®šå®šæ™‚æ™‚é–“ä¸¦è¨­å®šå®šæ™‚å™¨ */
    i.it_interval.tv_sec=0;
-   i.it_interval.tv_nsec=resolution.tv_nsec*10; /* ©w®É¶¡¹j®É¶¡¬°¸ÑªR«×ªº10­¿*/
+   i.it_interval.tv_nsec=resolution.tv_nsec*10; /* å®šæ™‚é–“éš”æ™‚é–“ç‚ºè§£æåº¦çš„10å€*/
    i.it_value=i.it_interval;
    if (timer_settime(mytimer, 0, &i, NULL)<0)
       err_exit("timer_settime");
    sigemptyset(&allsigs);
-   while(1){    /* ³z¹L¿é¤JCRTL/C²×¤îµ{¦¡°õ¦æ */
-         sigsuspend(&allsigs);    // µ¥«İ©w®É¾¹¨ì´Á°T¸¹
+   while(1){    /* é€éè¼¸å…¥CRTL/Cçµ‚æ­¢ç¨‹å¼åŸ·è¡Œ */
+         sigsuspend(&allsigs);    // ç­‰å¾…å®šæ™‚å™¨åˆ°æœŸè¨Šè™Ÿ
    }
 }

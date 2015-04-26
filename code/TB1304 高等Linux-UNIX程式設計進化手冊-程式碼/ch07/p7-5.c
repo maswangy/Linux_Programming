@@ -1,19 +1,19 @@
 #include "ch07.h"
-volatile sig_atomic_t flag = 0;   /* ¸Ó¼Ğ§Ó¦b SIGALRM °T¸¹±±¨î½X¤¤³Q³]©w. */
+volatile sig_atomic_t flag = 0;   /* è©²æ¨™å¿—åœ¨ SIGALRM è¨Šè™Ÿæ§åˆ¶ç¢¼ä¸­è¢«è¨­å®š. */
 int main (void)
 {
     sigset_t block_alarm;
-    /* °_©l°T¸¹¶°¦X */
+    /* èµ·å§‹è¨Šè™Ÿé›†åˆ */
     sigemptyset (&block_alarm);
-    sigaddset (&block_alarm, SIGPROF);   /* ­nªı¶ëªº°T¸¹¬OSIGALRM */
+    sigaddset (&block_alarm, SIGPROF);   /* è¦é˜»å¡çš„è¨Šè™Ÿæ˜¯SIGALRM */
      ...
     while (1){
-        sigprocmask (SIG_BLOCK, &block_alarm, NULL);    /* ³]©w°T¸¹«Ì½ª */
-        if (flag){   /* ÀË¬d°T¸¹¨ì¹F§_,­Y¨ì¹F«h²M°£¼Ğ§Óflag  */         
+        sigprocmask (SIG_BLOCK, &block_alarm, NULL);    /* è¨­å®šè¨Šè™Ÿå±è”½ */
+        if (flag){   /* æª¢æŸ¥è¨Šè™Ÿåˆ°é”å¦,è‹¥åˆ°é”å‰‡æ¸…é™¤æ¨™å¿—flag  */         
             ACTIONS-IF-ARRIVED
             flag = 0;
         }
-        sigprocmask (SIG_UNBLOCK, &block_alarm, NULL);  /* ¸Ñ°£°T¸¹«Ì½ª */   
+        sigprocmask (SIG_UNBLOCK, &block_alarm, NULL);  /* è§£é™¤è¨Šè™Ÿå±è”½ */   
         ...
     }
 }

@@ -2,7 +2,7 @@
 #define SIZE 10
 int a[SIZE],b[SIZE];
 
-void max_fun(int *arg)    /* ¨D°}¦C³Ì¤j¤¸¯À¡A°O¿ı¨ä¦ì¸m¶Ç¦^ */
+void max_fun(int *arg)    /* æ±‚é™£åˆ—æœ€å¤§å…ƒç´ ï¼Œè¨˜éŒ„å…¶ä½ç½®å‚³å› */
 {
    int * ap=arg;
    int rv, i, k;
@@ -11,24 +11,24 @@ void max_fun(int *arg)    /* ¨D°}¦C³Ì¤j¤¸¯À¡A°O¿ı¨ä¦ì¸m¶Ç¦^ */
       if (ap[i] > ap[k]) 
          k= i;
    }
-   pthread_exit((void *)&ap[k]);   // »¼¥æµ²ªG     
+   pthread_exit((void *)&ap[k]);   // éäº¤çµæœ     
 }
 
 int main(void)
 {
-   pthread_t tid1,tid2;    // °õ¦æºü¼Ğ»x
+   pthread_t tid1,tid2;    // åŸ·è¡Œç·’æ¨™èªŒ
    int i, rv, **ptr1, **ptr2;
    
-   for (i=1; i<SIZE; i++){ // ²£¥Í°}¦C¤¸¯Àªº¸ê®Æ
+   for (i=1; i<SIZE; i++){ // ç”¢ç”Ÿé™£åˆ—å…ƒç´ çš„è³‡æ–™
       a[i]=rand();
       b[i]=rand();
    }
-   /* «Ø¥ß2­Ó°õ¦æºü°õ¦æ¨ç¼Æmax_fun()¤À§O³B²z°}¦Ca©Mb */
+   /* å»ºç«‹2å€‹åŸ·è¡Œç·’åŸ·è¡Œå‡½æ•¸max_fun()åˆ†åˆ¥è™•ç†é™£åˆ—aå’Œb */
    rv = pthread_create(&tid1, NULL, (void*(*)())max_fun, a);
    check_error(rv, "pthread_create: tid1");
    rv = pthread_create(&tid2, NULL, (void*(*)())max_fun, b);
    check_error(rv, "pthread_create: tid2");
-   /* µ¥«İ2­Ó°õ¦æºüµ²§ô */
+   /* ç­‰å¾…2å€‹åŸ·è¡Œç·’çµæŸ */
    pthread_join(tid1, (void **)&ptr1);
    pthread_join(tid2, (void **)&ptr2);
    printf ("thread1's max value is: %d\n", *ptr1);

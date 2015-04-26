@@ -3,23 +3,23 @@ int main(void)
 {
    int running = 1, msgid;    
    struct my_msg msgbuf;
-   long int msg_type = -57;    /* Àu¥ı±µ¦¬«¬ºA¤p©ó57ªº°T®§ */
-   /* «Ø¥ß/¶}±Ò°T®§¦î¦C */
+   long int msg_type = -57;    /* å„ªå…ˆæ¥æ”¶å‹æ…‹å°æ–¼57çš„è¨Šæ¯ */
+   /* å»ºç«‹/é–‹å•Ÿè¨Šæ¯ä½‡åˆ— */
    if ((msgid = msgget((key_t)1234, 0666|IPC_CREAT)) == -1) 
       err_exit("msgget failed");
-   /* ±q¦î¦C¤¤¤Ï´_±µ¦¬°T®§¡Aª½¨ì¦¬¨ì¦r¦ê¡¨end¡¨ */
-   while(running) {/* Àu¥ı±µ¦¬«¬ºA¤p©ó57ªº°T®§,¤£µ¥«İ */
+   /* å¾ä½‡åˆ—ä¸­åå¾©æ¥æ”¶è¨Šæ¯ï¼Œç›´åˆ°æ”¶åˆ°å­—ä¸²â€endâ€ */
+   while(running) {/* å„ªå…ˆæ¥æ”¶å‹æ…‹å°æ–¼57çš„è¨Šæ¯,ä¸ç­‰å¾… */
       if (msgrcv(msgid, (void *)&msgbuf, BUFSIZ, -57, IPC_NOWAIT)!= -1)
-         printf("You wrote: %s", msgbuf.text);        /* Åã¥Ü¦¬¨ìªº°T®§ */
-      else if (errno==ENOMSG /* «ö¼Ğ·Ç¶¶§Ç±µ¦¬°T®§ */
+         printf("You wrote: %s", msgbuf.text);        /* é¡¯ç¤ºæ”¶åˆ°çš„è¨Šæ¯ */
+      else if (errno==ENOMSG /* æŒ‰æ¨™æº–é †åºæ¥æ”¶è¨Šæ¯ */
                 && msgrcv(msgid, (void *)&msgbuf, BUFSIZ, 0, 0) != -1)
-         printf("You wrote: %s", msgbuf.text);        /* Åã¥Ü¦¬¨ìªº°T®§ */
+         printf("You wrote: %s", msgbuf.text);        /* é¡¯ç¤ºæ”¶åˆ°çš„è¨Šæ¯ */
       else 
          err_exit ("msgrcv failed\n");
       if (strncmp(msgbuf.text, "end", 3) == 0)
          break;
    }
-   /* ²¾°£°T®§¦î¦C */
+   /* ç§»é™¤è¨Šæ¯ä½‡åˆ— */
    if (msgctl(msgid, IPC_RMID, 0) == -1) 
       err_exit("msgctl(IPC_RMID) failed\n");
    exit(EXIT_SUCCESS);

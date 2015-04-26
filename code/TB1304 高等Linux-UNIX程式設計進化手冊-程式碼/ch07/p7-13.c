@@ -13,7 +13,7 @@ int main(void)
 {
    pid_t pid;
    sigset_t set, oldset;
-   if ((pid=fork())==0){  /* ¤l°õ¦æºü */
+   if ((pid=fork())==0){  /* å­åŸ·è¡Œç·’ */
       struct sigaction action;
       if (sigaction(SIGINT, &action,NULL)==-1){
          perror("sigusr:sigaction");
@@ -35,20 +35,20 @@ int main(void)
       }                                               
       while(1)
          sigsuspend(&oldset);
-  } else {  /* ¤÷°õ¦æºü */
+  } else {  /* çˆ¶åŸ·è¡Œç·’ */
      union sigval sval;
      sval.sival_int=0;
      int stat;
-     sleep(2);      /* Åı¤÷°õ¦æºü¥ı°õ¦æ */
-     sigqueue(pid, SIG_STOP_CHLD+1, sval); /* ¶Ç°e¹ê®É°T¸¹*/ 
+     sleep(2);      /* è®“çˆ¶åŸ·è¡Œç·’å…ˆåŸ·è¡Œ */
+     sigqueue(pid, SIG_STOP_CHLD+1, sval); /* å‚³é€å¯¦æ™‚è¨Šè™Ÿ*/ 
      sval.sival_int=1;
      sigqueue(pid, SIG_STOP_CHLD, sval);
      sval.sival_int=2;
-     sigqueue (pid, SIGINT, sval);         /* ¶Ç°e´¶³q°T¸¹*/
+     sigqueue (pid, SIGINT, sval);         /* å‚³é€æ™®é€šè¨Šè™Ÿ*/
      sval.sival_int=3;
      sigqueue (pid, SIGINT, sval);
      sval.sival_int=4;
-     sigqueue(pid, SIG_STOP_CHLD, sval);  /* ¶Ç°e¹ê®É°T¸¹*/
+     sigqueue(pid, SIG_STOP_CHLD, sval);  /* å‚³é€å¯¦æ™‚è¨Šè™Ÿ*/
      pid = wait(&stat);
      printf("child exit status =%d\n",WEXITSTATUS(stat));
      _exit(0);

@@ -9,25 +9,25 @@ int main(void)
    struct timespec timeout;
    sigfillset(&set);
    sigprocmask(SIG_SETMASK, &set, NULL);
-   if (fork()==0) {  // ¤l°õ¦æºüa
+   if (fork()==0) {  // å­åŸ·è¡Œç·’a
       int mysig, i=0;
       pid_t parent =getppid();
       printf("child will signal parent %d\n",parent);
       for (mysig=SIGRTMIN; mysig<SIGRTMAX+1; mysig++) {
          val.sival_int=i++;
-         if (sigqueue(parent, mysig, val)<0)   // ¦V¤÷°õ¦æºü¶Ç°e±Æ¶¤°T¸¹
+         if (sigqueue(parent, mysig, val)<0)   // å‘çˆ¶åŸ·è¡Œç·’å‚³é€æ’éšŠè¨Šè™Ÿ
             perror("sigqueue");
       }
       exit(1);
    }
-   // ¤÷°õ¦æºü
+   // çˆ¶åŸ·è¡Œç·’
    sleep(2); /* let child done */
    printf("Parent sigwait for child to queue signals \n");
    timeout.tv_sec=0;
    timeout.tv_nsec=2;
    while (1) {
       int sig;
-      sig=sigtimedwait(&set,&info,&timeout);  // µ¥«İ°T¸¹
+      sig=sigtimedwait(&set,&info,&timeout);  // ç­‰å¾…è¨Šè™Ÿ
       if (sig<0 && (errno==EAGAIN)){
          printf("Main: done after %d signals.\n",numsigs); 
          exit(0);

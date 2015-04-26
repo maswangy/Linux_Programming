@@ -8,7 +8,7 @@ void Hello(void)
    printf("Hello, &array=%d\n", &array);
    Hello(); 
 }
-/* ¥Ó½Ğ°õ¦æºü°ïÅ|ªÅ¶¡¨Ã«Ø¥ß°ïÅ|·¸¦ì«OÅ@°Ï¡C°ïÅ|¦ì§}¹ï»ô¦b­¶Ãä¬É¤W¡A°ïÅ|¤j¤pÂX¥R¬°­¶ªº­¿¼Æ */
+/* ç”³è«‹åŸ·è¡Œç·’å †ç–Šç©ºé–“ä¸¦å»ºç«‹å †ç–Šæº¢ä½ä¿è­·å€ã€‚å †ç–Šä½å€å°é½Šåœ¨é é‚Šç•Œä¸Šï¼Œå †ç–Šå¤§å°æ“´å……ç‚ºé çš„å€æ•¸ */
 void *thread_stack_alloc(size_t size)   
 {
    int pagesize;
@@ -17,13 +17,13 @@ void *thread_stack_alloc(size_t size)
      fprintf(stderr, " thread_stack_alloc: SIZE less than PTHREAD_STACK_MIN\n");
      exit(1);
    }
-   /* ­pºâ°ïÅ|¤j¤p¬°­¶ªº¾ã­¿¼Æ */
+   /* è¨ˆç®—å †ç–Šå¤§å°ç‚ºé çš„æ•´å€æ•¸ */
    pagesize = sysconf(_SC_PAGESIZE);
    if(size % pagesize != 0)   
       size = ((size + pagesize) / pagesize) * pagesize;
-   /* ¥Ó½Ğ¹ï»ô¦b­¶Ãä¬É¤WªºÀx¦sªÅ¶¡¡A¨ä¤¤¥]¬A§@¬°°ïÅ|·¸¦ì°ÏªºÃB¥~¤@­¶ */
+   /* ç”³è«‹å°é½Šåœ¨é é‚Šç•Œä¸Šçš„å„²å­˜ç©ºé–“ï¼Œå…¶ä¸­åŒ…æ‹¬ä½œç‚ºå †ç–Šæº¢ä½å€çš„é¡å¤–ä¸€é  */
    mem = (void *)valloc(size + pagesize);
-   /* «Ø¥ß·¸¦ì«OÅ@°Ï */
+   /* å»ºç«‹æº¢ä½ä¿è­·å€ */
 #ifdef STACK_GROWS_UP
    guard_addr = mem + size;
    stack_addr = mem;
@@ -44,22 +44,22 @@ int main (void)
    pthread_attr_t attr;
    size_t stacksize, guardsize;
    char *stackaddr;
-   pthread_attr_init(&attr);      /* °_©l¤Æ°õ¦æºüÄİ©Êª«¥ó*/
-   /* ¥Ó½Ğ¥Î§@°õ¦æºü°ïÅ|ªºªÅ¶¡ */
+   pthread_attr_init(&attr);      /* èµ·å§‹åŒ–åŸ·è¡Œç·’å±¬æ€§ç‰©ä»¶*/
+   /* ç”³è«‹ç”¨ä½œåŸ·è¡Œç·’å †ç–Šçš„ç©ºé–“ */
    stackaddr = (void *)thread_stack_alloc(PTHREAD_STACK_MIN); 
-   /* ³]©w°õ¦æºüÄİ©Êª«¥ó¤¤ªº°ïÅ|¦ì§}©M¤j¤p */
+   /* è¨­å®šåŸ·è¡Œç·’å±¬æ€§ç‰©ä»¶ä¸­çš„å †ç–Šä½å€å’Œå¤§å° */
    rv = pthread_attr_setstack(&attr, stackaddr, PTHREAD_STACK_MIN); 
    check_error(rv, "pthread_setstack()");
-   /* ÀËµø°ïÅ|Äİ©Ê­È */   
+   /* æª¢è¦–å †ç–Šå±¬æ€§å€¼ */   
    pthread_attr_getstack(&attr, (void *)&stackaddr, &stacksize);
    pthread_attr_getguardsize(&attr, &guardsize);
    printf("stack attributes: stackaddr=%d, stacksize=%d, guardsize=%d\n", 
            stackaddr, stacksize, guardsize);
-   /* «Ø¥ß°õ¦æºü */
+   /* å»ºç«‹åŸ·è¡Œç·’ */
    rv = pthread_create(&thread, &attr, (void *(*)())Hello, (void *)NULL);
    check_error(rv, "pthread_create()");
-   pthread_attr_destroy(&attr);   /* ¤Î®É¾P·´°õ¦æºüÄİ©Êª«¥ó¡AÁ×§K¦A¦¸¨Ï¥Î */
+   pthread_attr_destroy(&attr);   /* åŠæ™‚éŠ·æ¯€åŸ·è¡Œç·’å±¬æ€§ç‰©ä»¶ï¼Œé¿å…å†æ¬¡ä½¿ç”¨ */
    check_error(rv, "pthread_attr_destroy()");
-   /* ... «áÄ~µ{¦¡µ{¦¡½X ... */
+   /* ... å¾Œç¹¼ç¨‹å¼ç¨‹å¼ç¢¼ ... */
    pthread_exit(NULL);
 }

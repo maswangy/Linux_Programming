@@ -3,14 +3,14 @@ void swap_int(int *x, int *y)
 {
    /* static */  int swap;
    swap = *x;
-   raise(SIGURG);                 /* Ãş¤ñ¦b¦¹³B¨ì¹Fªº°T¸¹ */
+   raise(SIGURG);                 /* é¡æ¯”åœ¨æ­¤è™•åˆ°é”çš„è¨Šè™Ÿ */
    *x = *y;
    *y = swap;
 }
 static void sig_urg(int signo)
 {
    int u=30,v=40;
-   signal(SIGURG,SIG_IGN);      /* ©¿²¤¥H«á¥X²{ªºSIGURG°T¸¹ */
+   signal(SIGURG,SIG_IGN);      /* å¿½ç•¥ä»¥å¾Œå‡ºç¾çš„SIGURGè¨Šè™Ÿ */
    swap_int(&u, &v);
    return;
 }

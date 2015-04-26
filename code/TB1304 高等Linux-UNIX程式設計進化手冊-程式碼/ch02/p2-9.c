@@ -9,7 +9,7 @@ int main(int argc, char* argv[])
         printf("Usage: %s radius\n",argv[0]);
         exit(1);
     }
-    sscanf(argv[1],"%f",&r);   /* ±q«ü¥O¦æ¤¤Åª¤J¥b®| */
+    sscanf(argv[1],"%f",&r);   /* å¾æŒ‡ä»¤è¡Œä¸­è®€å…¥åŠå¾‘ */
     s = pi*r*r;
     sprintf(buf,"The surface of a circle with radius %f is %f\n",r,s);
     puts(buf);

@@ -1,48 +1,48 @@
 #include "ch05.h"
 typedef enum{
-  ST_PROGRAM, ST_FUNCTION, ST_SUBROUTINE, ST_END, ST_NONE // ¨ä¥¦±Ô­z«¬ºA...
+  ST_PROGRAM, ST_FUNCTION, ST_SUBROUTINE, ST_END, ST_NONE // å…¶å®ƒæ•˜è¿°å‹æ…‹...
 } statement;
 jmp_buf eof_buf;
 int parse_file(void)
 {
    statement st;
-   if (setjmp(eof_buf)){  /* ³]©w¥X¿ù¶Ç¦^ÂI */
+   if (setjmp(eof_buf)){  /* è¨­å®šå‡ºéŒ¯å‚³å›é» */
       error("Unexpected end of file in '%s'", source_file);
-      return FAILUR;	 /* ¹J¨ì«D¼Ğ·ÇªºEOF  */
+      return FAILUR;	 /* é‡åˆ°éæ¨™æº–çš„EOF  */
    }
-   while((st = next_statement())!= ST_NONE)  /* ¼Ğ·ÇªºEOF¡Aµ²§ô±½´y  */
+   while((st = next_statement())!= ST_NONE)  /* æ¨™æº–çš„EOFï¼ŒçµæŸæƒæ  */
       switch (st) {
-      case ST_PROGRAM:     /* ¬q­º±Ô­z  */
+      case ST_PROGRAM:     /* æ®µé¦–æ•˜è¿°  */
       case ST_SUBROUTINE:
       case ST_FUNCTION:
           accept_statement(st);
           parse_progunit(); 
           break;
-          /* ¨ä¥¦¬q­º±Ô­z³B²z  */
+          /* å…¶å®ƒæ®µé¦–æ•˜è¿°è™•ç†  */
       }
-   /* «áÄ~³B²z ...  */  
+   /* å¾Œç¹¼è™•ç† ...  */  
    return SUCCESS;
 }
 void parse_progunit()
 { 
    statement st;
-   st = parse_spec();        /* ±½´y»¡©ú±Ô­z  */
+   st = parse_spec();        /* æƒæèªªæ˜æ•˜è¿°  */
    if (st == ST_NONE)
-	  longjmp(eof_buf, 1);  /* ¹J¨ì«D¼Ğ·ÇªºEOF¡Aª½±µ¶Ç¦^¨ì¥D±±¹Lµ{  */
-   else if (st == ST_END) {   /* ¬q§À±Ô­z  */
+	  longjmp(eof_buf, 1);  /* é‡åˆ°éæ¨™æº–çš„EOFï¼Œç›´æ¥å‚³å›åˆ°ä¸»æ§éç¨‹  */
+   else if (st == ST_END) {   /* æ®µå°¾æ•˜è¿°  */
       accept_statement(st);
       goto done;
    }
-   parse_executable(st);     /* ±½´y°õ¦æ±Ô­z  */
-done: ; /* «áÄ~³B²z  */
+   parse_executable(st);     /* æƒæåŸ·è¡Œæ•˜è¿°  */
+done: ; /* å¾Œç¹¼è™•ç†  */
 }
-parse_executable(statement st)  /* ±½´y°õ¦æ±Ô­z¡A¤º§t¬q§À±Ô­z  */
+parse_executable(statement st)  /* æƒæåŸ·è¡Œæ•˜è¿°ï¼Œå…§å«æ®µå°¾æ•˜è¿°  */
 {
    for (;; st = next_statement())
       switch (st) {
 	  case ST_NONE:  
-	     longjmp (eof_buf, 1); /* ¹J¨ì«D¼Ğ·ÇªºEOF¡Aª½±µ¶Ç¦^¨ì¥D±±¹Lµ{  */
-	  case ST_END:      /* ¬q§À±Ô­z  */
+	     longjmp (eof_buf, 1); /* é‡åˆ°éæ¨™æº–çš„EOFï¼Œç›´æ¥å‚³å›åˆ°ä¸»æ§éç¨‹  */
+	  case ST_END:      /* æ®µå°¾æ•˜è¿°  */
 	     accept_statement(st);
 	     return;
 	  case ST_IF_BLOCK:
@@ -51,6 +51,6 @@ parse_executable(statement st)  /* ±½´y°õ¦æ±Ô­z¡A¤º§t¬q§À±Ô­z  */
 	  case ST_DO:
 	     parse_do_block();
 	     continue;
-	  /* ¨ä¥¦¥i°õ¦æ±Ô­z³B²z...  */
+	  /* å…¶å®ƒå¯åŸ·è¡Œæ•˜è¿°è™•ç†...  */
 	 }
 }

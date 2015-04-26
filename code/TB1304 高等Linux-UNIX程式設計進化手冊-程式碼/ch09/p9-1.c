@@ -1,5 +1,5 @@
 #include "ch09.h"
-/*«ü¥O¿ï³æ*/
+/*æŒ‡ä»¤é¸å–®*/
 char *menu[]={"a-add new record", "d-delete record", "q-quit", NULL}; 
 int getchoice(char *greet, char *choices[])
 {
@@ -8,20 +8,20 @@ int getchoice(char *greet, char *choices[])
    do{
       printf( "Choice: %s\n", greet);
       option = choices;
-	  while(*option) {     /* ¦C¦L¿ï³æ */
+	  while(*option) {     /* åˆ—å°é¸å–® */
           printf ("%s\n", *option);
           option++;
       }
-      selected = getchar();  /* Åª¤J«ü¥O¦r¤¸ */
+      selected = getchar();  /* è®€å…¥æŒ‡ä»¤å­—å…ƒ */
       option = choices;
-      while(*option){         /* ÀË¬d«ü¥O¦r¤¸¡A¥¿½T«h¸mchosen=1*/
+      while(*option){         /* æª¢æŸ¥æŒ‡ä»¤å­—å…ƒï¼Œæ­£ç¢ºå‰‡ç½®chosen=1*/
          if(selected == *option[0]) {
             chosen = 1;
             break;
          }
          option++;
 	  }
-      if(!chosen)   /* ­Y«ü¥O¤£¥¿½T¡A´£¥Ü­«·s¿é¤J«ü¥O¡Aª½¨ì±o¨ì¥¿½Tªº«ü¥O*/
+      if(!chosen)   /* è‹¥æŒ‡ä»¤ä¸æ­£ç¢ºï¼Œæç¤ºé‡æ–°è¼¸å…¥æŒ‡ä»¤ï¼Œç›´åˆ°å¾—åˆ°æ­£ç¢ºçš„æŒ‡ä»¤*/
       printf("Incorrect choice,please select agian\n");
    } while(!chosen); 
    return selected;

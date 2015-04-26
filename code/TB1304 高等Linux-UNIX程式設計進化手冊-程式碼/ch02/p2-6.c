@@ -6,24 +6,24 @@ int main(int argc, char *argv[])
    FILE *fd;
    fpos_t pos;
    if (!y_or_n_ques("Should we use append mode?")) {
-     if ((fd = fopen("test_file","w+")) == NULL)  /* ¥H¼g¼Ò¦¡¶}±ÒÀÉ®×  */
+     if ((fd = fopen("test_file","w+")) == NULL)  /* ä»¥å¯«æ¨¡å¼é–‹å•Ÿæª”æ¡ˆ  */
         err_exit("fopen faild");
    } else {
-     if ((fd = fopen("test_file","a+")) == NULL)  /* ¥H¥[¤J¼Ò¦¡¶}±ÒÀÉ®×  */
+     if ((fd = fopen("test_file","a+")) == NULL)  /* ä»¥åŠ å…¥æ¨¡å¼é–‹å•Ÿæª”æ¡ˆ  */
         err_exit("fopen faild");
    }
-   fputs("0123456789ABCDEFGHIJ ",fd);    /* ¼g¤J¤@¦æ¸ê®Æ */
-	   /* ÀËµø¥Ø«eÀÉ®×§À¦ì¸m */
+   fputs("0123456789ABCDEFGHIJ ",fd);    /* å¯«å…¥ä¸€è¡Œè³‡æ–™ */
+	   /* æª¢è¦–ç›®å‰æª”æ¡ˆå°¾ä½ç½® */
    fseek(fd,0,SEEK_END);
    fgetpos(fd,&pos);
    printf("current file position is %ld\n",pos);
-   fseek(fd,30,SEEK_END);   /* ©w¦ì¦ÜÀÉ®×§À¤§«á30¦ì¤¸²Õ¡A¨ÃÀËµø¥Ø«eÀÉ®×§À¦ì¸m  */
+   fseek(fd,30,SEEK_END);   /* å®šä½è‡³æª”æ¡ˆå°¾ä¹‹å¾Œ30ä½å…ƒçµ„ï¼Œä¸¦æª¢è¦–ç›®å‰æª”æ¡ˆå°¾ä½ç½®  */
    fgetpos(fd,&pos);	
    printf("Now we call fseek(fd,30,SEEK_END); "
             "current file position is %ld\n",pos);
-   fputs("abcdefg",fd); 	 /* ¼g¤J¸ê®Æ */
+   fputs("abcdefg",fd); 	 /* å¯«å…¥è³‡æ–™ */
    printf("Now we write 7 bytes \"%s\"\n","abcdefg");
-   fgetpos(fd,&pos);        /* ÀËµø¥Ø«eÀÉ®×§À¦ì¸m */
+   fgetpos(fd,&pos);        /* æª¢è¦–ç›®å‰æª”æ¡ˆå°¾ä½ç½® */
    printf("current file position is %ld\n",pos);
    fclose(fd);
 }

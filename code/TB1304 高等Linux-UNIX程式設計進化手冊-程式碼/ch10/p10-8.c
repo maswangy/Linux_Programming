@@ -1,41 +1,41 @@
 #include "ch10.h"
-#define NBUFFERS 2            /* ½w¨R°Ï­Ó¼Æ */
-#define BUFFERSIZE 2048       /* ½w¨R°Ï¤j¤p */
-#define BLOCKSIZE  1024       /* ¨C¦¸Åª¤Jªº¸ê®Æ°Ï¶ô¤j¤p */
+#define NBUFFERS 2            /* ç·©æ²–å€å€‹æ•¸ */
+#define BUFFERSIZE 2048       /* ç·©æ²–å€å¤§å° */
+#define BLOCKSIZE  1024       /* æ¯æ¬¡è®€å…¥çš„è³‡æ–™å€å¡Šå¤§å° */
 #define SIG_AIO_WRITE (SIGRTMIN+5)
 
 typedef enum {BUFFER_FREE=1,BUFFER_FILLING,BUFFER_WRITING} BUFFLAG;
 typedef struct {
-   BUFFLAG state;              /* ½w¨R°Ïª¬ºA */
-   int fillpt;                 /* ½w¨R°Ï¤¤³Ì«á¤@­Ó¸ê®Æ¦ì¸m */
-   struct aiocb acb;           /* ²§¨B¿é¥X±±¨î¶ô */
-   char buffer [BUFFERSIZE];   /* ¸ê®Æ½w¨R°Ï */
+   BUFFLAG state;              /* ç·©æ²–å€ç‹€æ…‹ */
+   int fillpt;                 /* ç·©æ²–å€ä¸­æœ€å¾Œä¸€å€‹è³‡æ–™ä½ç½® */
+   struct aiocb acb;           /* ç•°æ­¥è¼¸å‡ºæ§åˆ¶å¡Š */
+   char buffer [BUFFERSIZE];   /* è³‡æ–™ç·©æ²–å€ */
 } buffer_t;
 static buffer_t buf_list[NBUFFERS];
 static sigset_t aio_completion_signal;
 static volatile int sigcnt = 0, total = 0;
 static off_t seek_ptr;
 
-/* ²§¨B¿é¥X§¹¦¨°T¸¹±±¨î½X */
+/* ç•°æ­¥è¼¸å‡ºå®Œæˆè¨Šè™Ÿæ§åˆ¶ç¢¼ */
 void aio_ok(int signo, siginfo_t *info, void *ignored)
 {
    buffer_t *donebuf;
    ssize_t rval;
    if ((signo != SIG_AIO_WRITE)||info->si_code!=SI_ASYNCIO)
-      return; // «DAIO§¹¦¨°T¸¹   
+      return; // éAIOå®Œæˆè¨Šè™Ÿ   
    else
       printf("AIO write completed\n");
-/* ®Ú¾ÚinfoÀò±o²§¨BI/OÃöÁpªº°T®§¡C */
+/* æ ¹æ“šinfoç²å¾—ç•°æ­¥I/Oé—œè¯çš„è¨Šæ¯ã€‚ */
    donebuf = (buffer_t *)info->si_value.sival_ptr;
    if ((aio_error((struct aiocb *) &donebuf->acb) != EINPROGRESS))
       rval=aio_return((struct aiocb *) &donebuf->acb);
-/* ²Ö­p¼g¥Xªº¦ì¤¸²Õ¼Æ©M°T¸¹µo¥Í¦¸¼Æ¡A¨Ã¼Ğ¥Ü½w¨R°Ï¤wªÅ*/
+/* ç´¯è¨ˆå¯«å‡ºçš„ä½å…ƒçµ„æ•¸å’Œè¨Šè™Ÿç™¼ç”Ÿæ¬¡æ•¸ï¼Œä¸¦æ¨™ç¤ºç·©æ²–å€å·²ç©º*/
    total += rval; sigcnt++;
    donebuf->state = BUFFER_FREE;
    donebuf->fillpt = 0;
    return;
 }
-buffer_t *find_free_buf (void) /* Àò±o¤@­Ó¶¢¸mªº½w¨R°Ï */
+buffer_t *find_free_buf (void) /* ç²å¾—ä¸€å€‹é–’ç½®çš„ç·©æ²–å€ */
 {
    int i;
    sigset_t prevmask;
@@ -46,18 +46,18 @@ buffer_t *find_free_buf (void) /* Àò±o¤@­Ó¶¢¸mªº½w¨R°Ï */
             break;
       }
       if (i == NBUFFERS) 
-         sigsuspend(&prevmask);  /* ¨S¦³¶¢¸m½w¨R°Ï¡Aµ¥«İ¬Y­Ó²§¨B¿é¥X§¹¦¨«á­«¸Õ¡C*/
+         sigsuspend(&prevmask);  /* æ²’æœ‰é–’ç½®ç·©æ²–å€ï¼Œç­‰å¾…æŸå€‹ç•°æ­¥è¼¸å‡ºå®Œæˆå¾Œé‡è©¦ã€‚*/
       else
          break;
    }
-   buf_list[i].state = BUFFER_FILLING; /* §ä¨ì¤F¶¢¸m½w¨R°Ï¡A¼Ğ§Ó¥¦¥¿³Q¨Ï¥Î */
+   buf_list[i].state = BUFFER_FILLING; /* æ‰¾åˆ°äº†é–’ç½®ç·©æ²–å€ï¼Œæ¨™å¿—å®ƒæ­£è¢«ä½¿ç”¨ */
    buf_list[i].fillpt = 0;
    sigprocmask(SIG_SETMASK, &prevmask, NULL);
    return (&buf_list[i]);
 }
-void flush_filled_buf(buffer_t *full_guy) /* ¼g¥X½w¨R°Ï¤¤ªº¸ê®Æ */
+void flush_filled_buf(buffer_t *full_guy) /* å¯«å‡ºç·©æ²–å€ä¸­çš„è³‡æ–™ */
 {
-   /* ³]©w AIOCB */
+   /* è¨­å®š AIOCB */
    full_guy->acb.aio_offset = seek_ptr;
    seek_ptr += full_guy->fillpt;
    full_guy->acb.aio_buf = full_guy->buffer;
@@ -66,8 +66,8 @@ void flush_filled_buf(buffer_t *full_guy) /* ¼g¥X½w¨R°Ï¤¤ªº¸ê®Æ */
    full_guy->acb.aio_sigevent.sigev_notify = SIGEV_SIGNAL;
    full_guy->acb.aio_sigevent.sigev_signo = SIG_AIO_WRITE;
    full_guy->acb. aio_sigevent.sigev_value.sival_ptr = (void *)full_guy;
-   full_guy->state = BUFFER_WRITING; /* ¼Ğ§Ó½w¨R°Ïª¬ºA¬°¥¿¦b¼g¥X*/  
-   if (aio_write(&full_guy->acb) < 0) /* µo¥X²§¨B¿é¥X½Ğ¨D */
+   full_guy->state = BUFFER_WRITING; /* æ¨™å¿—ç·©æ²–å€ç‹€æ…‹ç‚ºæ­£åœ¨å¯«å‡º*/  
+   if (aio_write(&full_guy->acb) < 0) /* ç™¼å‡ºç•°æ­¥è¼¸å‡ºè«‹æ±‚ */
       perror ( "aio_write" ) ;
    return;
 }
@@ -77,25 +77,25 @@ main(int argc, char **argv)
    buffer_t *currentbuf;
    struct sigaction sig_act;
    int chunksize;
-   if (argc != 4) {/* ÀË¬d°Ñ¼Æ­Ó¼Æ */
+   if (argc != 4) {/* æª¢æŸ¥åƒæ•¸å€‹æ•¸ */
       fprintf(stderr, "Usage: %s input-file output-file buf-size-in-Kb\n",
                argv[0]);
       exit(0);
    }
-   /* ¶}±Ò¿é¤J©M¿é¥XÀÉ®× */
+   /* é–‹å•Ÿè¼¸å…¥å’Œè¼¸å‡ºæª”æ¡ˆ */
    if ((in_file = open(argv[1], O_RDONLY)) == -1) 
       err_exit(argv[1]);
    if ((out_file = open(argv[2], O_WRONLY|O_CREAT, 0777)) == -1)
       err_exit(argv[2]);
    chunksize=atol(argv[3])*BLOCKSIZE;
-    /* °_©l½w¨R°Ïª¬ºA¨Ã¤À°t¤@­Ó½Æ»sÀÉ®×ªº½w¨R°Ï */
+    /* èµ·å§‹ç·©æ²–å€ç‹€æ…‹ä¸¦åˆ†é…ä¸€å€‹è¤‡è£½æª”æ¡ˆçš„ç·©æ²–å€ */
    for (i=0; i<NBUFFERS; i++){
       buf_list[i].acb.aio_fildes = out_file;
       buf_list[i].state = BUFFER_FREE;
       buf_list[i].fillpt = 0;
    }
    currentbuf = find_free_buf();
-	   /* «Ø¥ß²§¨BI/O§¹¦¨°T¸¹±±¨î½X */
+	   /* å»ºç«‹ç•°æ­¥I/Oå®Œæˆè¨Šè™Ÿæ§åˆ¶ç¢¼ */
    sigemptyset(&aio_completion_signal);
    sigaddset(&aio_completion_signal, SIG_AIO_WRITE);
    sigemptyset(&sig_act.sa_mask);                  
@@ -103,29 +103,29 @@ main(int argc, char **argv)
    sig_act.sa_sigaction = aio_ok;
    if (sigaction (SIG_AIO_WRITE, &sig_act, 0) < 0)
       perror("sigaction");
-	   /* ±qin_file½Æ»sÀÉ®×¨ìout_file */
+	   /* å¾in_fileè¤‡è£½æª”æ¡ˆåˆ°out_file */
    while (1) {
       int nbytes;
 again:
-      /* Åª¤@¶ô°T®§¦Ü½w¨R°Ï */
+      /* è®€ä¸€å¡Šè¨Šæ¯è‡³ç·©æ²–å€ */
       nbytes = read(in_file, currentbuf->buffer+currentbuf->fillpt, 
                       chunksize);
       if (nbytes>0) {
          currentbuf->fillpt += nbytes;
          if (currentbuf->fillpt == BUFFERSIZE) {
-            /* ¼g¥X¤wº¡ªº½w¨R°Ï¨ÃÀò±o¤@­Ó·s½w¨R°Ï */
+            /* å¯«å‡ºå·²æ»¿çš„ç·©æ²–å€ä¸¦ç²å¾—ä¸€å€‹æ–°ç·©æ²–å€ */
             flush_filled_buf (currentbuf);
             currentbuf = find_free_buf() ;
          }
-      } else if (nbytes == 0) { /* ¨ì¹FÀÉ®×§À */
+      } else if (nbytes == 0) { /* åˆ°é”æª”æ¡ˆå°¾ */
          flush_filled_buf (currentbuf);
          break;
       } else {                  
-         if (errno == EINTR) goto again;  /* ³Q°T¸¹¤¤Â_¡A­«·sÅª */
+         if (errno == EINTR) goto again;  /* è¢«è¨Šè™Ÿä¸­æ–·ï¼Œé‡æ–°è®€ */
          else err_exit("read");
       }
    }
-   for (i=0; i<NBUFFERS; i++){  /* µ¥«İ©Ò¦³²§¨B¿é¥X§¹¦¨ */
+   for (i=0; i<NBUFFERS; i++){  /* ç­‰å¾…æ‰€æœ‰ç•°æ­¥è¼¸å‡ºå®Œæˆ */
       if (buf_list[i].state == BUFFER_WRITING){
          struct aiocb *acbp[1];
          acbp[0] = &buf_list[i].acb;

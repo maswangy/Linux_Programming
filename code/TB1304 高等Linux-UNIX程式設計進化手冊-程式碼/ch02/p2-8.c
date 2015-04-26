@@ -7,7 +7,7 @@ int main()
    // fflush(stdout);
    fprintf(stderr,"2: --test message\n");
    answer = y_or_n_ques("3: Hello, Are you a student?");
-   if(answer == 1)      /* ÅTÀ³¦^µª. */
+   if(answer == 1)      /* éŸ¿æ‡‰å›žç­”. */
       printf("4: Hope you have high score.");
    else 
       printf("4: Hope you have good salary.");

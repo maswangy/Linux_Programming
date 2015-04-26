@@ -10,12 +10,12 @@ int main(int argc, char *argv[])
       printf("Usage: a.out filename\n");
       exit(1);
    }
-   if (stat(argv[1],&statbuf) < 0)       /* Àò±oÀÉ®×ªº¥Ø«e®É¶¡ */
+   if (stat(argv[1],&statbuf) < 0)       /* ç²å¾—æª”æ¡ˆçš„ç›®å‰æ™‚é–“ */
       err_exit(argv[1]);
-   if (open(argv[1],O_RDWR|O_TRUNC) < 0)      /* µôÂ_ÀÉ®× */
+   if (open(argv[1],O_RDWR|O_TRUNC) < 0)      /* è£æ–·æª”æ¡ˆ */
       err_exit(argv[1]);
    printf("%s is truncated now.\n", argv[1] );
-   times.actime = statbuf.st_atime;          /* ÁÙ­ìÀÉ®×®É¶¡¦Ü­ì®É¶¡ */
+   times.actime = statbuf.st_atime;          /* é‚„åŽŸæª”æ¡ˆæ™‚é–“è‡³åŽŸæ™‚é–“ */
    times.modtime = statbuf.st_mtime;   
    if (utime(argv[1], &times) == 0)            
       printf ("utime() successful\n");

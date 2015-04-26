@@ -14,28 +14,28 @@ pthread_t create_exlicit_sched_threads(struct sched_thread *arg)
    int rv, scope;
 
    assert(arg->policy==SCHED_FIFO||arg->policy==SCHED_RR);
-   /* °_©l¤Æ°õ¦æºüÄİ©Êª«¥ó */
+   /* èµ·å§‹åŒ–åŸ·è¡Œç·’å±¬æ€§ç‰©ä»¶ */
    rv = pthread_attr_init(&attr);
    check_error(rv, "attr init");
-   /* ³]©w°õ¦æºüÄİ©Êª«¥ó¤¤ªº°õ¦æºü¤À¬£Ä~©ÓÄİ©Ê¬°«DÄ~©Ó */
+   /* è¨­å®šåŸ·è¡Œç·’å±¬æ€§ç‰©ä»¶ä¸­çš„åŸ·è¡Œç·’åˆ†æ´¾ç¹¼æ‰¿å±¬æ€§ç‚ºéç¹¼æ‰¿ */
    rv = pthread_attr_setinheritsched(&attr, PTHREAD_EXPLICIT_SCHED);
    check_error(rv, "attr_setinheritsched");
-   /* ³]©w¨äÄvª§½d³ò¬°¨t²Î½d³ò */
+   /* è¨­å®šå…¶ç«¶çˆ­ç¯„åœç‚ºç³»çµ±ç¯„åœ */
    rv = pthread_attr_getscope(&attr, &scope);
    check_error(rv, "attr_ getscope");
    if (scope != PTHREAD_SCOPE_SYSTEM){
       rv = pthread_attr_setscope(&attr, PTHREAD_SCOPE_SYSTEM);
       check_error(rv, "attr_ setscope");
    }
-   /* «Ø¥ß¤@­Ó«ü©w¤À¬£Äİ©Êªº°õ¦æºü */
-   rv = pthread_attr_setschedpolicy(&attr, arg->policy);    // ³]©w¤À¬£µ¦²¤
+   /* å»ºç«‹ä¸€å€‹æŒ‡å®šåˆ†æ´¾å±¬æ€§çš„åŸ·è¡Œç·’ */
+   rv = pthread_attr_setschedpolicy(&attr, arg->policy);    // è¨­å®šåˆ†æ´¾ç­–ç•¥
    check_error(rv, "create_exlicit_sched_thread:setschedpolicy");
-   param.sched_priority = arg->priority;                   // ³]©w¤À¬£Àu¥ı¯Å
+   param.sched_priority = arg->priority;                   // è¨­å®šåˆ†æ´¾å„ªå…ˆç´š
    rv = pthread_attr_setschedparam(&attr, &param);      
    check_error(rv, "create_exlicit_sched_thread:setschedparam");
    rv = pthread_create(&tid, &attr, arg->thread_func, (void *)arg->num);
    check_error(rv, "create thread 1");
-   /* ¾P·´°õ¦æºüÄİ©Êª«¥ó */
+   /* éŠ·æ¯€åŸ·è¡Œç·’å±¬æ€§ç‰©ä»¶ */
    rv = pthread_attr_destroy(&attr);
    check_error(rv, "attr destroy");
    return tid;

@@ -6,24 +6,24 @@ int main(void)
    struct passwd  *my_passwd;
    struct group   *my_group;
 
-   me = getlogin();             // ÀòÀò±o¨Ï¥ÎªÌID ¡]¡±6.11¡^
-   my_passwd = getpwnam(me);    // Àò±o¨Ï¥ÎªÌ°T®§ */
+   me = getlogin();             // ç²ç²å¾—ä½¿ç”¨è€…ID ï¼ˆÂ§6.11ï¼‰
+   my_passwd = getpwnam(me);    // ç²å¾—ä½¿ç”¨è€…è¨Šæ¯ */
    if (!my_passwd) 
       err_exit("getpwuid failed");
    
-   /* ¦C¦L¨Ï¥ÎªÌ°T®§ */
+   /* åˆ—å°ä½¿ç”¨è€…è¨Šæ¯ */
    printf("I am %s\n", my_passwd->pw_gecos);
    printf("My login name is %s\n", my_passwd->pw_name);
    printf("My uid is %d\n", (int) (my_passwd->pw_uid));
    printf("My home directory is %s\n", my_passwd->pw_dir);
    printf("My default shell is %s\n", my_passwd->pw_shell);
 
-   /* Àò±o¹w³]¸s²ÕID°T®§ */
+   /* ç²å¾—é è¨­ç¾¤çµ„IDè¨Šæ¯ */
    my_group = getgrgid(my_passwd->pw_gid);
    if (!my_group) 
       err_exit("getgrgid failed");
 
-   /* ¦C¦L¸s²Õ°T®§ */
+   /* åˆ—å°ç¾¤çµ„è¨Šæ¯ */
    printf("My default group is %s (%d).\n",
            my_group->gr_name, (int) (my_passwd->pw_gid));
    members = my_group->gr_mem;

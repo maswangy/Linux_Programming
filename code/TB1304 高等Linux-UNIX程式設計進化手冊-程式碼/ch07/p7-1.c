@@ -1,26 +1,26 @@
 #include "ch07.h"
-volatile sig_atomic_t usr_interrupt = 0;   /* ·í®·®»¤FSIGUSR1°T¸¹®É³]©w¦¹ÅÜ¼Æ */
-void sig_usr(int sig)                  /* SIGUSR1°T¸¹®·®»¨ç¼Æ */
+volatile sig_atomic_t usr_interrupt = 0;   /* ç•¶æ•æ‰äº†SIGUSR1è¨Šè™Ÿæ™‚è¨­å®šæ­¤è®Šæ•¸ */
+void sig_usr(int sig)                  /* SIGUSR1è¨Šè™Ÿæ•æ‰å‡½æ•¸ */
 {
    usr_interrupt = 1;
 }
-void child_function(void)        /* ¤l°õ¦æºü°õ¦æ¦¹¨ç¼Æ */
+void child_function(void)        /* å­åŸ·è¡Œç·’åŸ·è¡Œæ­¤å‡½æ•¸ */
 {
    printf("I'm here!  My pid is %d.\n", (int)getpid());
-   kill(getppid(), SIGUSR1);     /* ª¾·|¤÷°õ¦æºü */
-   /* Ä~Äò°õ¦æ */
+   kill(getppid(), SIGUSR1);     /* çŸ¥æœƒçˆ¶åŸ·è¡Œç·’ */
+   /* ç¹¼çºŒåŸ·è¡Œ */
    puts("Bye, now....");
    exit(EXIT_SUCCESS);
 }
 int main(void)
 {
    pid_t child_id;     
-   signal (SIGUSR1, sig_usr);  /* «Ø¥ß°T¸¹±±¨î½X */
-   child_id = fork ();          /* «Ø¥ß¤l°õ¦æºü */
-   if (child_id == 0)           /* ¤l°õ¦æºü */
-      child_function();         /* ¤l°õ¦æºü¤£¶Ç¦^ */
-   while (!usr_interrupt) ;    /* µ¥«İ¤l°õ¦æºü¶Ç°e°T¸¹ */  
-   puts ("That's all!");       /* ¦¬¨ì°T¸¹«áÄ~Äò°õ¦æ */
+   signal (SIGUSR1, sig_usr);  /* å»ºç«‹è¨Šè™Ÿæ§åˆ¶ç¢¼ */
+   child_id = fork ();          /* å»ºç«‹å­åŸ·è¡Œç·’ */
+   if (child_id == 0)           /* å­åŸ·è¡Œç·’ */
+      child_function();         /* å­åŸ·è¡Œç·’ä¸å‚³å› */
+   while (!usr_interrupt) ;    /* ç­‰å¾…å­åŸ·è¡Œç·’å‚³é€è¨Šè™Ÿ */  
+   puts ("That's all!");       /* æ”¶åˆ°è¨Šè™Ÿå¾Œç¹¼çºŒåŸ·è¡Œ */
    return 0;
 }
 

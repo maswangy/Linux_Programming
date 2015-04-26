@@ -3,11 +3,11 @@ typedef struct Sema{
     pthread_mutex_t lock;
     pthread_cond_t cond;
     int count; 
-} sema_t;    //°T¸¹¶q¸ê®Æµ²ºc
+} sema_t;    //è¨Šè™Ÿé‡è³‡æ–™çµæ§‹
 sema_t semaphore = { PTHREAD_MUTEX_INITIALIZER, PTHREAD_COND_INITIALIZER, 1};
 #define THREADS 4
 
-void cleanup_mutex(void *arg)  //¤¬¥¸ÅÜ¼Æ¸ÑÂê/²M²z¨ç¼Æ
+void cleanup_mutex(void *arg)  //äº’æ–¥è®Šæ•¸è§£é–/æ¸…ç†å‡½æ•¸
 {
     printf("\tthread %lx: cleanup/unlock_mutex\n", pthread_self());
     pthread_mutex_unlock((pthread_mutex_t *)arg);
@@ -16,11 +16,11 @@ void cleanup_mutex(void *arg)  //¤¬¥¸ÅÜ¼Æ¸ÑÂê/²M²z¨ç¼Æ
 void AquireSemaphore(sema_t *ps)
 {
     pthread_mutex_lock(&ps->lock);
-    pthread_cleanup_push(cleanup_mutex, &ps->lock); //«Ø¥ß¤¬¥¸ÅÜ¼Æ²M²z¾¹
+    pthread_cleanup_push(cleanup_mutex, &ps->lock); //å»ºç«‹äº’æ–¥è®Šæ•¸æ¸…ç†å™¨
     while (ps->count == 0)
         pthread_cond_wait(&(ps->cond), &(ps->lock));
     --ps->count; 
-    pthread_cleanup_pop(1);   // ÄÀ©ñ¤¬¥¸ÅÜ¼Æ
+    pthread_cleanup_pop(1);   // é‡‹æ”¾äº’æ–¥è®Šæ•¸
 }
 
 void ReleaseSemaphore(sema_t *ps)
@@ -31,22 +31,22 @@ void ReleaseSemaphore(sema_t *ps)
    pthread_mutex_unlock(&ps->lock);
 }
 
-void cleanup_sema(void *arg)   // °T¸¹¶q²M²z¾¹
+void cleanup_sema(void *arg)   // è¨Šè™Ÿé‡æ¸…ç†å™¨
 {
    printf("\tthread %lx: cleanup_sema\n",pthread_self());
    ReleaseSemaphore((sema_t *)arg);
 }
 
-void * thread_routine(void * arg)  // °õ¦æºü¶}©l¨ç¼Æ
+void * thread_routine(void * arg)  // åŸ·è¡Œç·’é–‹å§‹å‡½æ•¸
 {
    int rv;
-   AquireSemaphore(&semaphore);    // Àò±o°T¸¹¶q
-   pthread_cleanup_push(cleanup_sema, &semaphore);   // «Ø¥ß°T¸¹¶q²M²z¾¹
+   AquireSemaphore(&semaphore);    // ç²å¾—è¨Šè™Ÿé‡
+   pthread_cleanup_push(cleanup_sema, &semaphore);   // å»ºç«‹è¨Šè™Ÿé‡æ¸…ç†å™¨
    printf ("   thread %lx: sleep\n", pthread_self());
    sleep(1);
    printf ("   thread %lx: waken from sleep\n", pthread_self());
-   pthread_cleanup_pop(0);        // ¥X²{°T¸¹¶q²M²z¾¹ 
-   ReleaseSemaphore(&semaphore);  // ÄÀ©ñ°T¸¹¶q
+   pthread_cleanup_pop(0);        // å‡ºç¾è¨Šè™Ÿé‡æ¸…ç†å™¨ 
+   ReleaseSemaphore(&semaphore);  // é‡‹æ”¾è¨Šè™Ÿé‡
 }
 
 int main(int argc, char* argv[])
@@ -54,17 +54,17 @@ int main(int argc, char* argv[])
    pthread_t thread_id[THREADS];
    int i, rv, *status;
 
-   for (i=0; i<THREADS; i++) {  // «Ø¥ß³\¦h­Ó°õ¦æºü
+   for (i=0; i<THREADS; i++) {  // å»ºç«‹è¨±å¤šå€‹åŸ·è¡Œç·’
       rv = pthread_create (&thread_id[i], NULL, thread_routine, NULL);
       check_error(rv, "Create thread");
    }
    sleep (2);
-   for (i=0; i<THREADS; i++) { // ºÎ¯v2¬í«á¦A¨ú®ø¥¦­Ì
-      if ((rv = pthread_cancel (thread_id[i]))== ESRCH) // °õ¦æºü¥i¯à¤w¸g²×¤î
+   for (i=0; i<THREADS; i++) { // ç¡çœ 2ç§’å¾Œå†å–æ¶ˆå®ƒå€‘
+      if ((rv = pthread_cancel (thread_id[i]))== ESRCH) // åŸ·è¡Œç·’å¯èƒ½å·²ç¶“çµ‚æ­¢
          printf("thread %lx dose not exist\n", thread_id[i]);
       rv = pthread_join(thread_id[i], (void **)&status);
       check_error(rv, "Join thread");
-      if (status==PTHREAD_CANCELED)  // ÀËµø²×¤î­ì¦]
+      if (status==PTHREAD_CANCELED)  // æª¢è¦–çµ‚æ­¢åŸå› 
          printf("thread %d canceled %lx\n", i, thread_id[i]);
       else 
          printf("thread %d was not canceled\n", i);

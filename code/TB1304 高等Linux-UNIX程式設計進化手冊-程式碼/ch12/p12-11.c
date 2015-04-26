@@ -9,22 +9,22 @@ int main(int argc, char **argv)
    struct sockaddr_in servaddr,cliaddr;
    char buff[MAXLINE];
    time_t ticks;
-   /* «Ø¥ß¨Ã©R¦W®M±µ¡A5013¬°ªA°È³q°T°ğ */
+   /* å»ºç«‹ä¸¦å‘½åå¥—æ¥ï¼Œ5013ç‚ºæœå‹™é€šè¨ŠåŸ  */
    listenfd = make_socket(SOCK_STREAM, 5013);  
-   listen(listenfd, LISTENQ);    /* «Ø¥ßºÊÅ¥¦î¦C */
-   /* ³s½u³B²z */
+   listen(listenfd, LISTENQ);    /* å»ºç«‹ç›£è½ä½‡åˆ— */
+   /* é€£ç·šè™•ç† */
    for(; ;){
      len = sizeof(cliaddr);
-      /* ±µ¦¬³s½u */
+      /* æ¥æ”¶é€£ç·š */
      connfd=accept(listenfd, (struct sockaddr *)&cliaddr, &len);
-      /* ¦C¦L¥X³s½u«È¤áªºIP¦ì§} */
+      /* åˆ—å°å‡ºé€£ç·šå®¢æˆ¶çš„IPä½å€ */
      printf("connect from %s,port %d\n", 
                     inet_ntoa((struct in_addr)cliaddr.sin_addr),
                     ntohs(cliaddr.sin_port));
-      /* ¦V«È¤á³ø§i®É¶¡ */
+      /* å‘å®¢æˆ¶å ±å‘Šæ™‚é–“ */
      ticks = time(NULL);
      sprintf(buff,"%.24s\r\n",ctime(&ticks));
      write(connfd,buff,strlen(buff));
-     close(connfd);        /* Ãö³¬³s½u®M±µ¦r */
+     close(connfd);        /* é—œé–‰é€£ç·šå¥—æ¥å­— */
    }
 }

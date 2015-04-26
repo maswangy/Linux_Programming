@@ -4,50 +4,50 @@ int main(void)
 {
    char *strw = "set write lock on region", *strr = "set read lock on region";
    int fd, bytes_count;
-   fd = open(test_file, O_RDWR|O_CREAT, 0666);   /* ¶}±ÒÀÉ®× */
+   fd = open(test_file, O_RDWR|O_CREAT, 0666);   /* é–‹å•Ÿæª”æ¡ˆ */
    if(fd<0) 
       err_exit("Unable to open file");
-   for (bytes_count = 0; bytes_count<100; bytes_count++)  /* ¼g¤J¸ê®Æ */
+   for (bytes_count = 0; bytes_count<100; bytes_count++)  /* å¯«å…¥è³‡æ–™ */
       write(fd, "A", 1);              
-   if (fork()!=0) {     /* ¤÷°õ¦æºü */
-      /* ¦b°Ï°ì[10-29]³]©w¦@¨ÉÅªÂê */
+   if (fork()!=0) {     /* çˆ¶åŸ·è¡Œç·’ */
+      /* åœ¨å€åŸŸ[10-29]è¨­å®šå…±äº«è®€éŽ– */
       if (SET_LOCK (fd, F_RDLCK, 10, SEEK_SET, 20)<0)
          fprintf(stderr,"%d %s [10-29] failed\n", getpid(),strr);
       else
          fprintf(stderr,"%d %s [10-29] succeed\n",getpid(),strr);
-      /* ¦b°Ï°ì[40-49]³]©w¤¬¥¸¼gÂê */
+      /* åœ¨å€åŸŸ[40-49]è¨­å®šäº’æ–¥å¯«éŽ– */
       if (SET_LOCK (fd, F_WRLCK, 40, SEEK_SET, 10)<0)
          fprintf(stderr,"%d %s [40-49] failed\n", getpid(),strw);
       else
          fprintf(stderr,"%d %s [40-49] succeed \n",getpid(), strw);
-      sleep(3);      /* ºÎ¯v3¬í¥H«K¤l°õ¦æºü´ú¸ÕÂê */
+      sleep(3);      /* ç¡çœ 3ç§’ä»¥ä¾¿å­åŸ·è¡Œç·’æ¸¬è©¦éŽ– */
       printf("%d close file\n",getpid());
       close(fd);
       exit(EXIT_SUCCESS);
-   } else {         /* ¤l°õ¦æºü */
+   } else {         /* å­åŸ·è¡Œç·’ */
       pid_t mypid=getpid(); 
-      sleep(1);     /* Åý¤÷°õ¦æºü¥ý°õ¦æ */
-      /* ¹ï°Ï°ì[10-14]³]©wÅªÂê¡A»P¤÷°õ¦æºü³]©wªºÅªÂê³¡¤À­«Å|¡A¥i¦¨¥\ */
+      sleep(1);     /* è®“çˆ¶åŸ·è¡Œç·’å…ˆåŸ·è¡Œ */
+      /* å°å€åŸŸ[10-14]è¨­å®šè®€éŽ–ï¼Œèˆ‡çˆ¶åŸ·è¡Œç·’è¨­å®šçš„è®€éŽ–éƒ¨åˆ†é‡ç–Šï¼Œå¯æˆåŠŸ */
       if (SET_LOCK (fd, F_RDLCK, 10, SEEK_SET, 5)<0) 
          fprintf(stderr,"%d %s [10-14] failed\n", mypid, strr);
       else 
          fprintf(stderr, "%d %s [10-14] succeed\n", mypid, strr);    
-      /* ¹ï°Ï°ì[15-20]¥[¼gÂê¡A»P¤÷°õ¦æºü³]©wªºÅªÂê³¡¤À­«Å|¡A¤£·|¦¨¥\ */    
+      /* å°å€åŸŸ[15-20]åŠ å¯«éŽ–ï¼Œèˆ‡çˆ¶åŸ·è¡Œç·’è¨­å®šçš„è®€éŽ–éƒ¨åˆ†é‡ç–Šï¼Œä¸æœƒæˆåŠŸ */    
       if (SET_LOCK (fd, F_WRLCK, 15,SEEK_SET,6)<0) 
          fprintf(stderr,"%d %s [15-20] failed\n", mypid, strw);
       else 
         fprintf(stderr, "%d %s [15-20]\n", mypid, strw);
-      /* ¹ï°Ï°ì[40-49]¥[ÅªÂê¡A»P¤÷°õ¦æºü³]©wªº¼gÂê­«Å|¡A¤£·|¦¨¥\ */
+      /* å°å€åŸŸ[40-49]åŠ è®€éŽ–ï¼Œèˆ‡çˆ¶åŸ·è¡Œç·’è¨­å®šçš„å¯«éŽ–é‡ç–Šï¼Œä¸æœƒæˆåŠŸ */
       if (SET_LOCK (fd, F_RDLCK, 40, SEEK_SET, 10)<0) 
          fprintf(stderr,"%d %s [40-49] failed\n", mypid,strr);
       else 
          fprintf(stderr,"%d %s [40-49] succeed\n", mypid, strr);
-      /* ¹ï°Ï°ì[41-60]¥[¼gÂê¨Ãµ¥«Ý¡A»P¤÷°õ¦æºü³]©wªº¼gÂê­«Å|¡Aµ¥«Ý¤÷°õ¦æºüÂ÷¶}«á¤~·|¦¨¥\ */   
+      /* å°å€åŸŸ[41-60]åŠ å¯«éŽ–ä¸¦ç­‰å¾…ï¼Œèˆ‡çˆ¶åŸ·è¡Œç·’è¨­å®šçš„å¯«éŽ–é‡ç–Šï¼Œç­‰å¾…çˆ¶åŸ·è¡Œç·’é›¢é–‹å¾Œæ‰æœƒæˆåŠŸ */   
       if (SET_LOCK_W(fd, F_WRLCK, 41, SEEK_SET, 20)<0) 
          fprintf(stderr,"%d %s [41-60] succeed\n", mypid, strw);
       else
          fprintf(stderr,"%d %s [41-60] succeed\n", mypid, strw);
-      /* ¹ï°Ï°ì[0-60]¸ÑÂê¡A±N¦P®ÉÄÀ©ñ°Ï°ì[10-14]ªºÅªÂê©M°Ï°ì[41-60]ªº¼gÂê */
+      /* å°å€åŸŸ[0-60]è§£éŽ–ï¼Œå°‡åŒæ™‚é‡‹æ”¾å€åŸŸ[10-14]çš„è®€éŽ–å’Œå€åŸŸ[41-60]çš„å¯«éŽ– */
       if (un_lock (fd,0,SEEK_SET,69)<0) 
          fprintf(stderr,"%d unlock the region [0-69] failed\n", mypid);
       else 

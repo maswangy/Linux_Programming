@@ -1,21 +1,21 @@
 #include "ch02.h"
 int y_or_n_ques(const char *question)
 {
-   fputs (question, stdout);     /* ¿é¥X´£°İ */
+   fputs (question, stdout);     /* è¼¸å‡ºæå• */
    while(1){
       int c, answer;
-      fputc (' ', stdout);       /* ¼g¤@ªÅ®æ¤À¶}°İÃD»P¦^µª */
-       /* Åª¦¹¦æ²Ä¤@­Ó¦r¤¸.¥¦À³·í¬O¦^µª¦r¤¸¡A¦ı¤]¥i¯à¤£¬O. */
+      fputc (' ', stdout);       /* å¯«ä¸€ç©ºæ ¼åˆ†é–‹å•é¡Œèˆ‡å›ç­” */
+       /* è®€æ­¤è¡Œç¬¬ä¸€å€‹å­—å…ƒ.å®ƒæ‡‰ç•¶æ˜¯å›ç­”å­—å…ƒï¼Œä½†ä¹Ÿå¯èƒ½ä¸æ˜¯. */
       c = tolower(fgetc (stdin));
       answer = c;
-      while(c != '\n' && c != EOF)   /* ©¿²¤¦¹¦æªº¨ä§E¦r¤¸. */
+      while(c != '\n' && c != EOF)   /* å¿½ç•¥æ­¤è¡Œçš„å…¶ä½™å­—å…ƒ. */
           c = fgetc(stdin);
-       /* ­YªG¬O¦^µª¦r¤¸¡AÅTÀ³¦^µª. */
+       /* è‹¥æœæ˜¯å›ç­”å­—å…ƒï¼ŒéŸ¿æ‡‰å›ç­”. */
       if (answer == 'y')
           return 1;
       if (answer == 'n')
           return 0;
-       /* «D¦^µª¦r¤¸¡AÄ~Äò­n¨D¦Xªk¦^µª. */
+       /* éå›ç­”å­—å…ƒï¼Œç¹¼çºŒè¦æ±‚åˆæ³•å›ç­”. */
       fputs ("Please answer y or n:", stdout);
    }
 }

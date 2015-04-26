@@ -12,21 +12,21 @@ int main(void)
   
    memset(&buffer,'\0',sizeof(struct iobuf)); 
    do {
-       /* ½Ğ¨Ï¥ÎªÌ¿ï¨ú¨Ï¥Îfgets()ÁÙ¬Ogets() */
+       /* è«‹ä½¿ç”¨è€…é¸å–ä½¿ç”¨fgets()é‚„æ˜¯gets() */
        fgets_yes = y_or_n_ques("Should we read by fgets()?");
        fprintf(stdout,"please enter a line\n");
-       if(fgets_yes) {   /* ¥ÎfgetsÅª¿é¤J¸ê®Æ */
+       if(fgets_yes) {   /* ç”¨fgetsè®€è¼¸å…¥è³‡æ–™ */
           fgets(buffer.buf, BUF_SIZE, stdin);
           fprintf(stdout,"fgets() get string \"%s\"\n",buffer.buf);
-          while(buffer.buf[strlen(buffer.buf)-1] != '\n'){ /* ¤@¦æ¥¼Åª§¹¡AÄ~ÄòÅª */
+          while(buffer.buf[strlen(buffer.buf)-1] != '\n'){ /* ä¸€è¡Œæœªè®€å®Œï¼Œç¹¼çºŒè®€ */
              fgets(buffer.buf, BUF_SIZE , stdin); 
              fprintf(stdout,"fgets() get string \"%s\"\n",buffer.buf);
           }
-       } else {   /* ¥ÎgetsÅª¿é¤J¸ê®Æ */
+       } else {   /* ç”¨getsè®€è¼¸å…¥è³‡æ–™ */
           gets(buffer.buf);
           fprintf(stdout,"gets() get string \"%s\"\n",buffer.buf);
        }
-       /* ÀËµø·¸¦ì±¡ªp */
+       /* æª¢è¦–æº¢ä½æƒ…æ³ */
        fprintf(stdout,"buffer.others is \"%s\"\n",buffer.others);
    } while (y_or_n_ques("continue?"));
    exit(0);

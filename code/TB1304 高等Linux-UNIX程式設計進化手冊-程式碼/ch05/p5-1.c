@@ -1,4 +1,4 @@
-#include ¡§ch05.h¡¨
+#include Â¨ch05.hã€ƒ
 int main (int argc, char **argv)
 {   
    int index, c, iflg = 0, fflg = 0, sflg=0;

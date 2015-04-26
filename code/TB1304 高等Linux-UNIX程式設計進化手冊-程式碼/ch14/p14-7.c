@@ -16,16 +16,16 @@ void *t_routine(void *n)
 {
    int rv, mypolicy, thread_no = (int)n;
    struct sched_param myparam;
-   barrier_wait(&barrier);             // ¬]Äæµ¥»ô©Ò¦³°õ¦æºü¨ì¹F¡Aµ{¦¡13-13
-   rv = pthread_mutex_lock(&mutex);   // ¶}©lÄvª§¤¬¥¸ÅÜ¼Æ 
+   barrier_wait(&barrier);             // æŸµæ¬„ç­‰é½Šæ‰€æœ‰åŸ·è¡Œç·’åˆ°é”ï¼Œç¨‹å¼13-13
+   rv = pthread_mutex_lock(&mutex);   // é–‹å§‹ç«¶çˆ­äº’æ–¥è®Šæ•¸ 
    check_error(rv, "mutex_lock");
    printf("Thread %d :",thread_no);
-   /* ¦C¦L¥X°õ¦æºüªº¤À¬£µ¦²¤©MÀu¥ı¯Å */
+   /* åˆ—å°å‡ºåŸ·è¡Œç·’çš„åˆ†æ´¾ç­–ç•¥å’Œå„ªå…ˆç´š */
    rv = pthread_getschedparam(pthread_self(),
                                    &mypolicy, &myparam);
    check_error(rv, "getschedparam");
    OUTPUTSCHEDPARAM(mypolicy, myparam.sched_priority);
-   rv = pthread_mutex_unlock(&mutex);  // ÄÀ©ñ¤¬¥¸ÅÜ¼Æ
+   rv = pthread_mutex_unlock(&mutex);  // é‡‹æ”¾äº’æ–¥è®Šæ•¸
    check_error(rv, "mutex_unlock");
 }
 
@@ -35,16 +35,16 @@ int main(void)
    struct sched_param param;
    struct sched_thread t_param;
 
-   /* °_©l¤Æ¤@­Ó5°õ¦æºü¦P¨Bªº¬]Äæ */
-   rv = barrier_init(&barrier, 5);    // µ{¦¡13-13 
+   /* èµ·å§‹åŒ–ä¸€å€‹5åŸ·è¡Œç·’åŒæ­¥çš„æŸµæ¬„ */
+   rv = barrier_init(&barrier, 5);    // ç¨‹å¼13-13 
    check_error(rv, "barrier_init");
 
-   /* ¿é¥X°_©l°õ¦æºüªº¤À¬£µ¦²¤©MÀu¥ı¯Å */
+   /* è¼¸å‡ºèµ·å§‹åŸ·è¡Œç·’çš„åˆ†æ´¾ç­–ç•¥å’Œå„ªå…ˆç´š */
    rv = pthread_getschedparam(pthread_self(), &policy, &param);
    check_error(rv,"main: getschedparam");
    OUTPUTSCHEDPARAM(policy, param.sched_priority);
 
-   /*  «Ø¥ß4­Ó¤£¦P¤À¬£µ¦²¤©MÀu¥ı¯Åªº°õ¦æºü  */
+   /*  å»ºç«‹4å€‹ä¸åŒåˆ†æ´¾ç­–ç•¥å’Œå„ªå…ˆç´šçš„åŸ·è¡Œç·’  */
    t_param.thread_func = t_routine;
    t_param.policy = SCHED_FIFO;
    t_param.num = 1;
@@ -64,16 +64,16 @@ int main(void)
    t_param.priority = sched_get_priority_max(SCHED_RR);
    create_exlicit_sched_threads(&t_param);
 
-  /* §ïÅÜ¦Û¤vªº¤À¬£µ¦²¤©MÀu¥ı¯Å */
-   if (policy == SCHED_RR) {  // ¤À¬£µ¦²¤¬O§Ú­Ì»İ­nªºµ¦²¤¡A¥u´£¤ÉÀu¥ı¯Å
+  /* æ”¹è®Šè‡ªå·±çš„åˆ†æ´¾ç­–ç•¥å’Œå„ªå…ˆç´š */
+   if (policy == SCHED_RR) {  // åˆ†æ´¾ç­–ç•¥æ˜¯æˆ‘å€‘éœ€è¦çš„ç­–ç•¥ï¼Œåªæå‡å„ªå…ˆç´š
       rv = pthread_setschedprio(pthread_self(),t_param.priority+6);
       check_error(rv, "getschedparam");
-   } else {                       // §_«h§ïÅÜµ¦²¤©MÀu¥ı¯Å 
+   } else {                       // å¦å‰‡æ”¹è®Šç­–ç•¥å’Œå„ªå…ˆç´š 
       param.sched_priority += 10;
       rv = pthread_setschedparam(pthread_self(),SCHED_RR, &param);
       check_error(rv, "getschedparam");
    }
-   t_routine(0);     // °Ñ»P°õ¦æºüÄvª§
+   t_routine(0);     // åƒèˆ‡åŸ·è¡Œç·’ç«¶çˆ­
    pthread_exit((void *)NULL);
 }
 

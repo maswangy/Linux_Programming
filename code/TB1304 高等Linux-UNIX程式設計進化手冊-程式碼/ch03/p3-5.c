@@ -1,4 +1,4 @@
-﻿#include "ch03.h"
+#include "ch03.h"
 int display_file_status_flags(int fd)
 {
    int accmode, val;

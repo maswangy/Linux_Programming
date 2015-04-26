@@ -2,39 +2,39 @@
 #define NUM_THREADS 4 
 #define VECL 4*10000000
 double a[VECL], b[VECL], sum;
-struct args {         // dotsum¨Ï¥Îªº¸ê®Æ
-   pthread_t tid;       // °õ¦æºüID
-   int l_sum;           // §½³¡ÂI¿n
-   int index;               // ±q0¶}©lªº°õ¦æºü½s¸¹
-} tharg[NUM_THREADS];     // ¨C­Ó°õ¦æºü¹ïÀ³¤@­Ó¤¸¯À
-void *dotsum(void *arg)   // ¨D³¡¤ÀÂI¿nªº°õ¦æºü¶}©l¨ç¼Æ
+struct args {         // dotsumä½¿ç”¨çš„è³‡æ–™
+   pthread_t tid;       // åŸ·è¡Œç·’ID
+   int l_sum;           // å±€éƒ¨é»ç©
+   int index;               // å¾0é–‹å§‹çš„åŸ·è¡Œç·’ç·¨è™Ÿ
+} tharg[NUM_THREADS];     // æ¯å€‹åŸ·è¡Œç·’å°æ‡‰ä¸€å€‹å…ƒç´ 
+void *dotsum(void *arg)   // æ±‚éƒ¨åˆ†é»ç©çš„åŸ·è¡Œç·’é–‹å§‹å‡½æ•¸
 {
    struct args *ap = (struct args *)arg;
    int  i, start, end;
-   double l_sum = 0.0;                           // §½³¡ÂI¿n
-   start = ap->index * (VECL/NUM_THREADS);   // ¦V¶q¶}©lÂI 
-   end   = start + (VECL/NUM_THREADS);        // ¦V¶qµ²§ôÂI 
+   double l_sum = 0.0;                           // å±€éƒ¨é»ç©
+   start = ap->index * (VECL/NUM_THREADS);   // å‘é‡é–‹å§‹é» 
+   end   = start + (VECL/NUM_THREADS);        // å‘é‡çµæŸé» 
    printf("thread %i do from index %d to %d\n",ap->index, start,end-1);
    for (i = start; i < end; i++) 
       l_sum += (a[i]*b[i]);
-   ap->l_sum = l_sum;                           // Àx¦s­pºâµ²ªG 
+   ap->l_sum = l_sum;                           // å„²å­˜è¨ˆç®—çµæœ 
    return;
 }
 int main(void)
 {
    int  i;
-   assert(VECL%4==0);                  // ¥u¦³º¡¨¬¦¹±ø¥óµ{¦¡¤~¥¿½T 
+   assert(VECL%4==0);                  // åªæœ‰æ»¿è¶³æ­¤æ¢ä»¶ç¨‹å¼æ‰æ­£ç¢º 
    for (i=0; i<VECL; i++)
       a[i]=b[i]=1.0;
-   for(i=1; i<NUM_THREADS; i++) {  // «Ø¥ßNUM_THREADS-1­Ó°õ¦æºü¥­¦æ°õ¦ædotsum()¨ç¼Æ 
+   for(i=1; i<NUM_THREADS; i++) {  // å»ºç«‹NUM_THREADS-1å€‹åŸ·è¡Œç·’å¹³è¡ŒåŸ·è¡Œdotsum()å‡½æ•¸ 
       tharg[i].index = i;
       pthread_create(&tharg[i].tid, NULL, dotsum, (void *)&tharg[i]);
    }
    tharg[0].index = 0;
-   dotsum((void *)&tharg[0]);      /* ¥D¶bµ{°Ñ»P­pºâ */
-   for(i=1; i<NUM_THREADS; i++)   /* µ¥«İ¨ä¥¦°õ¦æºü§¹¦¨­pºâ */
+   dotsum((void *)&tharg[0]);      /* ä¸»è»¸ç¨‹åƒèˆ‡è¨ˆç®— */
+   for(i=1; i<NUM_THREADS; i++)   /* ç­‰å¾…å…¶å®ƒåŸ·è¡Œç·’å®Œæˆè¨ˆç®— */
       pthread_join(tharg[i].tid, (void **)NULL);
-   /* ²Ö¥[¨C­Ó°õ¦æºüªº³¡¤À©M¨Ã¿é¥Xµ²ªG */
+   /* ç´¯åŠ æ¯å€‹åŸ·è¡Œç·’çš„éƒ¨åˆ†å’Œä¸¦è¼¸å‡ºçµæœ */
    sum=0.0;
    for (i=0; i<NUM_THREADS; i++)
       sum += tharg[i].l_sum;

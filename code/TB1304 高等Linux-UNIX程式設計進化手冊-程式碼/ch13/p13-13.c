@@ -1,40 +1,40 @@
 #include "ch13.h"
-typedef struct barrier_struct {  //barrier¸ê®Æµ²ºc
-   int             valid;           //¦Xªk°_©l¤Æ¼Ğ§Ó
-   pthread_cond_t   cv;             //±ø¥óÅÜ¼Æ
-   pthread_mutex_t  mtx;            //¬Û³sªº¤¬¥¸ÅÜ¼Æ
-   int   predicate;                 //±ø¥ó­zµü,¬Û¦Pªº¬]Äæ¦P¨BÂI¨ã¦³¬Û¦Pªº­È
-   int   barrier_val;               //­nµ¥«İªº°õ¦æºü­Ó¼Æ
-   int   blocked_threads;           //¤w¨ì¹Fªº°õ¦æºü­Ó¼Æ
+typedef struct barrier_struct {  //barrierè³‡æ–™çµæ§‹
+   int             valid;           //åˆæ³•èµ·å§‹åŒ–æ¨™å¿—
+   pthread_cond_t   cv;             //æ¢ä»¶è®Šæ•¸
+   pthread_mutex_t  mtx;            //ç›¸é€£çš„äº’æ–¥è®Šæ•¸
+   int   predicate;                 //æ¢ä»¶è¿°è©,ç›¸åŒçš„æŸµæ¬„åŒæ­¥é»å…·æœ‰ç›¸åŒçš„å€¼
+   int   barrier_val;               //è¦ç­‰å¾…çš„åŸ·è¡Œç·’å€‹æ•¸
+   int   blocked_threads;           //å·²åˆ°é”çš„åŸ·è¡Œç·’å€‹æ•¸
 } barrier_t;                             
-/* ¥Î©ó«OÅ@barrier°_©l¤Æªº¤¬¥¸ÅÜ¼Æ */
+/* ç”¨æ–¼ä¿è­·barrierèµ·å§‹åŒ–çš„äº’æ–¥è®Šæ•¸ */
 pthread_mutex_t barrier_init_mutex = PTHREAD_MUTEX_INITIALIZER;
-#define BARRIER_VALID 546731      //barrier°_©l¤Æ¼Ğ§Ó
-/* barrier b°_©l¤Æ¨ç¼Æ */
+#define BARRIER_VALID 546731      //barrierèµ·å§‹åŒ–æ¨™å¿—
+/* barrier bèµ·å§‹åŒ–å‡½æ•¸ */
 int barrier_init(barrier_t *b, int val)
 {
    int rv;
-   /* ¥Ó½Ğbarrier_init_mutex,¨Ï±o¨C¦¸¥u®e³\¤@­Ó°õ¦æºü¶i¦æ°_©l¤Æ */
+   /* ç”³è«‹barrier_init_mutex,ä½¿å¾—æ¯æ¬¡åªå®¹è¨±ä¸€å€‹åŸ·è¡Œç·’é€²è¡Œèµ·å§‹åŒ– */
    if ((rv=pthread_mutex_lock(&barrier_init_mutex))!=0) 
-      return (rv);   //¤WÂê¥X¿ù
-   if (b->valid == BARRIER_VALID) { // ¤w¶i¦æ¹L°_©l¤Æ¡A¦¹¦¸¬°­«·s°_©l¤Æ
-      /* Àò±o¥Î©ó¬]Äæ©M±ø¥óÅÜ¼Æªº¤¬¥¸ÅÜ¼Æ */
+      return (rv);   //ä¸Šé–å‡ºéŒ¯
+   if (b->valid == BARRIER_VALID) { // å·²é€²è¡Œéèµ·å§‹åŒ–ï¼Œæ­¤æ¬¡ç‚ºé‡æ–°èµ·å§‹åŒ–
+      /* ç²å¾—ç”¨æ–¼æŸµæ¬„å’Œæ¢ä»¶è®Šæ•¸çš„äº’æ–¥è®Šæ•¸ */
       if ((rv=pthread_mutex_lock(&b->mtx))!=0){ 
          pthread_mutex_unlock(&barrier_init_mutex); 
          return(rv);
       }
-      if (b->blocked_threads !=0 ){// ¸ÓbarrierÁÙ¦³»İµ¥«İªº°õ¦æºü¡A¶Ç¦^¿ù»~
+      if (b->blocked_threads !=0 ){// è©²barrieré‚„æœ‰éœ€ç­‰å¾…çš„åŸ·è¡Œç·’ï¼Œå‚³å›éŒ¯èª¤
          pthread_mutex_unlock(&b->mtx);
          pthread_mutex_unlock(&barrier_init_mutex);
          return(EBUSY);
       }
-      /* ­«³]barrier­p¼Æ­È«á¶Ç¦^ */
+      /* é‡è¨­barrierè¨ˆæ•¸å€¼å¾Œå‚³å› */
       b->barrier_val=val;
       if ((rv=pthread_mutex_unlock(&b->mtx))!=0) {
          pthread_mutex_unlock(&barrier_init_mutex);
          return(rv);
       }
-   }else {  // ²Ä¤@¦¸°_©l¤Æ
+   }else {  // ç¬¬ä¸€æ¬¡èµ·å§‹åŒ–
       if ((rv=pthread_mutex_init(&b->mtx, NULL))!=0)
          return (rv); 
       if ((rv=pthread_cond_init(&b->cv, NULL)) !=0) {
@@ -46,42 +46,42 @@ int barrier_init(barrier_t *b, int val)
       b->predicate =0;
       b->valid = BARRIER_VALID;
    }
-   if ((rv=pthread_mutex_unlock(&barrier_init_mutex))!=0) // ÄÀ©ñÂê¡AµM«á¶Ç¦^
+   if ((rv=pthread_mutex_unlock(&barrier_init_mutex))!=0) // é‡‹æ”¾é–ï¼Œç„¶å¾Œå‚³å›
       return (rv);
    return (0);
 }  
   
-/* ¬]Äæµ¥«İ¨ç¼Æ */
+/* æŸµæ¬„ç­‰å¾…å‡½æ•¸ */
 int barrier_wait(barrier_t *b)
 {
    int rv, predicate;
-   if (b->valid != BARRIER_VALID) // ÀË¬d¬]Äæªº¦Xªk©Ê
-      return(EINVAL);             // ¬]Äæ¥¼°_©l¤Æ¿ù»~
-   if ((rv=pthread_mutex_lock(&b->mtx)) != 0) //¥Ó½Ğ¥Î©ó¬]Äæ©M±ø¥óÅÜ¼Æªº¤¬¥¸ÅÜ¼Æ
-      return (rv);     // ¤WÂê¥X¿ù
-   predicate = b->predicate;  // Àx¦s¥»¦¸¦P¨B­zµü­È
-   b->blocked_threads++;       // ¼W¥[¨ì¹F°õ¦æºü­p¼Æ
-   if (b->blocked_threads == b->barrier_val) {  // ³o¬O³Ì«á¨ì¹Fªº°õ¦æºü
-      /* ¬°¤U¦¸¦P¨B­«³]¬]Äæ­È */
+   if (b->valid != BARRIER_VALID) // æª¢æŸ¥æŸµæ¬„çš„åˆæ³•æ€§
+      return(EINVAL);             // æŸµæ¬„æœªèµ·å§‹åŒ–éŒ¯èª¤
+   if ((rv=pthread_mutex_lock(&b->mtx)) != 0) //ç”³è«‹ç”¨æ–¼æŸµæ¬„å’Œæ¢ä»¶è®Šæ•¸çš„äº’æ–¥è®Šæ•¸
+      return (rv);     // ä¸Šé–å‡ºéŒ¯
+   predicate = b->predicate;  // å„²å­˜æœ¬æ¬¡åŒæ­¥è¿°è©å€¼
+   b->blocked_threads++;       // å¢åŠ åˆ°é”åŸ·è¡Œç·’è¨ˆæ•¸
+   if (b->blocked_threads == b->barrier_val) {  // é€™æ˜¯æœ€å¾Œåˆ°é”çš„åŸ·è¡Œç·’
+      /* ç‚ºä¸‹æ¬¡åŒæ­¥é‡è¨­æŸµæ¬„å€¼ */
       b->predicate += 1;                     
       b->blocked_threads = 0; 
-      /* ³ê¿ô©Ò¦³¨üªıªº°õ¦æºü */
+      /* å–šé†’æ‰€æœ‰å—é˜»çš„åŸ·è¡Œç·’ */
       if ((rv=pthread_cond_broadcast(&b->cv))!= 0) { 
-          pthread_mutex_unlock(&b->mtx); // ¼s¼½¥X¿ù,ÄÀ©ñ¤¬¥¸ÅÜ¼Æ«á¶Ç¦^
+          pthread_mutex_unlock(&b->mtx); // å»£æ’­å‡ºéŒ¯,é‡‹æ”¾äº’æ–¥è®Šæ•¸å¾Œå‚³å›
           return(rv);  
       }
-   }else{              // ³o¬O¥ı¨ì¹Fªº°õ¦æºü
-      /* µ¥«İ¡Aª½¨ì©Ò¦³°õ¦æºü³£¤w¨ì¹F */
+   }else{              // é€™æ˜¯å…ˆåˆ°é”çš„åŸ·è¡Œç·’
+      /* ç­‰å¾…ï¼Œç›´åˆ°æ‰€æœ‰åŸ·è¡Œç·’éƒ½å·²åˆ°é” */
       while (b->predicate == predicate){
          rv = pthread_cond_wait(&b->cv, &b->mtx);
          if ((rv!=0)&&(rv!=EINTR)){
             pthread_mutex_unlock(&b->mtx);
-            return(rv);  // ±ø¥óµ¥«İ¥X¿ù,ÄÀ©ñ¤¬¥¸ÅÜ¼Æ«á¶Ç¦^
+            return(rv);  // æ¢ä»¶ç­‰å¾…å‡ºéŒ¯,é‡‹æ”¾äº’æ–¥è®Šæ•¸å¾Œå‚³å›
          }
       }
    }
-   /* ¬]Äæ¦P¨Bµ²§ô¡AÄÀ©ñ¥Î©ó¬]Äæ©M±ø¥óÅÜ¼Æªº¤¬¥¸ÅÜ¼Æ */
+   /* æŸµæ¬„åŒæ­¥çµæŸï¼Œé‡‹æ”¾ç”¨æ–¼æŸµæ¬„å’Œæ¢ä»¶è®Šæ•¸çš„äº’æ–¥è®Šæ•¸ */
    if ((rv=pthread_mutex_unlock(&b->mtx))!=0)
-      return(rv);   // ÄÀ©ñÂê¥X¿ù
-   return(0);  // ¼Ğ·Ç¶Ç¦^
+      return(rv);   // é‡‹æ”¾é–å‡ºéŒ¯
+   return(0);  // æ¨™æº–å‚³å›
 }

@@ -4,12 +4,12 @@ int make_stack_overflow(void)
 {
     int a[100000];
     static int n;
-    a[100000-1] = make_stack_overflow();   	/* »¼Âk©I¥sª½¨ì°ïÅ|·¸¦ì */
+    a[100000-1] = make_stack_overflow();   	/* éæ­¸å‘¼å«ç›´åˆ°å †ç–Šæº¢ä½ */
     return n++;
 }
-void set_ss_stack(stack_t *stk, stack_t *ostk)   /* ³]©w´À¥N°T¸¹°ïÅ| */
+void set_ss_stack(stack_t *stk, stack_t *ostk)   /* è¨­å®šæ›¿ä»£è¨Šè™Ÿå †ç–Š */
 {
-   if ((stk->ss_sp = (void *)xmalloc(SIGSTKSZ)) == NULL) /* ¬°´À¥N°T¸¹°ïÅ|¤À°tªÅ¶¡ */
+   if ((stk->ss_sp = (void *)xmalloc(SIGSTKSZ)) == NULL) /* ç‚ºæ›¿ä»£è¨Šè™Ÿå †ç–Šåˆ†é…ç©ºé–“ */
       perror("   xmalloc error");
    stk->ss_size = SIGSTKSZ; 
    stk->ss_flags = SS_ONSTACK;
@@ -17,7 +17,7 @@ void set_ss_stack(stack_t *stk, stack_t *ostk)   /* ³]©w´À¥N°T¸¹°ïÅ| */
       perror("   sigaltstack fail");
    return;
 }
-void check_ss_flags(char *str)    /* ÀËµø´À¥N°T¸¹°ïÅ|ª¬ºA */
+void check_ss_flags(char *str)    /* æª¢è¦–æ›¿ä»£è¨Šè™Ÿå †ç–Šç‹€æ…‹ */
 {
    stack_t ostk;
    printf("%s\n",str);
@@ -31,25 +31,25 @@ void check_ss_flags(char *str)    /* ÀËµø´À¥N°T¸¹°ïÅ|ª¬ºA */
       printf("   flags=%d\n",ostk.ss_flags);
    return;
 }
-void sig_segv(int signo)          	/* SIGSEGV°T¸¹±±¨î½X */
+void sig_segv(int signo)          	/* SIGSEGVè¨Šè™Ÿæ§åˆ¶ç¢¼ */
 {
     stack_t sigstk,ostk;
     check_ss_flags("in sig_segv:");
     printf("We catched SIGSEGV signal! \n");
     exit(0);
 }
-void sig_usr1(int signo)          	/* SIGUSR1°T¸¹±±¨î½X */
+void sig_usr1(int signo)          	/* SIGUSR1è¨Šè™Ÿæ§åˆ¶ç¢¼ */
 {
     stack_t sigstk,ostk;
     check_ss_flags("in sig_usr1:");
-    set_ss_stack(&sigstk, &ostk);     	/* ³]©w´À¥N°T¸¹°ïÅ|,³o¤@¦¸±N¥¢±Ñ */
+    set_ss_stack(&sigstk, &ostk);     	/* è¨­å®šæ›¿ä»£è¨Šè™Ÿå †ç–Š,é€™ä¸€æ¬¡å°‡å¤±æ•— */
     return;
 }
 int main(void)
 {
     struct sigaction act;
     stack_t sigstk,ostk;
-     /* ¦w¸Ë°T¸¹±±¨î½X¨Ã¦b´À¥N°T¸¹°ïÅ|¤W°õ¦æ¥¦­Ì */
+     /* å®‰è£è¨Šè™Ÿæ§åˆ¶ç¢¼ä¸¦åœ¨æ›¿ä»£è¨Šè™Ÿå †ç–Šä¸ŠåŸ·è¡Œå®ƒå€‘ */
     act.sa_flags = 0;
     act.sa_flags |= SA_ONSTACK;         
     sigemptyset(&act.sa_mask);
@@ -59,10 +59,10 @@ int main(void)
     act.sa_handler = sig_usr1;
     if (sigaction(SIGUSR1,&act,NULL) < 0)
        perror("SIGUSR1 error");
-    set_ss_stack(&sigstk, &ostk); 	/* ³]©w´À¥N°T¸¹°ïÅ| */
-    check_ss_flags("before kill in main"); /* ÀËµø´À¥N°T¸¹°ïÅ| */
-    kill(getpid(), SIGUSR1); 	/* µ¹¦Û¤v¶Ç°eSIGUSR1°T¸¹ */  
+    set_ss_stack(&sigstk, &ostk); 	/* è¨­å®šæ›¿ä»£è¨Šè™Ÿå †ç–Š */
+    check_ss_flags("before kill in main"); /* æª¢è¦–æ›¿ä»£è¨Šè™Ÿå †ç–Š */
+    kill(getpid(), SIGUSR1); 	/* çµ¦è‡ªå·±å‚³é€SIGUSR1è¨Šè™Ÿ */  
     check_ss_flags("after kill in main");         
-    make_stack_overflow();	/* ³y¦¨°ïÅ|ªÅ¶¡·¸¦ì */ 
+    make_stack_overflow();	/* é€ æˆå †ç–Šç©ºé–“æº¢ä½ */ 
     return;
 }

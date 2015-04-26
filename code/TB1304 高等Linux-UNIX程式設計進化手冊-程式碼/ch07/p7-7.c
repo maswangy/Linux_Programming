@@ -14,20 +14,20 @@ void wait_for_signal (int sig, volatile sig_atomic_t *sflag)
     static sigset_t mask,oldmask;
     sigemptyset(&mask);     
     sigaddset(&mask,sig);
-    /* ªı¶ë°T¸¹sig¡A¨ÃÀx¦s¥Ø«e°T¸¹«Ì½ª */
+    /* é˜»å¡è¨Šè™Ÿsigï¼Œä¸¦å„²å­˜ç›®å‰è¨Šè™Ÿå±è”½ */
     if (sigprocmask(SIG_BLOCK,&mask,&oldmask)<0){
        printf("SIG_BLOCK error");
        exit(1);
     }
-    sigdelset (&oldmask, SIGUSR1);   /* ³o¨â¦æ¬O¬°½d¨Ò¦Ó¥[¤Jªº«D¥²­nµ{¦¡½X */
+    sigdelset (&oldmask, SIGUSR1);   /* é€™å…©è¡Œæ˜¯ç‚ºç¯„ä¾‹è€ŒåŠ å…¥çš„éå¿…è¦ç¨‹å¼ç¢¼ */
     sigdelset (&oldmask, SIGUSR2);
-    while (!*sflag){                    /* µ¥«İ°T¸¹ */
+    while (!*sflag){                    /* ç­‰å¾…è¨Šè™Ÿ */
        printf ("door opened\n");
        sigsuspend(&oldmask);       
        printf ("door closed\n");
     }
     *sflag = 0;
-    if (sigprocmask(sig, &oldmask, NULL)<0)   /* ÁÙ­ì°T¸¹«Ì½ª¦Ü­ì¨Óªº­È */
+    if (sigprocmask(sig, &oldmask, NULL)<0)   /* é‚„åŸè¨Šè™Ÿå±è”½è‡³åŸä¾†çš„å€¼ */
        printf("SIG_SETMASK error");
 }
 int main(void)
@@ -38,18 +38,18 @@ int main(void)
     signal (SIGUSR2, sig_usr);
     signal (SIGINT, sig_intr);
     sigemptyset(&mask);
-    sigaddset(&mask, SIGUSR1);   /* ¬°½d¨Ò¥Øªº¥ıªı¶ë³o¨â­Ó°T¸¹ */
+    sigaddset(&mask, SIGUSR1);   /* ç‚ºç¯„ä¾‹ç›®çš„å…ˆé˜»å¡é€™å…©å€‹è¨Šè™Ÿ */
     sigaddset(&mask, SIGUSR2);
     if (sigprocmask(SIG_BLOCK,&mask,&oldmask)<0){
        printf("SIG_BLOCK error");
        exit(1);
     }
-    if ((pid = fork()) == 0) {     /* ¤l°õ¦æºü  */
+    if ((pid = fork()) == 0) {     /* å­åŸ·è¡Œç·’  */
        kill (getppid(), SIGUSR1);
        kill (getppid(), SIGUSR2);
        printf ("child ok");
        while (1);
-    } else {             /* ¤÷°õ¦æºü  */
+    } else {             /* çˆ¶åŸ·è¡Œç·’  */
        wait_for_signal (SIGINT, &sigflag);
        printf ("Now, I can do my work.  :)\n");
        kill (pid, SIGTERM);

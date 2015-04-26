@@ -16,13 +16,13 @@ static void sig_usr1(int signo)
 {
    time_t startime;
    if(canjmp == 0)
-      return;                          /* ¤£´Á±æªº°T¸¹,©¿²¤*/
+      return;                          /* ä¸æœŸæœ›çš„è¨Šè™Ÿ,å¿½ç•¥*/
    pr_mask("starting sig_usr1: ");
-   alarm(3);                           /* 3¬í¤§«á²£¥ÍSIGALRM°T¸¹ */
-   while(!sigalrm_appear);           /* µ¥«İSIGALRM */
+   alarm(3);                           /* 3ç§’ä¹‹å¾Œç”¢ç”ŸSIGALRMè¨Šè™Ÿ */
+   while(!sigalrm_appear);           /* ç­‰å¾…SIGALRM */
    pr_mask("finishing sig_usr1:");
    canjmp = 0;
-   siglongjmp(jmpbuf,1);            /* ¸õ¦^¨ìmain,¤£¶Ç¦^ */
+   siglongjmp(jmpbuf,1);            /* è·³å›åˆ°main,ä¸å‚³å› */
 }
 static void sig_alrm(int signo)
 {
@@ -39,7 +39,7 @@ int main(void)
       pr_mask("ending main: ");
       exit(EXIT_SUCCESS);
    }
-   canjmp = 1;     /* ¼Ğ§Ósigsetjmp()¤w³Q©I¥s¹L*/
+   canjmp = 1;     /* æ¨™å¿—sigsetjmp()å·²è¢«å‘¼å«é*/
    for (;;)             
-      pause();      /* µ¥«İ°T¸¹ */
+      pause();      /* ç­‰å¾…è¨Šè™Ÿ */
 }

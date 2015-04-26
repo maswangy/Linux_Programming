@@ -1,8 +1,8 @@
 #include "ch13.h"
 typedef struct job_sync_data {
-   int job_count;            //§@·~¼Æ
-   pthread_mutex_t mtx;     //¥Î©ó«OÅ@job_count
-   pthread_cond_t cond;     //¥Î©óª¾·|job_countªº§ïÅÜ
+   int job_count;            //ä½œæ¥­æ•¸
+   pthread_mutex_t mtx;     //ç”¨æ–¼ä¿è­·job_count
+   pthread_cond_t cond;     //ç”¨æ–¼çŸ¥æœƒjob_countçš„æ”¹è®Š
 } job_sync_data; 
 job_sync_data job_sync = {
               0, PTHREAD_MUTEX_INITIALIZER, PTHREAD_COND_INITIALIZER};
@@ -10,27 +10,27 @@ struct job {
    int job_id;
    void * work_ptr;
 };
-extern struct job *job_dequeue();          //±q§@·~¦î¦C¤¤¤ÀªR¤@­Ó§@·~
-extern void procee_job(struct job *ptr);  //³B²z¤@­Ó§@·~
+extern struct job *job_dequeue();          //å¾ä½œæ¥­ä½‡åˆ—ä¸­åˆ†æä¸€å€‹ä½œæ¥­
+extern void procee_job(struct job *ptr);  //è™•ç†ä¸€å€‹ä½œæ¥­
 void worker_thread()
 {
    struct job *curr_job;
    int rv;
    for(; ;){
-      /* Àò±o±ø¥óÅÜ¼Æ¬Û³sªº¤¬¥¸ÅÜ¼Æ */
+      /* ç²å¾—æ¢ä»¶è®Šæ•¸ç›¸é€£çš„äº’æ–¥è®Šæ•¸ */
       rv=pthread_mutex_lock(&job_sync.mtx);  
       check_error(rv, "mutex lock");
-      /* ´ú¸Õ¦³§_§@·~¡A­YªG¨S¦³«hµ¥«İ¡C±ø¥óÅÜ¼Æµ¥«İ·|ÄÀ©ñ¬Û³sªº¤¬¥¸ÅÜ¼Æ¥H«K¨ä¥¦°õ¦æºü
-         ¯à°÷©ñ¸m§@·~©ó¦î¦C¤§¤¤¡C±q±ø¥óÅÜ¼Æµ¥«İ¶Ç¦^¤§«e·|­«·sÀò±o¸Ó¤¬¥¸ÅÜ¼Æ */
+      /* æ¸¬è©¦æœ‰å¦ä½œæ¥­ï¼Œè‹¥æœæ²’æœ‰å‰‡ç­‰å¾…ã€‚æ¢ä»¶è®Šæ•¸ç­‰å¾…æœƒé‡‹æ”¾ç›¸é€£çš„äº’æ–¥è®Šæ•¸ä»¥ä¾¿å…¶å®ƒåŸ·è¡Œç·’
+         èƒ½å¤ æ”¾ç½®ä½œæ¥­æ–¼ä½‡åˆ—ä¹‹ä¸­ã€‚å¾æ¢ä»¶è®Šæ•¸ç­‰å¾…å‚³å›ä¹‹å‰æœƒé‡æ–°ç²å¾—è©²äº’æ–¥è®Šæ•¸ */
       while (job_sync.job_count == 0)
          pthread_cond_wait(&job_sync.cond, &job_sync.mtx);
-      curr_job=job_dequeue(); // ±o¨ì§@·~
+      curr_job=job_dequeue(); // å¾—åˆ°ä½œæ¥­
       if (curr_job != NULL) 
          job_sync.job_count--; 
-      // ÄÀ©ñ¬Û³sªº¤¬¥¸ÅÜ¼Æ
+      // é‡‹æ”¾ç›¸é€£çš„äº’æ–¥è®Šæ•¸
       rv=pthread_mutex_unlock(&job_sync.mtx);
       check_error(rv, "mtx_unlock failed");
-      // ³B²z§@·~
+      // è™•ç†ä½œæ¥­
       procee_job(curr_job); 
    }
 }

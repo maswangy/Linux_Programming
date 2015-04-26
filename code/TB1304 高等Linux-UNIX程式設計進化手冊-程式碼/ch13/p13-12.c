@@ -1,10 +1,10 @@
 #include "ch13.h"
-extern struct job *create_job();            //«Ø¥ß¤@­Ó§@·~
-extern void job_enqueue(struct job *ptr); //¦V§@·~¦î¦C¥[¤J¤@­Ó§@·~
+extern struct job *create_job();            //å»ºç«‹ä¸€å€‹ä½œæ¥­
+extern void job_enqueue(struct job *ptr); //å‘ä½œæ¥­ä½‡åˆ—åŠ å…¥ä¸€å€‹ä½œæ¥­
 typedef struct job_sync_data {
-   int job_count;            //§@·~¼Æ
-   pthread_mutex_t mtx;     //¥Î©ó«OÅ@job_count
-   pthread_cond_t cond;     //¥Î©óª¾·|job_countªº§ïÅÜ
+   int job_count;            //ä½œæ¥­æ•¸
+   pthread_mutex_t mtx;     //ç”¨æ–¼ä¿è­·job_count
+   pthread_cond_t cond;     //ç”¨æ–¼çŸ¥æœƒjob_countçš„æ”¹è®Š
 } job_sync_data;
 extern job_sync_data job_sync;
 void master_thread()
@@ -12,18 +12,18 @@ void master_thread()
    struct job *new_job;
    int rv;
    for (; ;) {
-      if ((new_job = create_job())== NULL)  // «Ø¥ß¤U¤@­Ó§@·~
-         pthread_exit((void *)NULL);         // ¨S¦³¶i¤@¨Bªº¤u§@«h²×¤î¦Û¤v
-      /* Àò±o¬Û³sªº¤¬¥¸ÅÜ¼Æ */
+      if ((new_job = create_job())== NULL)  // å»ºç«‹ä¸‹ä¸€å€‹ä½œæ¥­
+         pthread_exit((void *)NULL);         // æ²’æœ‰é€²ä¸€æ­¥çš„å·¥ä½œå‰‡çµ‚æ­¢è‡ªå·±
+      /* ç²å¾—ç›¸é€£çš„äº’æ–¥è®Šæ•¸ */
       rv=pthread_mutex_lock(&job_sync.mtx); 
       check_error(rv, "mutex lock");
-      /* ¥[¤J·s§@·~¦Ü§@·~¦î¦C */
+      /* åŠ å…¥æ–°ä½œæ¥­è‡³ä½œæ¥­ä½‡åˆ— */
       job_enqueue(new_job);
       job_sync.job_count++;
-      /* ¦V±ø¥óÅÜ¼Æµo°T¸¹³ê¿ô¤@­Ó°õ¦æºü */
+      /* å‘æ¢ä»¶è®Šæ•¸ç™¼è¨Šè™Ÿå–šé†’ä¸€å€‹åŸ·è¡Œç·’ */
       rv = pthread_cond_signal(&job_sync.cond);
       check_error(rv,"cond_signal");  
-      /* ÄÀ©ñ¬Û³sªº¤¬¥¸ÅÜ¼Æ */
+      /* é‡‹æ”¾ç›¸é€£çš„äº’æ–¥è®Šæ•¸ */
       rv=pthread_mutex_unlock(&job_sync.mtx);
       check_error(rv,"mtx_unlock");
    }

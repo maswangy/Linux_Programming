@@ -4,7 +4,7 @@
 #define my_spinlock_init pthread_mutex_init
 #define my_spinunlock    pthread_mutex_unlock
 #define my_spintrylock   pthread_mutex_trylock
-/* ¥Ó½ĞspinÂê */
+/* ç”³è«‹spiné– */
 int my_spinlock(pthread_mutex_t *lock)
 {
    int rv;
@@ -15,7 +15,7 @@ int my_spinlock(pthread_mutex_t *lock)
    reurn rv;
 #endif
 }
-/* ¥Ó½Ğ¦³­­½ü¸ßspinÂê */
+/* ç”³è«‹æœ‰é™è¼ªè©¢spiné– */
 int my_spinlock_limited(pthread_mutex_t *lock)
 {
    int rv, count=MAX_SPIN;

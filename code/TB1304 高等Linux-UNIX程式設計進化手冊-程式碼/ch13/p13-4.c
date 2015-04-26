@@ -23,11 +23,11 @@ main(void)
    
    while (1) {
       cmd = get_usr_cmd();
-      if (cmd == QUIT) {  // ½Ğ¨Dµ²§ô°õ¦æ
+      if (cmd == QUIT) {  // è«‹æ±‚çµæŸåŸ·è¡Œ
          printf ("Initial thread will finish soon\n");
          pthread_exit((void *)NULL);
       }
-      /* «Ø¥ß¤@­Ó·s°õ¦æºü */
+      /* å»ºç«‹ä¸€å€‹æ–°åŸ·è¡Œç·’ */
       tp = (struct thread *)malloc(sizeof (struct thread));
       tp->no = k++;
       tp->cmd = cmd;
@@ -36,11 +36,11 @@ main(void)
       check_error(rv, "pthread_create()" );
       printf ("Create thread %d\n",tp->no);
       
-      rv = pthread_detach(tid); /* ¤ÀÂ÷¸Ó°õ¦æºü */
+      rv = pthread_detach(tid); /* åˆ†é›¢è©²åŸ·è¡Œç·’ */
       check_error (rv, "pthread_detach()" ) ;
    }
 }
-/* ³B²z¨Ï¥ÎªÌ«ü¥O¨ç¼Æ */
+/* è™•ç†ä½¿ç”¨è€…æŒ‡ä»¤å‡½æ•¸ */
 void thread_func(struct thread *thread_p)
 {
     /*  */

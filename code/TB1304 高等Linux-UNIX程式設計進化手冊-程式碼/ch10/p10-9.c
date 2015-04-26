@@ -14,23 +14,23 @@ int main(void)
     fp = fopen("records.dat","w+");
     if (fp==NULL)
        err_exit("fopen:");
-    /* ¼g°O¿ý¦ÜÀÉ®× */
+    /* å¯«è¨˜éŒ„è‡³æª”æ¡ˆ */
     for (i=0;i<NRECORDS;i++){
        record.integer = i;
        sprintf(record.string, "RECORD-%4d", i);
        fwrite(&record,sizeof(record),1,fp);
     }
     fclose(fp);
-    /* ­«·s¶}±Ò¦¹ÀÉ®×¥ÎÀx¦s¬M®g¤èªk­×§ï²Ä43­Ó°O¿ý */
+    /* é‡æ–°é–‹å•Ÿæ­¤æª”æ¡ˆç”¨å„²å­˜æ˜ å°„æ–¹æ³•ä¿®æ”¹ç¬¬43å€‹è¨˜éŒ„ */
     fd = open("records.dat",O_RDWR);
-    /* ±NÀÉ®×ªº«eNRECORDS­Ó°O¿ý¬M®g¨ì°O¾ÐÅé */
+    /* å°‡æª”æ¡ˆçš„å‰NRECORDSå€‹è¨˜éŒ„æ˜ å°„åˆ°è¨˜æ†¶é«” */
     mapped = (RECORD *)mmap(0, NRECORDS*sizeof(record),
 	              PROT_READ|PROT_WRITE,MAP_SHARED, fd, 0);
-    mapped[43].integer = 243;     /* ­×§ï²Ä43­Ó°O¿ýªº°O¿ý¸¹ */
+    mapped[43].integer = 243;     /* ä¿®æ”¹ç¬¬43å€‹è¨˜éŒ„çš„è¨˜éŒ„è™Ÿ */
     sprintf(mapped[43].string, "RECORD-%d",mapped[43].integer);
-    msync((void*)mapped, NRECORDS*sizeof(record), MS_ASYNC); /* ¦P¨BºÏºÐ */
-    munmap((void*)mapped, NRECORDS*sizeof(record));	/* ²¾°£Àx¦s¬M®g */
-	/*ÀËµøÀÉ®×¦³§_§ïÅÜ */ 
+    msync((void*)mapped, NRECORDS*sizeof(record), MS_ASYNC); /* åŒæ­¥ç£ç¢Ÿ */
+    munmap((void*)mapped, NRECORDS*sizeof(record));	/* ç§»é™¤å„²å­˜æ˜ å°„ */
+	/*æª¢è¦–æª”æ¡ˆæœ‰å¦æ”¹è®Š */ 
     lseek(fd, 43*sizeof(record), SEEK_SET);
     read(fd, &record, sizeof(record));
     printf("record[43].integer = %d\n",record.integer);

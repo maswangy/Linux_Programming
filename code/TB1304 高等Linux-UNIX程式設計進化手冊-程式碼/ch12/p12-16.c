@@ -7,22 +7,22 @@ int main(int argc,char **argv)
    char buff[100];
    fd_set rset, xset;
 
-   /* ÀË¬d°Ñ¼Æ¨Ã«Ø¥ßºÊÅ¥®M±µ¦r */
+   /* æª¢æŸ¥åƒæ•¸ä¸¦å»ºç«‹ç›£è½å¥—æ¥å­— */
    if(argc != 2) {
       printf("Usage: a.out <port#>\n");
       exit(1);
    }
    listenfd = make_socket(SOCK_STREAM,atoi(argv[1]));
    listen(listenfd, 5);
-   connfd = accept(listenfd, NULL, NULL);  /* ±µ¦¬³s½u */
-   /* ´y­z¦r¶°¦X²M²z */
+   connfd = accept(listenfd, NULL, NULL);  /* æ¥æ”¶é€£ç·š */
+   /* æè¿°å­—é›†åˆæ¸…ç† */
    FD_ZERO(&rset);
    FD_ZERO(&xset);
    while(1){
-      /* ±Nconnfd¥[¦Ü´Nºü©M¨Ò¥~´y­z¦r¶°¦X */
+      /* å°‡connfdåŠ è‡³å°±ç·’å’Œä¾‹å¤–æè¿°å­—é›†åˆ */
       FD_SET(connfd,&rset);
       FD_SET(connfd,&xset);
-      /* µ¥«İ´y­z¦rconnfd´Nºü©Î¥X²{¨Ò¥~±ø¥ó */  
+      /* ç­‰å¾…æè¿°å­—connfdå°±ç·’æˆ–å‡ºç¾ä¾‹å¤–æ¢ä»¶ */  
       select(connfd+1, &rset, NULL, &xset, NULL);
       if(FD_ISSET(connfd, &xset)){ 
          n = recv(connfd,buff,sizeof(buff-1),MSG_OOB);
@@ -31,12 +31,12 @@ int main(int argc,char **argv)
          printf("received %d OOB byte: %s\n",n,buff);
          FD_CLR(connfd,&xset);  
       }
-      if(FD_ISSET(connfd, &rset)){ /* connfÅª´Nºü */
+      if(FD_ISSET(connfd, &rset)){ /* connfè®€å°±ç·’ */
          if((n = read(connfd, buff, sizeof(buff)-1)) == 0){
              printf("received EOF\n");
              exit(0);
          }
-         buff[n] = 0;  /* µ²§ô²×¤î²Å */
+         buff[n] = 0;  /* çµæŸçµ‚æ­¢ç¬¦ */
          printf("read %d bytes: %s\n",n,buff);
          FD_CLR(connfd,&xset);  
       }

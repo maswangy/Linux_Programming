@@ -5,21 +5,21 @@ int main()
    int msgid, running = 1;
    struct my_msg msgbuf;
    struct msqid_ds buf;
-   /* Àò±o°T®§¦î¦Cid */
+   /* ç²å¾—è¨Šæ¯ä½‡åˆ—id */
    msgid = msgget((key_t)1234, 0666|IPC_CREAT);
    if (msgid == -1) 
        err_exit("msgget failed\n");
  
-   /* ¤Ï´_±N¨Ï¥ÎªÌ¿é¤Jªº¸ê®Æ¶Ç°e¦Ü°T®§¦î¦C¡A¦r¦ê¡§end¡¨¼Ğ§Ó¿é¤Jµ²§ô */
+   /* åå¾©å°‡ä½¿ç”¨è€…è¼¸å…¥çš„è³‡æ–™å‚³é€è‡³è¨Šæ¯ä½‡åˆ—ï¼Œå­—ä¸²â€œendâ€æ¨™å¿—è¼¸å…¥çµæŸ */
    while(running) {
-       /* Åª¿é¤J¦r¦ê¦Ü°T®§½w¨R°Ï */
+       /* è®€è¼¸å…¥å­—ä¸²è‡³è¨Šæ¯ç·©æ²–å€ */
        printf("Enter some text: ");         
        fgets(msgbuf.text, BUFSIZE, stdin);
-       msgbuf.my_msg_type = (long int)msgbuf.text[0]; /* ²Ä¤@­Ó¦r¤¸§@¬°°T®§«¬ºA */
-       /* ¦V°T®§¦î¦C¶Ç°e°T®§¡Aªı¶ë¼Ò¦¡ */
+       msgbuf.my_msg_type = (long int)msgbuf.text[0]; /* ç¬¬ä¸€å€‹å­—å…ƒä½œç‚ºè¨Šæ¯å‹æ…‹ */
+       /* å‘è¨Šæ¯ä½‡åˆ—å‚³é€è¨Šæ¯ï¼Œé˜»å¡æ¨¡å¼ */
        if (msgsnd(msgid, (void *)&msgbuf, sizeof(struct my_msg), IPC_NOWAIT) == -1) 
           err_exit("msgsnd failed\n");
-       /* ­YªG¬O¡§end¡¨¡Aµ²§ô´`Àô */
+       /* è‹¥æœæ˜¯â€œendâ€ï¼ŒçµæŸå¾ªç’° */
        if (strncmp(msgbuf.text, "end", 3) == 0) 
           running = 0;
    }

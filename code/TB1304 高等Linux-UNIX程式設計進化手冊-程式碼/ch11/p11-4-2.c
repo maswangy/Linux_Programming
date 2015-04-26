@@ -3,7 +3,7 @@ int main(void)
 {
    int fifo_fd, i, n, total_bytes = 0;
    char sendbuf[PIPE_BUF];
-   /* ¶}±ÒFIFOÀÉ®× */
+   /* é–‹å•ŸFIFOæª”æ¡ˆ */
    if ((fifo_fd = open(FIFO_FILE, O_WRONLY)) <0 ){
       printf( "Could not open fifo %s\n", FIFO_FILE);
       exit(EXIT_FAILURE);

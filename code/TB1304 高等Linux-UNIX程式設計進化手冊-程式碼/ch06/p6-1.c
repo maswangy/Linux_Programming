@@ -9,14 +9,14 @@ int main(void)
    int local = 10;
 
    printf(" before fork--- ");
-   if ((pid = fork()) < 0)  /* fork©I¥s¥¢±Ñ */  
+   if ((pid = fork()) < 0)  /* forkå‘¼å«å¤±æ•— */  
       err_exit("fork");
-   if (pid == 0){            /* ¤l°õ¦æºü */
+   if (pid == 0){            /* å­åŸ·è¡Œç·’ */
       string = "I am child";
       printf("%s, my pid=%d: global=%d, local=%d\n",
               string, getpid(), global, local);
       global ++;
-   } else {           /* ¤÷°õ¦æºü */
+   } else {           /* çˆ¶åŸ·è¡Œç·’ */
       printf("%s, my pid=%d: global=%d, local=%d\n ",
               string, getpid(), global, local);
       local++;

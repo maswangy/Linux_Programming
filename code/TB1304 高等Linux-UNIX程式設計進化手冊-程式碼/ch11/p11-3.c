@@ -2,7 +2,7 @@
 void write_data (FILE * stream)
 {
     int i;
-    for (i = 0; i<50; i++){        /* ¿é¥X50­Ó¾ã¼Æ*/
+    for (i = 0; i<50; i++){        /* è¼¸å‡º50å€‹æ•´æ•¸*/
        fprintf (stream, "line %2d\n", i);
        if (ferror (stream)) 
            err_exit("Output to stream failed.\n");
@@ -11,12 +11,12 @@ void write_data (FILE * stream)
 int main (void)
 {
     FILE *output;
-    /* «Ø¥ß°õ¦æmoreªº°õ¦æºü¤À­¶Åã¥Ü¿é¤J,¨Ã«Ø¥ß³q¦V¥¦ªº¿é¤JºÞ½u */
+    /* å»ºç«‹åŸ·è¡Œmoreçš„åŸ·è¡Œç·’åˆ†é é¡¯ç¤ºè¼¸å…¥,ä¸¦å»ºç«‹é€šå‘å®ƒçš„è¼¸å…¥ç®¡ç·š */
     output = popen ("more -10", "w");
     if (!output) 
         err_exit("Could not run more.\n"); 
     write_data (output);
-    /* µ¥«Ýpopen«Ø¥ßªº°õ¦æºü²×¤î¨ÃÃö³¬»P¥¦¬Û³sªº¬y */
+    /* ç­‰å¾…popenå»ºç«‹çš„åŸ·è¡Œç·’çµ‚æ­¢ä¸¦é—œé–‰èˆ‡å®ƒç›¸é€£çš„æµ */
     pclose (output);
     return EXIT_SUCCESS;
 }

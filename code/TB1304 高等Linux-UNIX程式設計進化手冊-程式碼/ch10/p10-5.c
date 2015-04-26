@@ -9,24 +9,24 @@ int main(void)
    char buffer[64];
    struct termios newsettings,oldsettings;
 
-   file=fopen("tstfile", "w");   // ¶}±Ò¿é¥XÀÉ®×
-   signal(SIGIO, input_ready);   // ¦w¸ËSIGIO°T¸¹±±¨î½X
- // ³]©w¼Ğ­ã¿é¤J¬°¨C¦¸Åª¤J¤@¦r¤¸ªº«D¥[¤u¼Ò¦¡
+   file=fopen("tstfile", "w");   // é–‹å•Ÿè¼¸å‡ºæª”æ¡ˆ
+   signal(SIGIO, input_ready);   // å®‰è£SIGIOè¨Šè™Ÿæ§åˆ¶ç¢¼
+ // è¨­å®šæ¨™å‡†è¼¸å…¥ç‚ºæ¯æ¬¡è®€å…¥ä¸€å­—å…ƒçš„éåŠ å·¥æ¨¡å¼
    tcgetattr(STDIN_FILENO, &oldsettings);
    newsettings = oldsettings;
    newsettings.c_lflag &= (~ICANON);
    newsettings.c_cc[VTIME] = 0;
    newsettings.c_cc[VMIN] = 1;
    tcsetattr(STDIN_FILENO, TCSANOW, &newsettings);
- // ³]©w¼Ğ­ã¿é¤J¬°µLªı¶ëSIGIO°T¸¹ÅX°ÊIO¼Ò¦¡
+ // è¨­å®šæ¨™å‡†è¼¸å…¥ç‚ºç„¡é˜»å¡SIGIOè¨Šè™Ÿé©…å‹•IOæ¨¡å¼
    fcntl(STDIN_FILENO, F_SETOWN, getpid());
    flags = fcntl(STDIN_FILENO, F_GETFL, 0);
    flags = flags | O_ASYNC;//|O_NONBLOCK;
    fcntl(STDIN_FILENO, F_SETFL, flags);
-   while (1) sleep(1);  // ¨S¦³¿é¤J®É¥ğ®§
+   while (1) sleep(1);  // æ²’æœ‰è¼¸å…¥æ™‚ä¼‘æ¯
 }
 
-void input_ready(int signo) // ±µ¦¬¿é¤J¡A²Ö¿n¦Ü¤@¦æ«á¿é¥X¡C¦æ­º¦r¤¸¬°q²×¤î°õ¦æºü
+void input_ready(int signo) // æ¥æ”¶è¼¸å…¥ï¼Œç´¯ç©è‡³ä¸€è¡Œå¾Œè¼¸å‡ºã€‚è¡Œé¦–å­—å…ƒç‚ºqçµ‚æ­¢åŸ·è¡Œç·’
 {
    char c,input[80];
    int n;

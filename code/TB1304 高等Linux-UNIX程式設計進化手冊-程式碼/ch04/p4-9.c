@@ -6,24 +6,24 @@ int main(void)
 {
    int   fdtmp, fdout, length;
 
-   /* «Ø¥ß¤G­ÓÀÉ®×¡A¤@­Ó§@¬°¤¤¶¡ÀÉ®×¡A¤@­Ó§@¬°µ²ªGÀÉ®× */
+   /* å»ºç«‹äºŒå€‹æª”æ¡ˆï¼Œä¸€å€‹ä½œç‚ºä¸­é–“æª”æ¡ˆï¼Œä¸€å€‹ä½œç‚ºçµæœæª”æ¡ˆ */
    fdtmp = open("tmpfile", O_RDWR|O_CREAT|O_TRUNC, S_IRWXU);
    fdout = open("outfile", O_RDWR|O_CREAT|O_TRUNC, S_IRWXU);
    if ( fdtmp < 0 || fdout < 0) 
       err_exit("ERROR: creat file failed");
 
-   /* ¥ß§Y²¾°£¤¤¶¡ÀÉ®× */
+   /* ç«‹å³ç§»é™¤ä¸­é–“æª”æ¡ˆ */
   if ( unlink ("tmpfile") < 0 )
       err_exit("unlink call failed");
 
-   /* ©¹¤¤¶¡ÀÉ®×¼g¸ê®Æ¡AºÉºŞ³o­ÓÀÉ®×¤w¸g²¾°£¡A§Ú­Ì²{¦b¤´µM¥i¥HÅª¼g¥¦ */
+   /* å¾€ä¸­é–“æª”æ¡ˆå¯«è³‡æ–™ï¼Œç›¡ç®¡é€™å€‹æª”æ¡ˆå·²ç¶“ç§»é™¤ï¼Œæˆ‘å€‘ç¾åœ¨ä»ç„¶å¯ä»¥è®€å¯«å®ƒ */
    length = write(fdtmp, "An example progamm for unlink().", 32);
 
-   /* ¤ÏÂ¶¤¤¶¡ÀÉ®× */
+   /* åç¹ä¸­é–“æª”æ¡ˆ */
    if(lseek(fdtmp, (long)0, SEEK_SET) < 0)
       err_exit("lseek call failed");
 
-   /* ½Æ»s¤¤¶¡ÀÉ®×¦Üµ²ªGÀÉ®× */
+   /* è¤‡è£½ä¸­é–“æª”æ¡ˆè‡³çµæœæª”æ¡ˆ */
    read(fdtmp, outbuf, length);
    write(fdout, outbuf, length);
 

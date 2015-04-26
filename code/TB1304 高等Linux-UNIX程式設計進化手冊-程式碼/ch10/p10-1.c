@@ -15,15 +15,15 @@ int set_lock(int fd, int type, off_t offset, int whence, off_t len, int w)
    lock.l_start = offset;
    lock.l_len = len;
    lock.l_pid = -1;
-   if(w)   /* ¥Ó½Ğ¨Ãµ¥«İª½¨ìÀò±oÂê */
+   if(w)   /* ç”³è«‹ä¸¦ç­‰å¾…ç›´åˆ°ç²å¾—é– */
        return(fcntl(fd, F_SETLKW, &lock));
-   if (fcntl(fd, F_GETLK, &lock) < 0)   // ¨ú±oÀÉ®×ªºÂê°T®§
+   if (fcntl(fd, F_GETLK, &lock) < 0)   // å–å¾—æª”æ¡ˆçš„é–è¨Šæ¯
        err_exit("F_GETLK failed ");
-   if (lock.l_type == F_UNLCK){   // ¥¼¸mÂê¡A«h¥Ó½Ğ¸mÂê
+   if (lock.l_type == F_UNLCK){   // æœªç½®é–ï¼Œå‰‡ç”³è«‹ç½®é–
        lock.l_type = type;   
        return(fcntl(fd, F_SETLK, &lock));
    }
-   return -1;	// ¤w¸g¸mÂê¡A¦A¦¸¸mÂê¥H¥¢±Ñ¶Ç¦^
+   return -1;	// å·²ç¶“ç½®é–ï¼Œå†æ¬¡ç½®é–ä»¥å¤±æ•—å‚³å›
 }
 int un_lock (int fd, off_t offset, int whence, off_t len)
 {

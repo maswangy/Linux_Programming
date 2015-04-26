@@ -7,12 +7,12 @@ int main(void)
       exit(EXIT_FAILURE);
    }
    write(fd, "Example of line control functions ", 34);
-   tcdrain(fd);             /* µ¥«İ¿é¥X¦î¦C¤¤ªº¸ê®Æ¥ş³¡°e¥X */
-   tcflow(fd, TCOOFF);      /* Äa±¾¿é¥X¶Ç¿é */
+   tcdrain(fd);             /* ç­‰å¾…è¼¸å‡ºä½‡åˆ—ä¸­çš„è³‡æ–™å…¨éƒ¨é€å‡º */
+   tcflow(fd, TCOOFF);      /* æ‡¸æ›è¼¸å‡ºå‚³è¼¸ */
    n1 = write(fd, "this line will be thrown over\n", 30);
-   tcflush(fd, TCOFLUSH);   /* ²M°£¿é¥X¦î¦C */ 
+   tcflush(fd, TCOFLUSH);   /* æ¸…é™¤è¼¸å‡ºä½‡åˆ— */ 
    n2 = write(fd, "this line will not be thrown over\n", 34);
-   tcflow(fd, TCOON);       /* ÁÙ­ì¿é¥X¶Ç¿é */
+   tcflow(fd, TCOON);       /* é‚„åŸè¼¸å‡ºå‚³è¼¸ */
    write(fd,"restart the output\n",19);
    exit(EXIT_SUCCESS);
 }

@@ -9,7 +9,7 @@ int main(int argc, char *argv[] )
         printf( "usage: a.out <fromfile> <tofile>\n" );
      	exit(1);
     }
-	/* ¶}±Ò­n³s½uªº¨â­ÓÀÉ®× */
+	/* é–‹å•Ÿè¦é€£ç·šçš„å…©å€‹æª”æ¡ˆ */
     if ((fdfrom = open(argv[1], O_RDONLY)) < 0){
         printf("can't open %s for reading", argv[1]);
      	exit(1);
@@ -18,25 +18,25 @@ int main(int argc, char *argv[] )
         printf("can't creat %s for writing", argv[2]); 
      	exit(1);
 	}
-    /* ¨ú±o³o¨â­ÓÀÉ®×ªº¤j¤p*/
+    /* å–å¾—é€™å…©å€‹æª”æ¡ˆçš„å¤§å°*/
     if (fstat(fdfrom, &statbuf1) < 0)
         err_exit("fstat errort") ;
     if (fstat(fdto, &statbuf2) < 0)
         err_exit ("fstat errort") ;
-    /* ÂX¥R¿é¥XÀÉ®×ªº¤j¤p¨Ï¤§µ¥©ó³o¨â­ÓÀÉ®×¤j¤p¤§©M */
+    /* æ“´å……è¼¸å‡ºæª”æ¡ˆçš„å¤§å°ä½¿ä¹‹ç­‰æ–¼é€™å…©å€‹æª”æ¡ˆå¤§å°ä¹‹å’Œ */
     if (lseek(fdto, statbuf1.st_size - 1, SEEK_END) == -1)
        err_exit("lseek error");
-    /* ¦bÀÉ®×§À³¡¼g¤@¦r¤¸¨ÏÂX¥R¦³®Ä */  
+    /* åœ¨æª”æ¡ˆå°¾éƒ¨å¯«ä¸€å­—å…ƒä½¿æ“´å……æœ‰æ•ˆ */  
     if (write(fdto, "", 1) != 1) 
        err_exit("write error") ;
-    /* ¬M®g³o¨â­ÓÀÉ®×¦Ü°O¾ĞÅé */
+    /* æ˜ å°„é€™å…©å€‹æª”æ¡ˆè‡³è¨˜æ†¶é«” */
     if ((src = mmap(0, statbuf1.st_size, PROT_READ,
            MAP_SHARED, fdfrom, 0)) == (caddr_t)-1)
        err_exit("mmap error for input") ;
     if ((dst = mmap(0, statbuf2.st_size + statbuf1.st_size, 
 	       PROT_READ | PROT_WRITE, MAP_SHARED, fdto, 0)) == (caddr_t)-1)
        err_exit("mmap error for output");
-    /* ³s½u²Ä¤@­ÓÀÉ®×¦Ü²Ä¤G­ÓÀÉ®× */
+    /* é€£ç·šç¬¬ä¸€å€‹æª”æ¡ˆè‡³ç¬¬äºŒå€‹æª”æ¡ˆ */
     memcpy( dst+statbuf2.st_size, src, statbuf1.st_size);
 	exit(0);
 }

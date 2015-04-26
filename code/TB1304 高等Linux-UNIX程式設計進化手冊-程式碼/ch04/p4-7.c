@@ -6,14 +6,14 @@ int main(int argc, char*argv[])
    int fd;
    char *cp;
    
-   if (argc != 3){   /* ÀË¬d°Ñ¼Æªº¥¿½T©Ê */
+   if (argc != 3){   /* æª¢æŸ¥åƒæ•¸çš„æ­£ç¢ºæ€§ */
       printf("usage: a.out <filename> <file size>\n");
       exit(1);
    }
 
-   /* Åª¨ú°Ñ¼Æ¨Ã¶}±ÒÀÉ®× */
+   /* è®€å–åƒæ•¸ä¸¦é–‹å•Ÿæª”æ¡ˆ */
    length = strtol(argv[2], &cp, 10); 
-   if (cp==argv[2]) {  /* ²Ä¤G°Ñ¼Æ«D¼Æ¦r */
+   if (cp==argv[2]) {  /* ç¬¬äºŒåƒæ•¸éæ•¸å­— */
       printf("usage: a.out <filename> <file size> and "
              "<file size> must be a integer\n");
       exit(1);
@@ -22,14 +22,14 @@ int main(int argc, char*argv[])
    if ((fd = open(argv[1],O_RDWR)) < 0)
       err_exit("open() call failed");
 
-   /* «ö²Ä¤G°Ñ¼Æ«ü©w¦ì¤¸²ÕµôÂ_ÀÉ®× */
+   /* æŒ‰ç¬¬äºŒåƒæ•¸æŒ‡å®šä½å…ƒçµ„è£æ–·æª”æ¡ˆ */
    printf ("truncate %s to %d characaters\n", argv[1], length);
    if ( ftruncate(fd, length) < 0 ) 
       err_exit("truncate() call failed");
    printf ("truncate() call successful\n");
 
-   lseek(fd,(long)0, SEEK_END); /* ©w¦ì¦ÜÀÉ®×§À */
-   write(fd, "@T" ,2);          /* ¼g¤J§À³¡¼Ğ»x */
+   lseek(fd,(long)0, SEEK_END); /* å®šä½è‡³æª”æ¡ˆå°¾ */
+   write(fd, "@T" ,2);          /* å¯«å…¥å°¾éƒ¨æ¨™èªŒ */
 
    close(fd);
 }

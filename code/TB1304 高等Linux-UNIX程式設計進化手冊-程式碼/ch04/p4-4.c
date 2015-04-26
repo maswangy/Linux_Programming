@@ -2,18 +2,18 @@
 
 char *get_perms(struct stat *sbuf, char *perms)
 {
-   static char *modes[] = {   /* »P¨C¤@ºØ¦s¨úÅv­­³\¥i­È¹ïÀ³ªº¦r¦ê */
+   static char *modes[] = {   /* èˆ‡æ¯ä¸€ç¨®å­˜å–æ¬Šé™è¨±å¯å€¼å°æ‡‰çš„å­—ä¸² */
        "---", "--x", "-w-", "-wx", "r--", "r-x", "rw-", "rwx"
    };  
    int i,j;
 
    *perms = '\0';
-   /* ¤À§OÀò±o¤T¸s²Õ¦s¨úÅv­­­È¡A¥Î¸Ó­È§@¬°°}¦Cmodesªº¯Á¤Þ¡A¥H«KÀò±o¹ïÀ³ªº¦r¦ê«÷¤Jperms */
+   /* åˆ†åˆ¥ç²å¾—ä¸‰ç¾¤çµ„å­˜å–æ¬Šé™å€¼ï¼Œç”¨è©²å€¼ä½œç‚ºé™£åˆ—modesçš„ç´¢å¼•ï¼Œä»¥ä¾¿ç²å¾—å°æ‡‰çš„å­—ä¸²æ‹¼å…¥perms */
    for (i=2; i>=0; i--) {
       j=(sbuf->st_mode>>(i*3)) & 07;
       strcat( perms,modes[j]);
    }
-   /*  ³B²z½Õ¾ãID¦ì©Msticky¦ì */
+   /*  è™•ç†èª¿æ•´IDä½å’Œstickyä½ */
    if ((sbuf->st_mode & S_ISUID) !=0)
       perms[2] = 's';
    if ((sbuf->st_mode & S_ISGID) !=0)

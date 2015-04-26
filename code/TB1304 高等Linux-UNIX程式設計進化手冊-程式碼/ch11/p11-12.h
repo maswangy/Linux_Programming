@@ -2,15 +2,15 @@
 #include "p11-11.c"   //semaphore_P()/semaphore_V()
 #include "p11-9.c"    // open_semaphore_set()
 
-/* ²¾°£¯S®íªº°T¸¹¶q¶°¦X */
+/* ç§»é™¤ç‰¹æ®Šçš„è¨Šè™Ÿé‡é›†åˆ */
 #define rm_semaphore(sid) semctl(sid, 0, IPC_RMID,0)
 
 struct exchange {
-    char buf[BUFSIZ+80];    /* »İ¥æ´«ªº¸ê®Æ*/
-    int seq;                /* «È¤á¶ñ¤Jªº¶¶§Ç¸¹ */
+    char buf[BUFSIZ+80];    /* éœ€äº¤æ›çš„è³‡æ–™*/
+    int seq;                /* å®¢æˆ¶å¡«å…¥çš„é †åºè™Ÿ */
 };
 
-/* semunµ²ºc */
+/* semunçµæ§‹ */
 union semun {
    int val;
    struct semid_ds *buf;
@@ -19,7 +19,7 @@ union semun {
 
 key_t key1=123,key2=456;
 
-/* «Ø¥ß/¶}±Ò¦@¨ÉÀx¦s¬q¡A³s½u¥¦¨ì¨Ï¥ÎªÌ¦ì§}ªÅ¶¡¡A¶Ç¦^¥¦¦b¨Ï¥ÎªÌªÅ¶¡ªº¦ì§} */
+/* å»ºç«‹/é–‹å•Ÿå…±äº«å„²å­˜æ®µï¼Œé€£ç·šå®ƒåˆ°ä½¿ç”¨è€…ä½å€ç©ºé–“ï¼Œå‚³å›å®ƒåœ¨ä½¿ç”¨è€…ç©ºé–“çš„ä½å€ */
 unsigned char *shminit(key_t key, int *shmid)
 {
     unsigned char *retval;
@@ -30,7 +30,7 @@ unsigned char *shminit(key_t key, int *shmid)
     return retval;
 }
 
-/* µ¹¯S®íªº°T¸¹¶q½áªì­È */
+/* çµ¦ç‰¹æ®Šçš„è¨Šè™Ÿé‡è³¦åˆå€¼ */
 void init_a_semaphore( int sid, int semnum, int initval)
 {
     union semun semopts;    

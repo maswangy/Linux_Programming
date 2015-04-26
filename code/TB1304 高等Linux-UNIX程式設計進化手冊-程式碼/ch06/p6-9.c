@@ -1,6 +1,6 @@
 #include "ch06.h" 
 
- /* ¤@­Ó process ¥Nªí¤@­Ó°õ¦æºü.  */
+ /* ä¸€å€‹ process ä»£è¡¨ä¸€å€‹åŸ·è¡Œç·’.  */
 typedef struct process
 {
    struct process *next;       /* next process in pipeline */
@@ -11,7 +11,7 @@ typedef struct process
    int status;                 /* reported status value */
 } process;
 
-/* ¤@­Ójob ¥Nªí¥ÑºŞ½u³s½uªº³\¦h­Ó°õ¦æºü¸s²Õ¦¨ªº¤@­Ó§@·~.  */
+/* ä¸€å€‹job ä»£è¡¨ç”±ç®¡ç·šé€£ç·šçš„è¨±å¤šå€‹åŸ·è¡Œç·’ç¾¤çµ„æˆçš„ä¸€å€‹ä½œæ¥­.  */
 typedef struct job
 {
    struct job *next;           /* next active job */
@@ -23,7 +23,7 @@ typedef struct job
    int jstdin, jstdout, jstderr;  /* standard i/o channels */
 } job;
 
-/* ¬¡ÅDªº§@·~¸s²Õ¦¨Ãìµ²¦ê¦C¡C³o¬O¨ä¼ĞÀY */
+/* æ´»èºçš„ä½œæ¥­ç¾¤çµ„æˆéˆçµä¸²åˆ—ã€‚é€™æ˜¯å…¶æ¨™é ­ */
 job *first_job = NULL;
 
 pid_t shell_pgid;     
@@ -31,32 +31,32 @@ struct termios shell_tmodes;
 int shell_terminal;
 int shell_is_interactive;
 
-/* ½T«O¸Óshell ¦b¶}©l¤u§@¤§«e¬O¤¬°Ê°õ¦æªº«e´º§@·~ */
+/* ç¢ºä¿è©²shell åœ¨é–‹å§‹å·¥ä½œä¹‹å‰æ˜¯äº’å‹•åŸ·è¡Œçš„å‰æ™¯ä½œæ¥­ */
 void init_shell(void)
 {
-   /* ÀË¬d¬O§_¤¬°Ê°õ¦æ¡A§Y§P©w»PSTDIN_FILENO¬Û³sªº¬O§_²×ºİ */
+   /* æª¢æŸ¥æ˜¯å¦äº’å‹•åŸ·è¡Œï¼Œå³åˆ¤å®šèˆ‡STDIN_FILENOç›¸é€£çš„æ˜¯å¦çµ‚ç«¯ */
    shell_terminal = STDIN_FILENO;
    shell_is_interactive = isatty(shell_terminal);
    shell_pgid = getpid();
 
-   if (shell_is_interactive) {  /* ¬O¤¬°Ê°õ¦æshell */
-      /* ÀË¬d¬O§_¦b«e´º°õ¦æ¡A­YªG°õ¦æºü¸s²ÕID¤£¦P©ó±±¨î²×ºİªº°õ¦æºü¸s²ÕID«h¬O¦b­I´º°õ¦æ¡A
-         ¦]¦Ó¥²Å½¾v°e°±¤î°T¸¹¡A¦¹¹Lµ{´`Àôª½¨ì¨Ï¥ÎªÌ±N¦Û¤v©ñ¸m©ó«e´º */
+   if (shell_is_interactive) {  /* æ˜¯äº’å‹•åŸ·è¡Œshell */
+      /* æª¢æŸ¥æ˜¯å¦åœ¨å‰æ™¯åŸ·è¡Œï¼Œè‹¥æœåŸ·è¡Œç·’ç¾¤çµ„IDä¸åŒæ–¼æ§åˆ¶çµ‚ç«¯çš„åŸ·è¡Œç·’ç¾¤çµ„IDå‰‡æ˜¯åœ¨èƒŒæ™¯åŸ·è¡Œï¼Œ
+         å› è€Œå¿…é¬šé«®é€åœæ­¢è¨Šè™Ÿï¼Œæ­¤éç¨‹å¾ªç’°ç›´åˆ°ä½¿ç”¨è€…å°‡è‡ªå·±æ”¾ç½®æ–¼å‰æ™¯ */
       while (tcgetpgrp(shell_terminal) != (shell_pgid = getpgrp()))
          kill(- shell_pgid, SIGTTIN);
-      /* ©¿²¤¤¬°Ê©M§@·~±±¨î°T¸¹ */
+      /* å¿½ç•¥äº’å‹•å’Œä½œæ¥­æ§åˆ¶è¨Šè™Ÿ */
       signal(SIGINT, SIG_IGN);
       signal(SIGQUIT, SIG_IGN);
       signal(SIGTSTP, SIG_IGN);
       signal(SIGTTIN, SIG_IGN);
       signal(SIGTTOU, SIG_IGN);
       signal(SIGCHLD, SIG_IGN);
-      /* ³]©wshellªº°õ¦æºü¸s²Õ */
+      /* è¨­å®šshellçš„åŸ·è¡Œç·’ç¾¤çµ„ */
       if (setpgid(shell_pgid, shell_pgid) < 0)
          err_exit("Couldn't put the shell in its own process group");
-      /* ·m¹Ü±±¨î²×ºİ */
+      /* æ¶å¥ªæ§åˆ¶çµ‚ç«¯ */
       tcsetpgrp(shell_terminal, shell_pgid);
-      /* Àx¦sshellªº¹w³]²×ºİÄİ©Ê¥H«KÂ÷¶}®ÉÁÙ­ì */
+      /* å„²å­˜shellçš„é è¨­çµ‚ç«¯å±¬æ€§ä»¥ä¾¿é›¢é–‹æ™‚é‚„åŸ */
       tcgetattr(shell_terminal, &shell_tmodes);
    }
 }
@@ -67,17 +67,17 @@ void launch_process (process *p, pid_t pgid, int infile,
    pid_t pid;
 
    if (shell_is_interactive) {
-      /* ©ñ¸m¸Ó°õ¦æºü¦Ü°õ¦æºü¸s²Õ¡C¦]¬°Ävª§ªº½t¬G¡A¤l°õ¦æºü©Mshell¤GªÌ³£¥²¶·³o¼Ë°µ */
+      /* æ”¾ç½®è©²åŸ·è¡Œç·’è‡³åŸ·è¡Œç·’ç¾¤çµ„ã€‚å› ç‚ºç«¶çˆ­çš„ç·£æ•…ï¼Œå­åŸ·è¡Œç·’å’ŒshelläºŒè€…éƒ½å¿…é ˆé€™æ¨£åš */
       pid = getpid();
-      if (pgid == 0)          /*  pgid ¬°0ªí¥Ü³o¬O°õ¦æºü¸s²Õªº²Ä¤@­Ó°õ¦æºü */       
-         pgid = pid;         /*  ¨Ï¥¦¦¨¬°°õ¦æºü¸s²Õ¸s²Õªø */
+      if (pgid == 0)          /*  pgid ç‚º0è¡¨ç¤ºé€™æ˜¯åŸ·è¡Œç·’ç¾¤çµ„çš„ç¬¬ä¸€å€‹åŸ·è¡Œç·’ */       
+         pgid = pid;         /*  ä½¿å®ƒæˆç‚ºåŸ·è¡Œç·’ç¾¤çµ„ç¾¤çµ„é•· */
       setpgid(pid, pgid);
-      /*­Y¬O«e´º°õ¦æºü¡Aµ¹°õ¦æºü¸s²Õ±±¨î²×ºİ¡C*/ 
+      /*è‹¥æ˜¯å‰æ™¯åŸ·è¡Œç·’ï¼Œçµ¦åŸ·è¡Œç·’ç¾¤çµ„æ§åˆ¶çµ‚ç«¯ã€‚*/ 
 
       if (foreground)
          tcsetpgrp(shell_terminal, pgid);
 
-      /* ³]©w§@·~±±¨î°T¸¹ªº±±¨î½X¦^¨ì¹w³] */
+      /* è¨­å®šä½œæ¥­æ§åˆ¶è¨Šè™Ÿçš„æ§åˆ¶ç¢¼å›åˆ°é è¨­ */
       signal(SIGINT, SIG_DFL);
       signal(SIGQUIT, SIG_DFL);
       signal(SIGTSTP, SIG_DFL);
@@ -86,10 +86,10 @@ void launch_process (process *p, pid_t pgid, int infile,
       signal(SIGCHLD, SIG_DFL);
    }
 
-   /* ³]©w·s°õ¦æºüªº¼Ğ­ãI/O³q¹D */
-   if (infile != STDIN_FILENO) {       /* ºŞ½u¿é¤J±¡§Î  */
-      dup2(infile, STDIN_FILENO);    /* ½Æ»sºŞ½u´y­z¦r¦Ü¼Ğ­ã¿é¤J´y­z¦r */
-      close(infile);                 /* Ãö³¬ºŞ½u´y­z¦r¡A¥H¤UÃş§O¦ü */
+   /* è¨­å®šæ–°åŸ·è¡Œç·’çš„æ¨™å‡†I/Oé€šé“ */
+   if (infile != STDIN_FILENO) {       /* ç®¡ç·šè¼¸å…¥æƒ…å½¢  */
+      dup2(infile, STDIN_FILENO);    /* è¤‡è£½ç®¡ç·šæè¿°å­—è‡³æ¨™å‡†è¼¸å…¥æè¿°å­— */
+      close(infile);                 /* é—œé–‰ç®¡ç·šæè¿°å­—ï¼Œä»¥ä¸‹é¡åˆ¥ä¼¼ */
    }
    if (outfile != STDOUT_FILENO) {
       dup2(outfile, STDOUT_FILENO);
@@ -100,7 +100,7 @@ void launch_process (process *p, pid_t pgid, int infile,
       close(errfile);
    }
 
-   /* °õ¦æ·s°õ¦æºü */
+   /* åŸ·è¡Œæ–°åŸ·è¡Œç·’ */
    execvp (p->argv[0], p->argv);
    err_exit("execvp");
 }
@@ -111,38 +111,38 @@ void launch_job(job *j, int foreground)
    pid_t pid;
    int mypipe[2], infile, outfile;
 
-   infile = j->jstdin;      /* ²Ä¤@­Ó°õ¦æºüªº¼Ğ­ã¿é¤J¥Ñ«ü¥O±½´yµ{¦¡«ü©w */
+   infile = j->jstdin;      /* ç¬¬ä¸€å€‹åŸ·è¡Œç·’çš„æ¨™å‡†è¼¸å…¥ç”±æŒ‡ä»¤æƒæç¨‹å¼æŒ‡å®š */
    for (p = j->first_process; p; p = p->next) {
-      /* ¦³¤U¤@­Ó°õ¦æºü¡A«h¬O¥ÎºŞ½u³s½uªº¡C«Ø¥ßºŞ½u
-         ¨Ï±o³o­Ó°õ¦æºüªº¿é¥X¦¨¬°¤U¤@­Ó°õ¦æºüªº¿é¤J */
+      /* æœ‰ä¸‹ä¸€å€‹åŸ·è¡Œç·’ï¼Œå‰‡æ˜¯ç”¨ç®¡ç·šé€£ç·šçš„ã€‚å»ºç«‹ç®¡ç·š
+         ä½¿å¾—é€™å€‹åŸ·è¡Œç·’çš„è¼¸å‡ºæˆç‚ºä¸‹ä¸€å€‹åŸ·è¡Œç·’çš„è¼¸å…¥ */
      if (p->next) {       
         if (pipe(mypipe) < 0) 
            err_exit("pipe");
         outfile = mypipe[1];
      } else
         outfile = j->jstdout;
-     /* Fork ¤l°õ¦æºü */
+     /* Fork å­åŸ·è¡Œç·’ */
      if ((pid = fork()) < 0)    
         err_exit("fork");
-     if (pid == 0)          /* ¤l°õ¦æºü */
+     if (pid == 0)          /* å­åŸ·è¡Œç·’ */
         launch_process(p, j->pgid, infile, outfile, j->jstderr, foreground);
-     else{                    /* ¤÷°õ¦æºü */
-        /* ©ñ¸m¸Ó°õ¦æºü¦Ü°õ¦æºü¸s²Õ¡C¦]¬°Ävª§ªº½t¬G¡A¤l°õ¦æºü©Mshell¤GªÌ³£¥²¶·³o¼Ë°µ */
+     else{                    /* çˆ¶åŸ·è¡Œç·’ */
+        /* æ”¾ç½®è©²åŸ·è¡Œç·’è‡³åŸ·è¡Œç·’ç¾¤çµ„ã€‚å› ç‚ºç«¶çˆ­çš„ç·£æ•…ï¼Œå­åŸ·è¡Œç·’å’ŒshelläºŒè€…éƒ½å¿…é ˆé€™æ¨£åš */
         p->pid = pid;
         if (shell_is_interactive) {
            if (!j->pgid)
-              j->pgid = pid;      /* °O¿ı§@·~ªº°õ¦æºü¸s²ÕID */
+              j->pgid = pid;      /* è¨˜éŒ„ä½œæ¥­çš„åŸ·è¡Œç·’ç¾¤çµ„ID */
            setpgid(pid, j->pgid);
         }
      }
-     /* «Ø¥ßºŞ½u¤§«áªº²M²z¤u§@ */
+     /* å»ºç«‹ç®¡ç·šä¹‹å¾Œçš„æ¸…ç†å·¥ä½œ */
      if (infile != j->jstdin)
         close(infile);
      if (outfile != j->jstdout)
         close(outfile);
-     infile = mypipe[0];    /* ¤U¤@­Ó°õ¦æºüªº¼Ğ­ã¿é¤J¬O³o­Ó°õ¦æºüªººŞ½u¿é¥X */     
+     infile = mypipe[0];    /* ä¸‹ä¸€å€‹åŸ·è¡Œç·’çš„æ¨™å‡†è¼¸å…¥æ˜¯é€™å€‹åŸ·è¡Œç·’çš„ç®¡ç·šè¼¸å‡º */     
    }
-   format_job_info(j, "launched");  /* ®æ¦¡¤Æ¿é¥X§@·~ª¬ºA°T®§ */
+   format_job_info(j, "launched");  /* æ ¼å¼åŒ–è¼¸å‡ºä½œæ¥­ç‹€æ…‹è¨Šæ¯ */
    if (!shell_is_interactive)
       wait_for_job(j);
    else if (foreground)
@@ -153,25 +153,25 @@ void launch_job(job *j, int foreground)
 
 void put_job_in_foreground(job *j, int cont)
 {
-   /*  ©ñ¸m¸Ó§@·~©ó«e´º.  */
+   /*  æ”¾ç½®è©²ä½œæ¥­æ–¼å‰æ™¯.  */
    tcsetpgrp(shell_terminal, j->pgid);
-   /*  ­YªG¦³¥²­n¡A¦V¸Ó§@·~¶Ç°e¤@Ä~Äò°T¸¹.  */
+   /*  è‹¥æœæœ‰å¿…è¦ï¼Œå‘è©²ä½œæ¥­å‚³é€ä¸€ç¹¼çºŒè¨Šè™Ÿ.  */
    if (cont) {
       tcsetattr(shell_terminal, TCSADRAIN, &j->tmodes);
       if (kill(- j->pgid, SIGCONT) < 0)
          perror("kill (SIGCONT)");
    }
-   wait_for_job(j);/*  µ¥«İ¥¦ªº³ø§i.  */
-   tcsetpgrp (shell_terminal, shell_pgid);   /*  ¨Ïshell­«·s¦^¨ì«e´º.  */
-   /*  ÁÙ­ìshellªº²×ºİ¼Ò¦¡.  */
+   wait_for_job(j);/*  ç­‰å¾…å®ƒçš„å ±å‘Š.  */
+   tcsetpgrp (shell_terminal, shell_pgid);   /*  ä½¿shellé‡æ–°å›åˆ°å‰æ™¯.  */
+   /*  é‚„åŸshellçš„çµ‚ç«¯æ¨¡å¼.  */
    tcgetattr(shell_terminal, &j->tmodes);
    tcsetattr(shell_terminal, TCSADRAIN, &shell_tmodes);
 }
 
-/* ©ñ¸m¤@­Ó§@·~¦Ü­I´º¡C­YªGcont °Ñ¼Æ¬°¯u¡A«h¦V°õ¦æºü¸s²Õ¶Ç°e¤@­ÓSIGCONT°T¸¹¥H³ê¿ô¥¦ */
+/* æ”¾ç½®ä¸€å€‹ä½œæ¥­è‡³èƒŒæ™¯ã€‚è‹¥æœcont åƒæ•¸ç‚ºçœŸï¼Œå‰‡å‘åŸ·è¡Œç·’ç¾¤çµ„å‚³é€ä¸€å€‹SIGCONTè¨Šè™Ÿä»¥å–šé†’å®ƒ */
 void put_job_in_background(job *j, int cont)
 {
-   /* ­Y¦³¥²­n¡A¦V¸Ó§@·~¶Ç°eÄ~Äò°T¸¹¡C*/
+   /* è‹¥æœ‰å¿…è¦ï¼Œå‘è©²ä½œæ¥­å‚³é€ç¹¼çºŒè¨Šè™Ÿã€‚*/
    if (cont)
       if (kill(-j->pgid, SIGCONT) < 0)
          perror("kill (SIGCONT)");

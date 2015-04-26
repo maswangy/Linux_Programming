@@ -6,12 +6,12 @@ int main(int argc, char *argv[])
       printf ("Usage: a.out <pathname>\n");
       exit (EXIT_FAILURE);
    }
-   if (getwd(ptr)==NULL)        // ÀËµø¥Ø«e¤u§@¥Ø¿ı
+   if (getwd(ptr)==NULL)        // æª¢è¦–ç›®å‰å·¥ä½œç›®éŒ„
       err_exit("getwd failed");
    printf("Current work directory is :%s\n", ptr);
-   if (chdir (argv[1]) < 0)    //§ïÅÜ¤u§@¥Ø¿ı
+   if (chdir (argv[1]) < 0)    //æ”¹è®Šå·¥ä½œç›®éŒ„
       err_exit("chdir failed");
-   if (getwd(ptr)==NULL)       //ÀËµø·sªº¤u§@¥Ø¿ı
+   if (getwd(ptr)==NULL)       //æª¢è¦–æ–°çš„å·¥ä½œç›®éŒ„
       err_exit("getwd failed");
    printf("CWD = %s\n",ptr);
    free(ptr);

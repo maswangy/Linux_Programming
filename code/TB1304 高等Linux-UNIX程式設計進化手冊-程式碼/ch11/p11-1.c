@@ -4,16 +4,16 @@ int main (void)
     pid_t pid;
     int n, mypipe[2];
     char buffer[BUFSIZ+1], some_data[] = "Hello, world!";
-    /* «Ø¥ßºŞ½u */
+    /* å»ºç«‹ç®¡ç·š */
     if (pipe (mypipe)) 
         err_exit("Pipe failed.\n");
-    /* ­l¥Í¤l°õ¦æºü */ 
-    if ((pid = fork())==(pid_t)0) { /* ³o¬O¤l°õ¦æºü */
-        close(mypipe[1]);     /* ¤l°õ¦æºüÃö³¬ºŞ½u¿é¥Xºİ */
+    /* è¡ç”Ÿå­åŸ·è¡Œç·’ */ 
+    if ((pid = fork())==(pid_t)0) { /* é€™æ˜¯å­åŸ·è¡Œç·’ */
+        close(mypipe[1]);     /* å­åŸ·è¡Œç·’é—œé–‰ç®¡ç·šè¼¸å‡ºç«¯ */
         n = read(mypipe[0], buffer, BUFSIZ);
         printf("child %d: read %d bytes: %s\n",getpid(),n,buffer);
-    } else {   /* ³o¬O¤÷°õ¦æºü */
-        close(mypipe[0]);    /* ¤÷°õ¦æºüÃö³¬ºŞ½u¿é¤Jºİ */
+    } else {   /* é€™æ˜¯çˆ¶åŸ·è¡Œç·’ */
+        close(mypipe[0]);    /* çˆ¶åŸ·è¡Œç·’é—œé–‰ç®¡ç·šè¼¸å…¥ç«¯ */
         n = write(mypipe[1], some_data, strlen(some_data));
         printf("parent %d: write %d bytes: %s\n", getpid(), n, some_data);
     }

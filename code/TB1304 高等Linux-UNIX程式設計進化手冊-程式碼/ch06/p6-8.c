@@ -6,6 +6,6 @@ int main()
 	   printf("running ps with system\n");
 	   if ((status = system("ps -af"))<0)
       err_exit("system() error");
-   pr_exit(status, -1);      /* ¶Ç»¼¤@­Ó°²ªºPID */
+   pr_exit(status, -1);      /* å‚³éžä¸€å€‹å‡çš„PID */
 	   exit(EXIT_SUCCESS);
 }

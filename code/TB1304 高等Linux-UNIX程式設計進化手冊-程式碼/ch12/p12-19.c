@@ -1,4 +1,4 @@
-﻿#include "ch12.h"
+#include "ch12.h"
 #include "p12-6.c"  //init_sockaddr()
 #define MAXMSG 512
 int main(int argc, char **argv) 

@@ -1,26 +1,26 @@
 #include "ch13.h"
 #include <sys/shm.h>
 #include "xmalloc.c"
-/* «Ø¥ß¤@­Ó°ÊºA¤À°tªÅ¶¡¡B¨ã¦³©w¨îÄİ©Êªº¤¬¥¸ÅÜ¼Æ */
+/* å»ºç«‹ä¸€å€‹å‹•æ…‹åˆ†é…ç©ºé–“ã€å…·æœ‰å®šåˆ¶å±¬æ€§çš„äº’æ–¥è®Šæ•¸ */
 pthread_mutex_t *mutex_customized (int shared, int type, int key)
 {
    int rv;
    key_t shmid;
    pthread_mutex_t *mtx;
-   pthread_mutexattr_t mtxattr;  // ¤¬¥¸ÅÜ¼ÆÄİ©Êª«¥ó
-   /* °_©l¤Æ¤¬¥¸ÅÜ¼ÆÄİ©Êª«¥ó */
+   pthread_mutexattr_t mtxattr;  // äº’æ–¥è®Šæ•¸å±¬æ€§ç‰©ä»¶
+   /* èµ·å§‹åŒ–äº’æ–¥è®Šæ•¸å±¬æ€§ç‰©ä»¶ */
    rv = pthread_mutexattr_init (&mtxattr);
    check_error(rv, "mutexattr_init ");
-   /* ³]©w¦@¨ÉÄİ©Ê */
+   /* è¨­å®šå…±äº«å±¬æ€§ */
    rv = pthread_mutexattr_setpshared(&mtxattr, shared);
    check_error(rv, " mutexattr_setpshared ");
-   /* ³]©w«¬ºAÄİ©Ê¡A¦b¦³ªº¨t²Î¤W»İ­n©ú½T©w¸q¯S©º´ú¸Õ¥¨¶°_GNU_SOUCE */
+   /* è¨­å®šå‹æ…‹å±¬æ€§ï¼Œåœ¨æœ‰çš„ç³»çµ±ä¸Šéœ€è¦æ˜ç¢ºå®šç¾©ç‰¹å¾æ¸¬è©¦å·¨é›†_GNU_SOUCE */
    rv = pthread_mutexattr_settype (&mtxattr, type);
    check_error(rv, "mutexattr_settype");
-   /* ¬°¤¬¥¸ÅÜ¼Æ¤À°t¦@¨ÉÀx¦sªÅ¶¡ */
+   /* ç‚ºäº’æ–¥è®Šæ•¸åˆ†é…å…±äº«å„²å­˜ç©ºé–“ */
    if (shared == PTHREAD_PROCESS_PRIVATE)
       mtx = (pthread_mutex_t *)xmalloc(sizeof(pthread_mutex_t));     
-   else {  // °õ¦æºü¦@¨É¤¬¥¸ÅÜ¼Æ¤À°t¦b¦@¨ÉÀx¦s¤¤
+   else {  // åŸ·è¡Œç·’å…±äº«äº’æ–¥è®Šæ•¸åˆ†é…åœ¨å…±äº«å„²å­˜ä¸­
       shmid = shmget(key, sizeof(pthread_mutex_t), 0666|IPC_CREAT);
       if (shmid == -1) 
           err_exit("shmget error");
@@ -28,28 +28,28 @@ pthread_mutex_t *mutex_customized (int shared, int type, int key)
       if ((int)mtx == -1) 
          err_exit("shmget error");
    }
-   /* ¥ÎÄİ©Êª«¥ó°_©l¤Æmtx */
+   /* ç”¨å±¬æ€§ç‰©ä»¶èµ·å§‹åŒ–mtx */
    rv = pthread_mutex_init(mtx, &mtxattr);
    check_error(rv, "mutex_init ");
-   /* ¥ß§Y¾P·´¤£¦A»İ­nªºÄİ©Êª«¥ó */
+   /* ç«‹å³éŠ·æ¯€ä¸å†éœ€è¦çš„å±¬æ€§ç‰©ä»¶ */
    rv=pthread_mutexattr_destroy(&mtxattr);
    check_error(rv, "mutexattr destroy ");
    return (mtx);
 } 
 #define KEY 8125
-pthread_mutex_t mtx1 = PTHREAD_MUTEX_INITIALIZER;  // ÀRºA°_©l¤Æªº°õ¦æºü¨p¦³¤¬¥¸ÅÜ¼Æ
-pthread_mutex_t mtx2;       // °ÊºA°_©l¤Æªº°õ¦æºü¨p¦³¤¬¥¸ÅÜ¼Æ
-pthread_mutex_t *mtx3;      // °õ¦æºü¦@¨É¤¬¥¸ÅÜ¼Æ
+pthread_mutex_t mtx1 = PTHREAD_MUTEX_INITIALIZER;  // éœæ…‹èµ·å§‹åŒ–çš„åŸ·è¡Œç·’ç§æœ‰äº’æ–¥è®Šæ•¸
+pthread_mutex_t mtx2;       // å‹•æ…‹èµ·å§‹åŒ–çš„åŸ·è¡Œç·’ç§æœ‰äº’æ–¥è®Šæ•¸
+pthread_mutex_t *mtx3;      // åŸ·è¡Œç·’å…±äº«äº’æ–¥è®Šæ•¸
 int main(void)
 {
    int rv;
    // ...
-   rv = pthread_mutex_init (&mtx2, NULL); // °_©l¤Æmtx2¬°¨t²Î¹w³]¤¬¥¸ÅÜ¼Æ
-   /*°_©l¤Æmtx3¬°©w¨îªº°õ¦æºü¦@¨É»¼Âk¤¬¥¸ÅÜ¼Æ*/
+   rv = pthread_mutex_init (&mtx2, NULL); // èµ·å§‹åŒ–mtx2ç‚ºç³»çµ±é è¨­äº’æ–¥è®Šæ•¸
+   /*èµ·å§‹åŒ–mtx3ç‚ºå®šåˆ¶çš„åŸ·è¡Œç·’å…±äº«éæ­¸äº’æ–¥è®Šæ•¸*/
    mtx3 = mutex_customized(PTHREAD_PROCESS_SHARED,
                             PTHREAD_MUTEX_RECURSIVE,KEY);
-   // ...®M¥Îµ{¦¡ªº¨ä¥¦µ{¦¡½X
-   /* ¾P·´mtx2 */
+   // ...å¥—ç”¨ç¨‹å¼çš„å…¶å®ƒç¨‹å¼ç¢¼
+   /* éŠ·æ¯€mtx2 */
    rv = pthread_mutex_destroy(&mtx2);
    check_error(rv, "mutex_destroy: mtx2");
    pthread_exit(NULL);

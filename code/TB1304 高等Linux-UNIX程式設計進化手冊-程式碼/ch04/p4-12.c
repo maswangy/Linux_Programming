@@ -1,5 +1,5 @@
 #include "ch04.h"
-#include "get_perms.c"  /* µ{¦¡4-4 */
+#include "get_perms.c"  /* ç¨‹å¼4-4 */
 #define BLKSIZE 1024
 void list(char *);
 void printout(char *, char *);
@@ -8,18 +8,18 @@ int main(int argc, char *argv[])
 { 
    struct stat sbuf;
   
-   if (argc < 2){  /* ­YµL°Ñ¼Æ,¦C¥X¥Ø«e¥Ø¿ı */
+   if (argc < 2){  /* è‹¥ç„¡åƒæ•¸,åˆ—å‡ºç›®å‰ç›®éŒ„ */
       list(".");
       exit(0);
    }
 
-   /* ³B²z°Ñ¼Æ */
+   /* è™•ç†åƒæ•¸ */
    while(--argc){
-     if (stat(*++argv,&sbuf) < 0) {  /* ÀËµøÀÉ®×«¬ºA */
+     if (stat(*++argv,&sbuf) < 0) {  /* æª¢è¦–æª”æ¡ˆå‹æ…‹ */
         perror(*argv);
         continue;
      }
-     /* ­YªG¬O¥Ø¿ı¡A±N¥¦¦C¥X¡A§_«h¦C¦L¥XÀÉ®×ªºª¬ºA°T®§ */
+     /* è‹¥æœæ˜¯ç›®éŒ„ï¼Œå°‡å®ƒåˆ—å‡ºï¼Œå¦å‰‡åˆ—å°å‡ºæª”æ¡ˆçš„ç‹€æ…‹è¨Šæ¯ */
      if ((sbuf.st_mode &S_IFMT) == S_IFDIR)
         list(*argv);
      else
@@ -28,33 +28,33 @@ int main(int argc, char *argv[])
    exit(0);
 }
 
-/* Åª¤@­Ó¥Ø¿ı¨Ã¦C¥X¨ä¤¤ªºÀÉ®× */
+/* è®€ä¸€å€‹ç›®éŒ„ä¸¦åˆ—å‡ºå…¶ä¸­çš„æª”æ¡ˆ */
 void list(char *name)
 {
    DIR *dp;
    struct dirent *dir;
-   if ((dp = opendir(name)) == NULL) { /*  ¶}±Ò¸Ó¥Ø¿ı  */
+   if ((dp = opendir(name)) == NULL) { /*  é–‹å•Ÿè©²ç›®éŒ„  */
       fprintf(stderr, "%s: cannot open.\n",name);
       return;
    }
 
-   while((dir = readdir(dp)) != NULL)  /*  ³B²z¨C¤@­Ó¥Ø¿ı */
+   while((dir = readdir(dp)) != NULL)  /*  è™•ç†æ¯ä¸€å€‹ç›®éŒ„ */
       printout(name, dir->d_name);
    closedir(dp);
 }
 
-void printout(char *dir, char *name)  /* ¦C¦L¥XÀÉ®×ªº¦³Ãö°T®§ */
+void printout(char *dir, char *name)  /* åˆ—å°å‡ºæª”æ¡ˆçš„æœ‰é—œè¨Šæ¯ */
 {
    int i,j;
    char perms[10];
    struct stat sbuf;
    char newname[BLKSIZE];
 
-   sprintf(newname,"%s/%s",dir,name);   /* §Î¦¨¸ô®|¦W */
-   stat(newname,&sbuf);/* ¦¹®É¥i¥HªÖ©w¸ÓÀÉ®×¦s¦b¡A¬G¤£°µ¥¢±ÑÀËÅç */
-   /* ¦C¦LÀÉ®×ªº°Ï¶ô¤j¤p¡A¨C¶ô¬°BLKSIZE¦ì¤¸²Õ */
+   sprintf(newname,"%s/%s",dir,name);   /* å½¢æˆè·¯å¾‘å */
+   stat(newname,&sbuf);/* æ­¤æ™‚å¯ä»¥è‚¯å®šè©²æª”æ¡ˆå­˜åœ¨ï¼Œæ•…ä¸åšå¤±æ•—æª¢é©— */
+   /* åˆ—å°æª”æ¡ˆçš„å€å¡Šå¤§å°ï¼Œæ¯å¡Šç‚ºBLKSIZEä½å…ƒçµ„ */
    printf("%5d",(sbuf.st_size+BLKSIZE-1)/BLKSIZE);
-   /* ÀËÅç¨Ã¦C¦LÀÉ®×«¬ºA */
+   /* æª¢é©—ä¸¦åˆ—å°æª”æ¡ˆå‹æ…‹ */
    switch(sbuf.st_mode & S_IFMT){
      case S_IFREG:  putchar('-'); break;
      case S_IFDIR:  putchar('d'); break;
@@ -70,11 +70,11 @@ void printout(char *dir, char *name)  /* ¦C¦L¥XÀÉ®×ªº¦³Ãö°T®§ */
      default:       putchar('?'); break;
    }
   
-   get_perms(&sbuf, perms);  /* ¨ú±o¤T¸s²Õ¦s¨úÅv­­¡]¨£µ{¦¡4-4¡^ */
-   /* ¦C¦L¦s¨úÅv­­¡B³sµ²¼Æ¡B¨Ï¥ÎªÌID©M¸s²ÕID */
+   get_perms(&sbuf, perms);  /* å–å¾—ä¸‰ç¾¤çµ„å­˜å–æ¬Šé™ï¼ˆè¦‹ç¨‹å¼4-4ï¼‰ */
+   /* åˆ—å°å­˜å–æ¬Šé™ã€é€£çµæ•¸ã€ä½¿ç”¨è€…IDå’Œç¾¤çµ„ID */
    printf("%s%3d %5d/%-5d ", perms, sbuf.st_nlink, sbuf.st_uid,
                    sbuf.st_gid);
-   /* ¦C¦LÀÉ®×¤j¤p©M­×§ï®É¶¡¡CctimeÂà´«¤@­Ó®É¶¡¬°ASCII¦r¤¸ */
+   /* åˆ—å°æª”æ¡ˆå¤§å°å’Œä¿®æ”¹æ™‚é–“ã€‚ctimeè½‰æ›ä¸€å€‹æ™‚é–“ç‚ºASCIIå­—å…ƒ */
    printf("%7d %.20s ",sbuf.st_size, ctime(&sbuf.st_mtime));
-   printf("%s\n", name); /* ³Ì«á¡A¦C¦LÀÉ¦W */
+   printf("%s\n", name); /* æœ€å¾Œï¼Œåˆ—å°æª”å */
 }

@@ -1,11 +1,11 @@
-/* ­Yvalue«D0¡A³]©wFD_CLOEXEC¼Ğ§Ó,­Yvalue¬°0,²M°£¸Ó¼Ğ§Ó¡C¦¨¥\¶Ç¦^0¡A¥¢±Ñ¶Ç¦^-1*/
+/* è‹¥valueé0ï¼Œè¨­å®šFD_CLOEXECæ¨™å¿—,è‹¥valueç‚º0,æ¸…é™¤è©²æ¨™å¿—ã€‚æˆåŠŸå‚³å›0ï¼Œå¤±æ•—å‚³å›-1*/
 #include "ch03.h"
 int set_cloexec_flag (int desc, int value)
 {
    int oldflags = fcntl (desc, F_GETFD, 0);
-   if(oldflags < 0)    /* ­YÅª¼ĞÃ±¥¢±Ñ¡A¿ù»~¶Ç¦^¡C*/
+   if(oldflags < 0)    /* è‹¥è®€æ¨™ç°½å¤±æ•—ï¼ŒéŒ¯èª¤å‚³å›ã€‚*/
        return oldflags;
-   /* ³]©w»İ­nªº¼Ğ§Ó. */
+   /* è¨­å®šéœ€è¦çš„æ¨™å¿—. */
    if(value != 0)
        oldflags |= FD_CLOEXEC;
    else

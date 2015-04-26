@@ -5,15 +5,15 @@ int main()
    struct data_to_pass my_data;
    int nbytes;
    char client_fifo_name[256], *tmp_char_ptr;
-   /* «Ø¥ß¨Ã¶}±ÒªA°ÈFIFO */
+   /* å»ºç«‹ä¸¦é–‹å•Ÿæœå‹™FIFO */
    mkfifo(SERVER_FIFO_NAME, 0777);
    server_fifo_fd = open(SERVER_FIFO_NAME, O_RDONLY);
    if (server_fifo_fd == -1) 
        err_exit("Server fifo failure");
    do {
-       /* ±µ¦¬¨Ó¦Û«È¤áªº½Ğ¨D */    
+       /* æ¥æ”¶ä¾†è‡ªå®¢æˆ¶çš„è«‹æ±‚ */    
        nbytes = read(server_fifo_fd, &my_data, sizeof(my_data));
-       if (nbytes > 0) { /* ¹ï«È¤áªº½Ğ¨D¶i¦æ³B²z */
+       if (nbytes > 0) { /* å°å®¢æˆ¶çš„è«‹æ±‚é€²è¡Œè™•ç† */
            tmp_char_ptr = my_data.data;
           while (*tmp_char_ptr) {
              if (isupper(*tmp_char_ptr))
@@ -24,7 +24,7 @@ int main()
                 *tmp_char_ptr = '\0';
              tmp_char_ptr++;
           }
-           /* ±N³B²z«áªº¸ê®Æ°e¦^µ¹«È¤á¡C¬°¦¹®Ú¾Ú«È¤áªº°õ¦æºüID½T©w¦^µª©Ò¥ÎFIFO */
+           /* å°‡è™•ç†å¾Œçš„è³‡æ–™é€å›çµ¦å®¢æˆ¶ã€‚ç‚ºæ­¤æ ¹æ“šå®¢æˆ¶çš„åŸ·è¡Œç·’IDç¢ºå®šå›ç­”æ‰€ç”¨FIFO */
            sprintf(client_fifo_name, CLIENT_FIFO_NAME, my_data.client_pid);
            client_fifo_fd = open(client_fifo_name, O_WRONLY);
            if (client_fifo_fd != -1) {

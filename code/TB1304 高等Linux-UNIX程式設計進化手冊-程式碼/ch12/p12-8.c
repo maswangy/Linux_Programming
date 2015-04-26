@@ -6,12 +6,12 @@ int socket_connect(char *hostname, char *serv_port)
    struct sockaddr_in saddr;
    struct hostent *hp;
    char *host, myname[104];
-   /* °_©l¦øªA¾¹ªºIP¦ì§}©M³q°T°ğ */
+   /* èµ·å§‹ä¼ºæœå™¨çš„IPä½å€å’Œé€šè¨ŠåŸ  */
    init_sockaddr(&saddr, hostname, serv_port); 
-   /* «Ø¥ß®M±µ¦r */
+   /* å»ºç«‹å¥—æ¥å­— */
    if ((sockfd = socket(AF_INET,SOCK_STREAM,0)) < 0)
       err_exit("socket error");
-   /* «Ø¥ß»PªA°Èªº³s½u */
+   /* å»ºç«‹èˆ‡æœå‹™çš„é€£ç·š */
    if(connect(sockfd, (struct sockaddr *)&saddr, sizeof(saddr)) < 0)
       err_exit("connect error");
    return(sockfd);

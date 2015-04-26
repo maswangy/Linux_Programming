@@ -1,15 +1,15 @@
 #include "ch14.h"
 pthread_key_t key1, key2;
-/* ¨Ï¥Î°õ¦æºü±M¦³¸ê®Æªº¤u§@¨ç¼Æ */
+/* ä½¿ç”¨åŸ·è¡Œç·’å°ˆæœ‰è³‡æ–™çš„å·¥ä½œå‡½æ•¸ */
 void do_work(void)
 {
    int num;
    char *vp;
-   num = (int)pthread_getspecific(key1); /* Àò±o°õ¦æºü±M¦³¸ê®Æ¡A³o¬O¤@­Ó±`¶q */
-   vp = (char *)pthread_getspecific(key2);  /* Àò±o°õ¦æºü±M¦³¸ê®Æ¡A³o¬O¤@­Ó«ü¼Ğ */
+   num = (int)pthread_getspecific(key1); /* ç²å¾—åŸ·è¡Œç·’å°ˆæœ‰è³‡æ–™ï¼Œé€™æ˜¯ä¸€å€‹å¸¸é‡ */
+   vp = (char *)pthread_getspecific(key2);  /* ç²å¾—åŸ·è¡Œç·’å°ˆæœ‰è³‡æ–™ï¼Œé€™æ˜¯ä¸€å€‹æŒ‡æ¨™ */
    sprintf(vp,"\tThread %d is at work now, key2's value:%x ", num, vp);
 }
-/* °õ¦æºü¶}©l¨ç¼Æ¡A­t³d³]©w°õ¦æºü±M¦³¸ê®ÆÁä¤§­È */
+/* åŸ·è¡Œç·’é–‹å§‹å‡½æ•¸ï¼Œè² è²¬è¨­å®šåŸ·è¡Œç·’å°ˆæœ‰è³‡æ–™éµä¹‹å€¼ */
 void start_func(int thread_num)
 {
    char *buf, *vp;
@@ -19,10 +19,10 @@ void start_func(int thread_num)
    do_work();
    vp = (char *)pthread_getspecific(key2);
    printf("Thread %d's thread specific data is :\n %s\n", thread_num, vp);
-   if (thread_num !=0 ) // °_©l°õ¦æºü¶Ç¦^¡A¨ä¥¦°õ¦æºü²×¤î
+   if (thread_num !=0 ) // èµ·å§‹åŸ·è¡Œç·’å‚³å›ï¼Œå…¶å®ƒåŸ·è¡Œç·’çµ‚æ­¢
      pthread_exit(NULL);
 }
-/* °õ¦æºü±M¦³¸ê®ÆÁä¬Û³sªº¸Ñºc¨ç¼Æ¡A­t³d½u¤Wµ{²×¤î®ÉÄÀ©ñ¤À°tªºÀx¦sªÅ¶¡ */
+/* åŸ·è¡Œç·’å°ˆæœ‰è³‡æ–™éµç›¸é€£çš„è§£æ§‹å‡½æ•¸ï¼Œè² è²¬ç·šä¸Šç¨‹çµ‚æ­¢æ™‚é‡‹æ”¾åˆ†é…çš„å„²å­˜ç©ºé–“ */
 void destructor(void *value)
 {
    free(value);
@@ -32,17 +32,17 @@ int main(int argc,char *argv[])
 {
    int rv;
    pthread_t tid;
-   /* «Ø¥ß°õ¦æºü±M¦³¸ê®ÆÁäkey1©Mkey2 */
+   /* å»ºç«‹åŸ·è¡Œç·’å°ˆæœ‰è³‡æ–™éµkey1å’Œkey2 */
    rv = pthread_key_create(&key1, NULL);
    check_error(rv, "Create key1");
    rv = pthread_key_create(&key2, destructor);
    check_error(rv, "Create key2");
-   /* «Ø¥ß¤@­Ó°õ¦æºü°µstar_funcªº¤u§@,¨ä°õ¦æºü½s¸¹¬°1 */
+   /* å»ºç«‹ä¸€å€‹åŸ·è¡Œç·’åšstar_funcçš„å·¥ä½œ,å…¶åŸ·è¡Œç·’ç·¨è™Ÿç‚º1 */
    rv = pthread_create(&tid, NULL, (void *(*)())start_func, (void *)1);
    check_error(rv, "Thread create");
-   /* ¦Û¤v¤]°Ñ»P¤u§@¡A¨ä°õ¦æºü½s¸¹¬°0 */
+   /* è‡ªå·±ä¹Ÿåƒèˆ‡å·¥ä½œï¼Œå…¶åŸ·è¡Œç·’ç·¨è™Ÿç‚º0 */
    start_func(0);
-   /* µ¥«İ°õ¦æºü²×¤î */
+   /* ç­‰å¾…åŸ·è¡Œç·’çµ‚æ­¢ */
    rv = pthread_join(tid, NULL);
    check_error(rv, "Thread join ");
    rv = pthread_key_delete(key1);

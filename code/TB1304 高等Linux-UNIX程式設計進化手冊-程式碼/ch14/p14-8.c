@@ -1,16 +1,16 @@
 #include "ch13.h"
 #include "err_exit.h"
 struct alarmtag {
-   time_t    the_time;              // SIGALRM°T¸¹±µ¦¬®É¶¡
-   int       got_alarm;             // SIGALRM°T¸¹±µ¦¬¼Ğ§Ó
+   time_t    the_time;              // SIGALRMè¨Šè™Ÿæ¥æ”¶æ™‚é–“
+   int       got_alarm;             // SIGALRMè¨Šè™Ÿæ¥æ”¶æ¨™å¿—
 } alarmtime;
-void *signal_thread(void *);     // ±Mªù³B²zµ{¦¡²×¤î°T¸¹ªº°õ¦æºü
-void *work_thread(void *);       // ¤u§@°õ¦æºü
-void alarm_handler(int signal)  // SIGALRM°T¸¹®·®»¨ç¼Æ
+void *signal_thread(void *);     // å°ˆé–€è™•ç†ç¨‹å¼çµ‚æ­¢è¨Šè™Ÿçš„åŸ·è¡Œç·’
+void *work_thread(void *);       // å·¥ä½œåŸ·è¡Œç·’
+void alarm_handler(int signal)  // SIGALRMè¨Šè™Ÿæ•æ‰å‡½æ•¸
 {
 //   printf("catch ALARM ,%d\n",pthread_self());
-   time (&alarmtime.the_time);        /* ¨ú¥Ø«e­ì©l®É¶¡  */
-   alarmtime.got_alarm = 1;            /* ³]©w°T¸¹¨ì¤Î®æ§Ó */
+   time (&alarmtime.the_time);        /* å–ç›®å‰åŸå§‹æ™‚é–“  */
+   alarmtime.got_alarm = 1;            /* è¨­å®šè¨Šè™Ÿåˆ°åŠæ ¼å¿— */
 }
 
 int main (int argc, char *argv[])
@@ -19,30 +19,30 @@ int main (int argc, char *argv[])
    int rv; 
    sigset_t sig_set;
    struct sigaction sa;
-   /* ³]©wSIGALRM°T¸¹ªº°Ê§@ */
+   /* è¨­å®šSIGALRMè¨Šè™Ÿçš„å‹•ä½œ */
    sa.sa_handler = alarm_handler;
    sigemptyset(&sa.sa_mask);
    sa.sa_flags = SA_RESTART; 
    if (sigaction(SIGALRM, &sa, NULL) == -1)   
-      err_exit("sigaction failed");             // °T¸¹°Ê§@³]©w¥X¿ù 
-   /* «Ì½ª©Ò¦³°T¸¹¡A¤º§tSIGALRM,SIGINT */
+      err_exit("sigaction failed");             // è¨Šè™Ÿå‹•ä½œè¨­å®šå‡ºéŒ¯ 
+   /* å±è”½æ‰€æœ‰è¨Šè™Ÿï¼Œå…§å«SIGALRM,SIGINT */
    pthread_sigmask(SIG_SETMASK, NULL, &sig_set);
    sigaddset(&sig_set, SIGINT);
    sigaddset(&sig_set, SIGUSR1); 
    rv = pthread_sigmask (SIG_BLOCK, &sig_set, NULL);
    check_error(rv, "pthread_sigmask");
-   /* «Ø¥ß°T¸¹³B²z°õ¦æºü¡A¥¦Ä~©Ó³]©wªº°T¸¹«Ì½ª */
+   /* å»ºç«‹è¨Šè™Ÿè™•ç†åŸ·è¡Œç·’ï¼Œå®ƒç¹¼æ‰¿è¨­å®šçš„è¨Šè™Ÿå±è”½ */
    rv = pthread_create (&sig_tid, NULL, signal_thread, NULL);
    check_error(rv, "pthread_create");
-   /* ÅÜ§ó°T¸¹«Ì½ª¡A©ñ¶}SIGALRM°T¸¹ */
+   /* è®Šæ›´è¨Šè™Ÿå±è”½ï¼Œæ”¾é–‹SIGALRMè¨Šè™Ÿ */
    sigemptyset(&sig_set);
    sigaddset (&sig_set, SIGALRM);
    rv = pthread_sigmask (SIG_UNBLOCK, &sig_set, NULL);
    check_error(rv, "pthread_sigmask");
-   /* «Ø¥ß¤u§@°õ¦æºü¡A¥¦Ä~©Ó·s³]©wªº°T¸¹«Ì½ª */
+   /* å»ºç«‹å·¥ä½œåŸ·è¡Œç·’ï¼Œå®ƒç¹¼æ‰¿æ–°è¨­å®šçš„è¨Šè™Ÿå±è”½ */
    rv = pthread_create (&work_tid, NULL, work_thread, NULL);
    check_error(rv, "pthread_create");
-   /* µ¥«İ°õ¦æºü²×¤î */
+   /* ç­‰å¾…åŸ·è¡Œç·’çµ‚æ­¢ */
    rv = pthread_join(work_tid, NULL);
    check_error(rv, "pthread_join");
    rv = pthread_kill(sig_tid, SIGUSR1);
@@ -52,49 +52,49 @@ int main (int argc, char *argv[])
    exit(0);
 }
 
-void *work_thread(void *arg)  /* ¤u§@°õ¦æºü */
+void *work_thread(void *arg)  /* å·¥ä½œåŸ·è¡Œç·’ */
 {
    int i=0;
    alarmtime.got_alarm=0;
    printf("Work_thread: I am runing, my tid is: %lu\n",pthread_self());
-   alarm(5);                         // ³]©w¤@¬íªº©w®É¡A³o¬O¶Ç°eµ¹°õ¦æºüªº°T¸¹
+   alarm(5);                         // è¨­å®šä¸€ç§’çš„å®šæ™‚ï¼Œé€™æ˜¯å‚³é€çµ¦åŸ·è¡Œç·’çš„è¨Šè™Ÿ
    printf("Work_thread: I set a alarm and go to sleep now.\n zzz~~~\n");
-   while (!alarmtime.got_alarm);   // °õ¦æª½¨ì³Q¾xÁé¥´Â_
+   while (!alarmtime.got_alarm);   // åŸ·è¡Œç›´åˆ°è¢«é¬§é¾æ‰“æ–·
 //      for (i=0;i<10000000;i++)
 //         for(j=0;j<100000;j++)
-//           ;   // ¨C¹j2000­Ó­¡¥N¿é¥X¤@¬q°T®§
+//           ;   // æ¯éš”2000å€‹è¿­ä»£è¼¸å‡ºä¸€æ®µè¨Šæ¯
 //         printf(" ~~~zzz ");
 //   }
    printf("Work_thread:The alam waken me up at %s", ctime(&alarmtime.the_time));
    printf("Work_thread:I finished.\n");
    pthread_exit(NULL);
 }
-void *signal_thread (void *arg)   /* ±Mªù³B²z°T¸¹ªº°õ¦æºü */
+void *signal_thread (void *arg)   /* å°ˆé–€è™•ç†è¨Šè™Ÿçš„åŸ·è¡Œç·’ */
 {
    int   sig, rv;
    sigset_t   wait_set, sig_set;   
    printf("Signal_thread:I am running, my tid is %lu\n", pthread_self());    
-   /* µ¥«İ¯S®íªº°T¸¹ */
+   /* ç­‰å¾…ç‰¹æ®Šçš„è¨Šè™Ÿ */
    sigemptyset(&wait_set);
    sigaddset (&wait_set, SIGUSR1);  
    sigaddset (&wait_set, SIGINT);  
    rv = sigwait (&wait_set, &sig);
    check_error(rv, "sigwait");
    switch (sig) {
-   case SIGINT:     /* ³B²z SIGTERM  */
-      // ...  µ²§ô¤§«eªº²M³õ³B²zµ{¦¡½X
-      /* ©ñ¶}°T¸¹«Ì½ª¡A¨Ã¥H¹w³]°Ê§@¦A¦¸²£¥Í¸Ó°T¸¹¨Ï¦Û¤v²×¤î¡A¶i¤@¨B¾É­P°õ¦æºü²×¤î. */
+   case SIGINT:     /* è™•ç† SIGTERM  */
+      // ...  çµæŸä¹‹å‰çš„æ¸…å ´è™•ç†ç¨‹å¼ç¢¼
+      /* æ”¾é–‹è¨Šè™Ÿå±è”½ï¼Œä¸¦ä»¥é è¨­å‹•ä½œå†æ¬¡ç”¢ç”Ÿè©²è¨Šè™Ÿä½¿è‡ªå·±çµ‚æ­¢ï¼Œé€²ä¸€æ­¥å°è‡´åŸ·è¡Œç·’çµ‚æ­¢. */
       printf ("Signal_thread:I received SIGINT:%d\n", sig);
       sigemptyset(&sig_set);
       sigaddset (&sig_set, sig); 
       rv = pthread_sigmask(SIG_UNBLOCK, &sig_set, NULL);
-      signal(sig, SIG_DFL);   // µ{¦¡7-3
-      raise (sig);              // ¶Ç°eµ¹¦Û¤vªº¦P¨B°T¸¹
-      pthread_exit(NULL);      // À³·í¤£·|°õ¦æ
+      signal(sig, SIG_DFL);   // ç¨‹å¼7-3
+      raise (sig);              // å‚³é€çµ¦è‡ªå·±çš„åŒæ­¥è¨Šè™Ÿ
+      pthread_exit(NULL);      // æ‡‰ç•¶ä¸æœƒåŸ·è¡Œ
    case SIGUSR1:
       printf ("Signal_thread:I received SIGUSR1 and finished.\n");
       pthread_exit(NULL); 
-   default:         /* ¨ä¥¦°T¸¹¡A¤£À³·í¥X²{ */
+   default:         /* å…¶å®ƒè¨Šè™Ÿï¼Œä¸æ‡‰ç•¶å‡ºç¾ */
       fprintf (stderr, "Unexpected signal %d ", sig);
       exit(0); 
    }

@@ -4,39 +4,39 @@ int listenfd, connfd;
 void sig_urg(int signo);
 //#include "newp12-17.c" 
 
-int main(int argc,char **argv) /* °õ¦æ«ü¥O¬°¡G <µ{¦¡¦W> <³q°T°ğ¸¹> */
+int main(int argc,char **argv) /* åŸ·è¡ŒæŒ‡ä»¤ç‚ºï¼š <ç¨‹å¼å> <é€šè¨ŠåŸ è™Ÿ> */
 {
    int n;
    char buff[40];
    sigset_t mask, oldmask;
    struct sigaction action;
 
-   if(argc != 2) {   /* ÀË¬d°Ñ¼Æ*/
+   if(argc != 2) {   /* æª¢æŸ¥åƒæ•¸*/
       printf("Usage: a.out <port#>\n");
       exit(1);
    }
-   /* ³]©wsigactionµ²ºc«ü©ú°T¸¹°Ê§@. */
+   /* è¨­å®šsigactionçµæ§‹æŒ‡æ˜è¨Šè™Ÿå‹•ä½œ. */
    action.sa_handler = sig_urg;
    sigemptyset(&action.sa_mask);
    action.sa_flags = SA_RESTART;
    sigemptyset(&mask);
    sigaddset(&mask, SIGURG);
    action.sa_mask = mask;
-   /* ³]©wSIGURGªº±±¨î½X */
+   /* è¨­å®šSIGURGçš„æ§åˆ¶ç¢¼ */
    sigaction(SIGURG, &action , NULL);
-   /* ¼È®Éªı¶ëSIGURG¤¤Â_. */
+   /* æš«æ™‚é˜»å¡SIGURGä¸­æ–·. */
    sigemptyset(&mask);
    sigaddset(&mask, SIGURG);
    sigprocmask (SIG_BLOCK, &mask, NULL);
-   listenfd = make_socket(SOCK_STREAM, atoi(argv[1])); /* «Ø¥ßºÊÅ¥®M±µ¦r */
+   listenfd = make_socket(SOCK_STREAM, atoi(argv[1])); /* å»ºç«‹ç›£è½å¥—æ¥å­— */
    listen(listenfd, 5);
-   connfd = accept(listenfd, NULL, NULL); /* ±µ¦¬³s½u */
-   /*  ¤U­±³o¤@¦æ»Pµ{¦¡12-17 Á|¥Xªº°T¸¹±±¨î½X°t¦X¨Ï¥Î */
+   connfd = accept(listenfd, NULL, NULL); /* æ¥æ”¶é€£ç·š */
+   /*  ä¸‹é¢é€™ä¸€è¡Œèˆ‡ç¨‹å¼12-17 èˆ‰å‡ºçš„è¨Šè™Ÿæ§åˆ¶ç¢¼é…åˆä½¿ç”¨ */
    /* setsockopt(listenfd,SOL_SOCKET,SO_OOBINLINE,&n,(socklen_t)sizeof(n)); */
    fcntl(connfd,F_SETOWN,getpid());
-   /* ©ñ¶}¹ïSIGURGªºªı¶ë */ 
+   /* æ”¾é–‹å°SIGURGçš„é˜»å¡ */ 
    sigprocmask (SIG_UNBLOCK, &mask, NULL);
-   sleep(1);    // Åıµ{¦¡p12-14°õ¦æ
+   sleep(1);    // è®“ç¨‹å¼p12-14åŸ·è¡Œ
    while(1){
       if ((n = read(connfd, buff, 18 /*sizeof(buff)-1i*/)) == 0){
          printf("received EOF\n");
@@ -50,7 +50,7 @@ int main(int argc,char **argv) /* °õ¦æ«ü¥O¬°¡G <µ{¦¡¦W> <³q°T°ğ¸¹> */
          err_exit("read error");
    }
 }
-void sig_urg(int signo)/* SIGURG°T¸¹³B²z±±¨î½X¡A¥Îµ{¦¡12-17®É«Ì½ª¦¹±±¨î½X */  
+void sig_urg(int signo)/* SIGURGè¨Šè™Ÿè™•ç†æ§åˆ¶ç¢¼ï¼Œç”¨ç¨‹å¼12-17æ™‚å±è”½æ­¤æ§åˆ¶ç¢¼ */  
 {
    int n;
    char oob_buf[8];

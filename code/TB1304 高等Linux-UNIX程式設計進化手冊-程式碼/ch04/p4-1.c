@@ -1,20 +1,20 @@
 #include "ch04.h"
-void * xmalloc(int);     /* µ{¦¡5-6 */
+void * xmalloc(int);     /* ç¨‹å¼5-6 */
 read_specs(char *filename)
 {
    int desc;
    struct stat statbuf;
    char *buffer;
    register char *p;
-   desc = open(filename, O_RDONLY, 0);    /* ¶}±ÒÀÉ®×¨Ã¨ú±oÀÉ®×°T®§ */
+   desc = open(filename, O_RDONLY, 0);    /* é–‹å•Ÿæª”æ¡ˆä¸¦å–å¾—æª”æ¡ˆè¨Šæ¯ */
    if (desc < 0)
      err_exit(filename);
    if (stat(filename,&statbuf) < 0)
      err_exit(filename);
-   /* ¬°buffer¤À°t¤j¤p¬°st_sizeªºªÅ¶¡ */
+   /* ç‚ºbufferåˆ†é…å¤§å°ç‚ºst_sizeçš„ç©ºé–“ */
    buffer = xmalloc ((unsigned)statbuf.st_size + 1); 
-   read (desc,buffer,(unsigned)statbuf.st_size);     /* Åª¾ã­ÓÀÉ®×¤º®e¦Übuffer */
+   read (desc,buffer,(unsigned)statbuf.st_size);     /* è®€æ•´å€‹æª”æ¡ˆå…§å®¹è‡³buffer */
    buffer[statbuf.st_size] = 0;
    close (desc);
-   /* ³B²zÅª¤JªºÀÉ®×¡A... */
+   /* è™•ç†è®€å…¥çš„æª”æ¡ˆï¼Œ... */
 }

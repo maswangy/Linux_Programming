@@ -3,8 +3,8 @@ int main(void)
 {
    int    stayopen = 1;
    struct servent *sp;
-   setservent(stayopen);    /* ¶}±ÒªA°È¸ê®Æ®w¡A·Ç³Æ±½´y */
-   while (1) {                /* ³v¶µ±½´yµn°O¶µ */
+   setservent(stayopen);    /* é–‹å•Ÿæœå‹™è³‡æ–™åº«ï¼Œæº–å‚™æŽƒæ */
+   while (1) {                /* é€é …æŽƒæç™»è¨˜é … */
       sp = getservent();
       if (sp != (struct servent *)0)
          printf( "server name=%12s, port=%6d, proto=%4s\n", sp->s_name,
@@ -12,8 +12,8 @@ int main(void)
       else
          break;
    }
-   endservent();    /* Ãö³¬ªA°È¸ê®Æ®w */
-   /* ±MªùÀËµøtelnetªA°Èªº³q°T°ð¸¹ */
+   endservent();    /* é—œé–‰æœå‹™è³‡æ–™åº« */
+   /* å°ˆé–€æª¢è¦–telnetæœå‹™çš„é€šè¨ŠåŸ è™Ÿ */
    sp = getservbyname ("telnet", "tcp");
    if (sp != (struct servent *)0) 
       printf( "telnet's port is %d\n", ntohs (sp->s_port));

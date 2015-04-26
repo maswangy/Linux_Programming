@@ -3,7 +3,7 @@ int main(void)
 {
     sigset_t base_mask, waiting_mask, oldmask;
     int sig;
-     /* ªı¶ë¨Ï¥ÎªÌªº¤¤Â_. */
+     /* é˜»å¡ä½¿ç”¨è€…çš„ä¸­æ–·. */
     sigemptyset (&base_mask);
     sigaddset (&base_mask, SIGQUIT);
     sigaddset (&base_mask, SIGINT);
@@ -12,18 +12,18 @@ int main(void)
     printf(" I have blocked SIGQUIT and SIGINT, and\n you can try "
            "to send these two signals and wait for my reply.\n");
     sleep(10);
-     /* ¹L¤@·|¨à«á,ÀËµø¬O§_¦³Äa±¾°T¸¹. */
+     /* éä¸€æœƒå…’å¾Œ,æª¢è¦–æ˜¯å¦æœ‰æ‡¸æ›è¨Šè™Ÿ. */
     printf("Let me see if there is any pending signal.\n");
     sigpending (&waiting_mask);
     for ( sig=1;sig<NSIG;sig++)
        if (sigismember (&waiting_mask, sig)){ 
           psignal(sig,"There is a pending signal" );
-	       /* ¹ï¸Ó°T¸¹°µ¥X¦^À³... */
+	       /* å°è©²è¨Šè™Ÿåšå‡ºå›æ‡‰... */
        }
-     /* ÁÙ­ì°T¸¹«Ì½ª,³o±N©ñ¶}SIGINT©MSIGTSTP */
+     /* é‚„åŸè¨Šè™Ÿå±è”½,é€™å°‡æ”¾é–‹SIGINTå’ŒSIGTSTP */
     if (sigprocmask(SIG_SETMASK,&oldmask,NULL)<0)
        err_exit("SIG_SETMASK error");
-    /* ­YªG¦³°T¸¹,¤U­±ªºµ{¦¡½X¤£·|°õ¦æ */
+    /* è‹¥æœæœ‰è¨Šè™Ÿ,ä¸‹é¢çš„ç¨‹å¼ç¢¼ä¸æœƒåŸ·è¡Œ */
     printf("Ther is no suspending signal. BYE!\n");	
     exit(EXIT_SUCCESS);
 }

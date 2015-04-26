@@ -1,25 +1,25 @@
-/* P°Ê§@--¥ø¹Ï¶i¤J¤@ÃöÁä°Ï */
+/* På‹•ä½œ--ä¼åœ–é€²å…¥ä¸€é—œéµå€ */
 void semaphore_P(int sem_id)
 {
    struct sembuf sb;
    sb.sem_num = 0;
-   sb.sem_op = -1;          /* P°Ê§@¡Ğ°T¸¹¶q­È´î¤Ö */
-   sb.sem_flg = SEM_UNDO;   /* ­YªG¦º¤`¡A¸Ñ°£°T¸¹¶q½Ğ¨D*/
+   sb.sem_op = -1;          /* På‹•ä½œï¼è¨Šè™Ÿé‡å€¼æ¸›å°‘ */
+   sb.sem_flg = SEM_UNDO;   /* è‹¥æœæ­»äº¡ï¼Œè§£é™¤è¨Šè™Ÿé‡è«‹æ±‚*/
    if (semop(sem_id, &sb, 1) == -1){
-       fprintf(stderr,¡¨semaphore_P failed\n¡¨);
+       fprintf(stderr,â€semaphore_P failed\nâ€);
        return(0);
    }
    return(1);
 }
-/* V°Ê§@--Â÷¶}ÃöÁä°Ï */
+/* Vå‹•ä½œ--é›¢é–‹é—œéµå€ */
 void semaphore_V(int sem_id)
 {
    struct sembuf sb;
    sb.sem_num = 0;
-   sb.sem_op = 1;           /* V°Ê§@¡Ğ°T¸¹¶q­È¼W¥[ */
-   sb.sem_flg = SEM_UNDO;   /* ­YªG¦º¤`¡A¸Ñ°£°T¸¹¶q½Ğ¨D*/
+   sb.sem_op = 1;           /* Vå‹•ä½œï¼è¨Šè™Ÿé‡å€¼å¢åŠ  */
+   sb.sem_flg = SEM_UNDO;   /* è‹¥æœæ­»äº¡ï¼Œè§£é™¤è¨Šè™Ÿé‡è«‹æ±‚*/
    if (semop(sem_id, &sb, 1) == -1){
-       fprintf(stderr,¡¨semaphore_V failed\n¡¨);
+       fprintf(stderr,â€semaphore_V failed\nâ€);
        return(0);
    }
    return(1);

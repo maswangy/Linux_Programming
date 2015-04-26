@@ -5,22 +5,22 @@ int main(void)
    char tmpname[L_tmpnam],*cp;
    char line[256];
    char *pfx = "XXXXX";
-   if ((cp=tmpnam(tmpname))==NULL)  // ÀËµøtmpnam()²£¥ÍªºÀÉ¦W
+   if ((cp=tmpnam(tmpname))==NULL)  // æª¢è¦–tmpnam()ç”¢ç”Ÿçš„æª”å
       printf("a unique name cannot be generate by tmpnam()\n");
    else
       printf("       file name get by tmpnam(): %s\n", cp);
-   /* ÀËµøtempnam()²£¥ÍªºÀÉ¦W */
+   /* æª¢è¦–tempnam()ç”¢ç”Ÿçš„æª”å */
    cp = tempnam("./", pfx);          
    printf("            by tempnam(\"./\",pfx): %s\n", cp);
    free(cp);
    cp = tempnam("/not_exist_dir/", pfx);
    printf("by tempnam(\"/not_exist_dir\",pfx): %s\n", cp);
    free(cp);
-    /* ¥Îtmpfile()«Ø¥ß¤@­Ó¼È¦sÀÉ */
+    /* ç”¨tmpfile()å»ºç«‹ä¸€å€‹æš«å­˜æª” */
    if ((tempfp=tmpfile()) == NULL)
       err_exit("tmpfile error");
    printf("tmpfile() created a temporary file\n");
-   /* ©¹¼È¦sÀÉ¼g¤J¤@¦æ¸ê®Æ,µM«á±N¥¦Åª¥X¨Ã¼g¦Ü¼Ğ­ã¿é¥X¶i¦æÅçÃÒ */
+   /* å¾€æš«å­˜æª”å¯«å…¥ä¸€è¡Œè³‡æ–™,ç„¶å¾Œå°‡å®ƒè®€å‡ºä¸¦å¯«è‡³æ¨™å‡†è¼¸å‡ºé€²è¡Œé©—è­‰ */
    fputs("One line of output\n", tempfp);
    rewind(tempfp);
    if(fgets(line, sizeof(line), tempfp) == NULL)

@@ -4,7 +4,7 @@ void skip_whitespace (FILE *stream)
 {
     int c;
     do
-      c = getc (stream);  /* µL»İÀË¬dEOF¡A¦]¬°¥¦¤£¬OªÅ¥Õ¦r¤¸¥Bungetc©¿²¤EOF. */
+      c = getc (stream);  /* ç„¡éœ€æª¢æŸ¥EOFï¼Œå› ç‚ºå®ƒä¸æ˜¯ç©ºç™½å­—å…ƒä¸”ungetcå¿½ç•¥EOF. */
     while (isspace (c));
     ungetc (c, stream);
 }

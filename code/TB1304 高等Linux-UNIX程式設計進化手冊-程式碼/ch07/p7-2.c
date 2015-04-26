@@ -2,12 +2,12 @@
 static void sig_usr(int); 
 int main(void)
 {
-   if(signal(SIGUSR1, sig_usr) == SIG_ERR) /* «Ø¥ß°T¸¹SIGUSR1ªº±±¨î½X */
+   if(signal(SIGUSR1, sig_usr) == SIG_ERR) /* å»ºç«‹è¨Šè™ŸSIGUSR1çš„æŽ§åˆ¶ç¢¼ */
       err_exit ("can't catch SIGUSR1\n");
    for(; ;)
       pause();
 }
-static void sig_usr(int signo)       /* °T¸¹SIGUSR1ªº±±¨î½X */
+static void sig_usr(int signo)       /* è¨Šè™ŸSIGUSR1çš„æŽ§åˆ¶ç¢¼ */
 {
    printf("received SIGUSR1\n");
    return;

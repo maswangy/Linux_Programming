@@ -9,15 +9,15 @@ int main(void)
    /* sec, min, hour, mday, mon, year, wday, yday, isdst */
        40,  30,    2,    1,    8,    98,    0,     259,   0,
    };
-   time (&the_time);                   /*  ¨ú¥Ø«e­ì©l®É¶¡  */
+   time (&the_time);                   /*  å–ç›®å‰åŸå§‹æ™‚é–“  */
    printf (" current raw time is %ld\n", the_time);
-   tm_time = gmtime (&the_time);     /*  Âà´«­ì©l®É¶¡¦ÜGMT¤À¸Ñ®É  */
+   tm_time = gmtime (&the_time);     /*  è½‰æ›åŸå§‹æ™‚é–“è‡³GMTåˆ†è§£æ™‚  */
    printf (" gmtime gives: \n");
    report_time (tm_time);
-   tm_time = localtime (&the_time); 	/*  Âà´«­ì©l®É¶¡¦Ü¥»¾÷®É  */
+   tm_time = localtime (&the_time); 	/*  è½‰æ›åŸå§‹æ™‚é–“è‡³æœ¬æ©Ÿæ™‚  */
    printf (" localtime gives: \n");
    report_time (tm_time);
-   /*  Âà´«¤@­Ó¥Î¤À¸Ñ®Éªí¥Üªº¤£¦s¦bªº¤é´Á¦Ü­ì©l®É¶¡  */
+   /*  è½‰æ›ä¸€å€‹ç”¨åˆ†è§£æ™‚è¡¨ç¤ºçš„ä¸å­˜åœ¨çš„æ—¥æœŸè‡³åŸå§‹æ™‚é–“  */
    the_time = mktime (&unknown_time);
    if ( the_time <0 ) 
       printf ("ERROR: mktime() call failed\n");

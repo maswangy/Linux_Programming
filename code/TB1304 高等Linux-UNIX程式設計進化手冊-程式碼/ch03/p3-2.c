@@ -8,12 +8,12 @@ int main (void)
         err_exit("creat error" );
     if (write (fd, bufl, 10) != 10)
         err_exit("buf1 write error");
-	    /* ÀÉ®×¥Ø«e¦ì¸m¬°10¡A²{¦b±N¥¦²¾¨ì40 */
+	    /* æª”æ¡ˆç›®å‰ä½ç½®ç‚º10ï¼Œç¾åœ¨å°‡å®ƒç§»åˆ°40 */
     if (lseek(fd, 40, SEEK_SET) == -1)
         err_exit("lseek error");
-	    /* ÀÉ®×¦ì¸m²{¦b¬°40 */
+	    /* æª”æ¡ˆä½ç½®ç¾åœ¨ç‚º40 */
     if (write (fd, buf2, 10) != 10)
        err_exit("buf2 write error");
-	    /* ÀÉ®×¦ì¸m²{¦b¬°50 */
+	    /* æª”æ¡ˆä½ç½®ç¾åœ¨ç‚º50 */
     exit(0);
 }

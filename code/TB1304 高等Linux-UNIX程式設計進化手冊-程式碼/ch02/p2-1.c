@@ -7,11 +7,11 @@ int main(void)
     if ((stream = fopen("test_file","w")) == NULL )
         err_exit("open() failed");
     printf("write string to test_file\n");
-    fputs("Hello world",stream);   /* ¿é¥X¦r¦ê¦Ü²×ºÝ */
+    fputs("Hello world",stream);   /* è¼¸å‡ºå­—ä¸²è‡³çµ‚ç«¯ */
     if ((stream = freopen("test_file","r",stream)) == NULL )
         err_exit("open() failed");
     printf("read string from test_file\n");
-    fgets(buf, sizeof(buf), stream);  /* ±q²×ºÝÅª¤J¤@¦æ¦r¦ê */
+    fgets(buf, sizeof(buf), stream);  /* å¾žçµ‚ç«¯è®€å…¥ä¸€è¡Œå­—ä¸² */
     printf("the string is \"%s\"\n", buf);
     fclose(stream);
 }

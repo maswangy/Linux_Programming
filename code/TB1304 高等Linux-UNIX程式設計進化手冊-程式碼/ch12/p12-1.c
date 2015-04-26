@@ -5,31 +5,31 @@ int main(void)
 {
     int sockets[2], child;
     char buf[1024];
-    /* «Ø¥ß®M±µ¦r°¸¹ï */
+    /* å»ºç«‹å¥—æ¥å­—å¶å° */
     if (socketpair(AF_UNIX, SOCK_STREAM, 0, sockets) < 0) 
         err_exit("socketpair error");
-    /* «Ø¥ß¤l°õ¦æºü*/
+    /* å»ºç«‹å­åŸ·è¡Œç·’*/
     if ((child = fork()) == -1) 
         err_exit("fork error ");
-    if (child != 0) {       /* ³o¬O¤÷°õ¦æºü */
-        close(sockets[0]);  /* Ãö³¬¤l°õ¦æºüªº®M±µ¦r */
-        /* Åª¨Ó¦Û¤l°õ¦æºüªº°T®§ */
+    if (child != 0) {       /* é€™æ˜¯çˆ¶åŸ·è¡Œç·’ */
+        close(sockets[0]);  /* é—œé–‰å­åŸ·è¡Œç·’çš„å¥—æ¥å­— */
+        /* è®€ä¾†è‡ªå­åŸ·è¡Œç·’çš„è¨Šæ¯ */
         if (read(sockets[1], buf, sizeof(buf)) < 0) 
             err_exit("reading socket error");
         printf("parent %d received request: %s\n", getpid(), buf);
-        /* ¦V¤l°õ¦æºü¼g°T®§ */
+        /* å‘å­åŸ·è¡Œç·’å¯«è¨Šæ¯ */
         if (write(sockets[1], DATA1, sizeof(DATA1)) < 0) 
             err_exit("writing socket error");
-        close(sockets[1]);    /* ³q°Tµ²§ô */
-    } else {     /* ³o¬O¤l°õ¦æºü */
-        close(sockets[1]);     /* Ãö³¬¤÷°õ¦æºüªº®M±µ¦rºİ */
-        /* ¶Ç°e°T®§µ¹¤÷°õ¦æºü */
+        close(sockets[1]);    /* é€šè¨ŠçµæŸ */
+    } else {     /* é€™æ˜¯å­åŸ·è¡Œç·’ */
+        close(sockets[1]);     /* é—œé–‰çˆ¶åŸ·è¡Œç·’çš„å¥—æ¥å­—ç«¯ */
+        /* å‚³é€è¨Šæ¯çµ¦çˆ¶åŸ·è¡Œç·’ */
         if (write(sockets[0], DATA2, sizeof(DATA2)) < 0) 
             err_exit("writing socket error");
-        /* Åª¨Ó¦Û¤÷°õ¦æºüªº°T®§ */
+        /* è®€ä¾†è‡ªçˆ¶åŸ·è¡Œç·’çš„è¨Šæ¯ */
         if (read(sockets[0], buf, sizeof(buf)) < 0)
             err_exit("reading socket error");
         printf("child process %d received answer: %s\n", getpid(),buf);
-        close(sockets[0]);     /* ³q°Tµ²§ô */
+        close(sockets[0]);     /* é€šè¨ŠçµæŸ */
     }
 }

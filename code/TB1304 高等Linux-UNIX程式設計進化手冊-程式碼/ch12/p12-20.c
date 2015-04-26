@@ -8,17 +8,17 @@ int main(int argc, char **argv)
    struct hostent *hp;
    char sndmsg[MAXMSG],rcvmsg[MAXMSG];
 
-   /* ÀË¬d°Ñ¼Æªº¦Xªk©Ê */
+   /* æª¢æŸ¥åƒæ•¸çš„åˆæ³•æ€§ */
    if (argc < 3) {
      fprintf(stderr, "Usage: a.out <hostname> <port>\n");
      exit(1);
    }
 
-   /* «Ø¥ß¸ê®Æ³ø®M±µ¦r */ 
+   /* å»ºç«‹è³‡æ–™å ±å¥—æ¥å­— */ 
    if ((sock = socket(AF_INET, SOCK_DGRAM, 0))< 0) 
       err_exit("opening datagram socket"); 
 
-   /* §Î¦¨¶Ç°e¥Øªº¦a®M±µ¦r¹w³]¦ì§} */ 
+   /* å½¢æˆå‚³é€ç›®çš„åœ°å¥—æ¥å­—é è¨­ä½å€ */ 
    init_sockaddr(&name, argv[1], argv[2]);
    connect(sock, (struct sockaddr *)&name, sizeof(name)); 
 
@@ -27,10 +27,10 @@ int main(int argc, char **argv)
       fgets(sndmsg,MAXMSG,stdin);
       if (sndmsg[0]=='\n')
          break;
-      /* ¶Ç°e±q²×ºİÅª¤Jªº°T®§ */
+      /* å‚³é€å¾çµ‚ç«¯è®€å…¥çš„è¨Šæ¯ */
       if (write (sock, sndmsg, sizeof(sndmsg)) < 0) 
          err_exit("(client) sending error");
-      /* ±µ¦¬¨ÃÅã¥ÜªA°È¶Ç¦^ªº¦^µª */
+      /* æ¥æ”¶ä¸¦é¡¯ç¤ºæœå‹™å‚³å›çš„å›ç­” */
       if ((n = read(sock,rcvmsg, MAXMSG)) < 0)
          err_exit("(client) receive error ");
       rcvmsg[n] = 0;

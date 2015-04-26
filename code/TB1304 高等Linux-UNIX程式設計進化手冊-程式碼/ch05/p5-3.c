@@ -4,27 +4,27 @@
 int main(int argc,char *argv[])
 {
    char *value;  
-   if(argc==1||argc>3) {   /* ÀË¬d©I¥s°Ñ¼Æ¬O§_¥¿½T*/
+   if(argc==1||argc>3) {   /* æª¢æŸ¥å‘¼å«åƒæ•¸æ˜¯å¦æ­£ç¢º*/
       fprintf(stderr, "Usage: <environ var> [<value>]\n");
       exit(1);
    }
   
-   value = getenv(argv[1]); /* ¨úÀô¹ÒÅÜ¼Æ¤§­È */
+   value = getenv(argv[1]); /* å–ç’°å¢ƒè®Šæ•¸ä¹‹å€¼ */
    if(value)
       printf("Variable %s = %s\n",argv[1],value);
    else
       printf("Variable %s undefined\n",argv[1]);
-   if(argc==3){  /* ¤T­Ó°Ñ¼Æªº±¡§Î  */
+   if(argc==3){  /* ä¸‰å€‹åƒæ•¸çš„æƒ…å½¢  */
       char *string = xmalloc(strlen(argv[1])+strlen(argv[2])+2);
-      strcpy(string,argv[1]);  // §Î¦¨"name=value"  
+      strcpy(string,argv[1]);  // å½¢æˆ"name=value"  
       strcat(string,"=");
       strcat(string,argv[2]);
       printf("calling putenv with: %s\n",string);
-      if(putenv(string)!=0){  /* ³]©w·sÀô¹ÒÅÜ¼Æ  */
+      if(putenv(string)!=0){  /* è¨­å®šæ–°ç’°å¢ƒè®Šæ•¸  */
          free(string);
          err_exit("putenv error");
       }
-      value = getenv(argv[1]); /* ®Ö¹ê¸ÓÅÜ¼Æªº·s­È  */
+      value = getenv(argv[1]); /* æ ¸å¯¦è©²è®Šæ•¸çš„æ–°å€¼  */
       printf("New value of %s = %s\n",argv[1],value);
    }
    exit(0);

@@ -9,12 +9,12 @@ int main(void)
    pid_t pid;
    start = times(&buf);
    if (!(pid = fork())) {
-      work(8);  /* ¤l°õ¦æºüµ{¦¡½X */
+      work(8);  /* å­åŸ·è¡Œç·’ç¨‹å¼ç¢¼ */
       exit(0);
    }
-   /* ¤÷°õ¦æºüµ{¦¡½X */
+   /* çˆ¶åŸ·è¡Œç·’ç¨‹å¼ç¢¼ */
    work(10);
-   pid = wait(NULL);   /* µ¥«İ¤l°õ¦æºü  */
+   pid = wait(NULL);   /* ç­‰å¾…å­åŸ·è¡Œç·’  */
    stop = times(&buf);
    printf ("  wall time: %lf (seconds), total %ld (ticks)\n",
        (double)(stop-start)/TICK, stop-start);
@@ -29,7 +29,7 @@ int main(void)
        (double)(buf.tms_utime + buf.tms_stime) / TICK, sysconf(_SC_CLK_TCK));
    return 0;
 }
-void work(int k)       /* Ãş¤ñ¤u§@ */
+void work(int k)       /* é¡æ¯”å·¥ä½œ */
 {
    FILE *f;
    int i;

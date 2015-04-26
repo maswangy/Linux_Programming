@@ -3,11 +3,11 @@
 struct passwd *getpwnam (const char *name)
 {
    struct passwd *ptr;
-   setpwent();                                  /* ¶}±Ò¨Ï¥ÎªÌ¸ê®Æ®w */
+   setpwent();                                  /* é–‹å•Ÿä½¿ç”¨è€…è³‡æ–™åº« */
    while((ptr = getpwent()) != NULL) {
       if (strcmp(name, ptr->pw_name) == 0)
-         break;                                  /* §ä¨ì¤ñ¹ï¶µ */
+         break;                                  /* æ‰¾åˆ°æ¯”å°é … */
    }
-   endpwent();                                  /* Ãö³¬¨Ï¥ÎªÌ¸ê®Æ®w */
-   return(ptr);                                 /* §ä¤£¨ì¤ñ¹ï®Éptr¬°NULL */
+   endpwent();                                  /* é—œé–‰ä½¿ç”¨è€…è³‡æ–™åº« */
+   return(ptr);                                 /* æ‰¾ä¸åˆ°æ¯”å°æ™‚ptrç‚ºNULL */
 }

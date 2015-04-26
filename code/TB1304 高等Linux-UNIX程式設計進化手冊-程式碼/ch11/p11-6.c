@@ -6,17 +6,17 @@ int main(void)
    int  new, msqid, msgflg;
    struct msqid_ds buf;
    printf("Enter the disired key = ");
-   scanf("%d",&key);    /* Åª¤Jkey­È */
-   msgflg = S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP; /* ¦s¨úÅv­­©M«Ø¥ß¼Ğ§Ó */
+   scanf("%d",&key);    /* è®€å…¥keyå€¼ */
+   msgflg = S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP; /* å­˜å–æ¬Šé™å’Œå»ºç«‹æ¨™å¿— */
    if ((msqid = msgget(key, msgflg|IPC_CREAT|IPC_EXCL))>0) 
-      new = 1;    /* ·s«Ø¥ßªº°T®§¦î¦C */
+      new = 1;    /* æ–°å»ºç«‹çš„è¨Šæ¯ä½‡åˆ— */
    else if (errno== EEXIST){ 
       new =0;
-      msqid = msgget(key, msgflg); /* Àò±o¤w¦s¦b°T®§¦î¦Cªºid */
+      msqid = msgget(key, msgflg); /* ç²å¾—å·²å­˜åœ¨è¨Šæ¯ä½‡åˆ—çš„id */
    }
    else
       err_exit("The msgget failed");
-   if (msgctl(msqid, IPC_STAT, &buf) == -1) /* Àò±o°T®§¦î¦Cª¬ºA */
+   if (msgctl(msqid, IPC_STAT, &buf) == -1) /* ç²å¾—è¨Šæ¯ä½‡åˆ—ç‹€æ…‹ */
       err_exit("msgctl failed");
    show_msq_stat(&buf);
    if(new)

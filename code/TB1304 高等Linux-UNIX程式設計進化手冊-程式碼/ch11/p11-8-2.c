@@ -5,14 +5,14 @@ int main(void)
     int shmid;
     key_t key;
     char *shm, *s;
-    /* Àò±o¦W¬°¡§785¡¨ªº¦@¨ÉÀx¦s¬q */
+    /* ç²å¾—åç‚ºâ€œ785â€çš„å…±äº«å„²å­˜æ®µ */
     key = 785; 
     if ((shmid = shmget(key, SHMSZ, 0666)) < 0) 
         err_exit("shmget");
-    /* ³s½u¸Ó¦@¨ÉÀx¦s¬q */
+    /* é€£ç·šè©²å…±äº«å„²å­˜æ®µ */
     if ((shm = shmat(shmid, NULL, 0)) == (char *) -1) 
         err_exit("shmat");
-    /* ±q¦@¨ÉÀx¦s¬qÅªªA°È°õ¦æºü©Ò¼gªº¸ê®Æ¡A¨Ã¿é¥X¥¦­Ì*/
+    /* å¾å…±äº«å„²å­˜æ®µè®€æœå‹™åŸ·è¡Œç·’æ‰€å¯«çš„è³‡æ–™ï¼Œä¸¦è¼¸å‡ºå®ƒå€‘*/
     for (s = shm; *s != '\0'; s++)
         putchar(*s);
     putchar('\n');

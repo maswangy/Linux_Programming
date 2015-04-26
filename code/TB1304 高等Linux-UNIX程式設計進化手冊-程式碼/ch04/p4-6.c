@@ -2,12 +2,12 @@
 
 int main(int argc, char *argv[])
 {
-   /* ÀË¬d°Ñ¼Æ¦Xªk§_ */    
+   /* æª¢æŸ¥åƒæ•¸åˆæ³•å¦ */    
    if (argc != 2){
       printf("usage: a.out <filename>\n");
       exit(1);
    }     
-   /* ÀË¬d¹ê»Ú¨Ï¥ÎªÌ¬O§_¦³ÅªÅv­­ */
+   /* æª¢æŸ¥å¯¦éš›ä½¿ç”¨è€…æ˜¯å¦æœ‰è®€æ¬Šé™ */
    if (access(argv[1],R_OK) < 0){              
       printf("access error for %s. ",argv[1]);
       if (errno == EACCES)
@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
    }
    else
       printf("read access OK\n");
-   /* µL½×¬O§_¦³¹ê»Ú¨Ï¥ÎªÌÅªÅv­­¡A¤´¹Á¸Õ¶}±Ò¸ÓÀÉ®× */
+   /* ç„¡è«–æ˜¯å¦æœ‰å¯¦éš›ä½¿ç”¨è€…è®€æ¬Šé™ï¼Œä»å˜—è©¦é–‹å•Ÿè©²æª”æ¡ˆ */
    if (open(argv[1], O_RDONLY) < 0)
       printf("open error for %s\n",argv[1]);
    else

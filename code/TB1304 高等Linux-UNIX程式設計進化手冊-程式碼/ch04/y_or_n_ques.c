@@ -5,20 +5,20 @@ int y_or_n_ques(const char *question)
     fputs (question, stdout);
     while (1){
         int c, answer;
-         /* ¼g¤@ªÅ®æ¤À¶}°İÃD»P¦^µª */
+         /* å¯«ä¸€ç©ºæ ¼åˆ†é–‹å•é¡Œèˆ‡å›ç­” */
         fputc (' ', stdout);
-         /* Åª¦¹¦æ¤¤ªº²Ä¤@­Ó¦r¤¸.¥¦À³·í¬O¦^µª¦r¤¸¡A¦ı¤]¥i¯à¤£¬O. */
+         /* è®€æ­¤è¡Œä¸­çš„ç¬¬ä¸€å€‹å­—å…ƒ.å®ƒæ‡‰ç•¶æ˜¯å›ç­”å­—å…ƒï¼Œä½†ä¹Ÿå¯èƒ½ä¸æ˜¯. */
         c = tolower (fgetc (stdin));
         answer = c;
-         /* ©¿²¤¦¹¦æªº¨ä§E¦r¤¸. */
+         /* å¿½ç•¥æ­¤è¡Œçš„å…¶ä½™å­—å…ƒ. */
         while (c != '\n' && c != EOF)
             c = fgetc (stdin);
-         /* ­YªG¬O¦^µª¦r¤¸¡AÅTÀ³¦^µª. */
+         /* è‹¥æœæ˜¯å›ç­”å­—å…ƒï¼ŒéŸ¿æ‡‰å›ç­”. */
         if (answer == 'y')
             return 1;
         if (answer == 'n')
             return 0;
-        /* «D¦^µª¦r¤¸¡A½Ğ¨D¦Xªk¦^µª. */
+        /* éå›ç­”å­—å…ƒï¼Œè«‹æ±‚åˆæ³•å›ç­”. */
         fputs ("Please answer y or n:", stdout);
     }
 }

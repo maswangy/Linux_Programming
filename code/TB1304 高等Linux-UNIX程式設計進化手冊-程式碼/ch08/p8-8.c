@@ -5,13 +5,13 @@ int main(void)
 {
    long timediff;
    struct timespec t1, t2;
-   if (clock_getres(CLOCK_REALTIME, &t1))   /* ¹î¬İ¹ê®ÉÀğÁé¸ÑªR«× */
+   if (clock_getres(CLOCK_REALTIME, &t1))   /* å¯Ÿçœ‹å¯¦æ™‚ç‰†é¾è§£æåº¦ */
       perror("Failed to get clock resolution");
    else if (t1.tv_sec != 0)
       printf("Clock resolution no better than one second\n");
    else
       printf("Clock resolution: %ld nanoseconds\n", (long)t1.tv_nsec);
-   /* ¹î¬İ³sÄò¨â¦¸clock_gettimeÀò±oªº®É¶¡ */
+   /* å¯Ÿçœ‹é€£çºŒå…©æ¬¡clock_gettimeç²å¾—çš„æ™‚é–“ */
    if (clock_gettime(CLOCK_REALTIME, &t1)) 
       err_exit("clock_gettime failed");
    if (clock_gettime(CLOCK_REALTIME, &t2)) 
@@ -20,15 +20,15 @@ int main(void)
    printf("t2: tv_sec=%ld,tv_nsec=%ld\n", t2.tv_sec, t2.tv_nsec);
    timediff = BILLION*(t2.tv_sec - t1.tv_sec) + t2.tv_nsec - t1.tv_nsec;
    printf("The difference of t2 and t1: %ld nanoseconds\n", timediff);
-   /* ÀËµø³æ½Õ®É¶¡ */
+   /* æª¢è¦–å–®èª¿æ™‚é–“ */
    if (clock_gettime(CLOCK_MONOTONIC,&t1)<0) 
       err_exit("look CLOCK_MONOTONIC failed");
    printf("CLOCK_MONOTONIC time:tv_sec=%ld,tv_nsec=%ld\n"
             ,t1.tv_sec, t1.tv_nsec);
-    /* ­l¥Í¤l°õ¦æºü¡A¤÷/¤l°õ¦æºü¤À§O¹î¬İ°õ¦æºü®É¶¡ */
+    /* è¡ç”Ÿå­åŸ·è¡Œç·’ï¼Œçˆ¶/å­åŸ·è¡Œç·’åˆ†åˆ¥å¯Ÿçœ‹åŸ·è¡Œç·’æ™‚é–“ */
     if (fork())
-       while(i--);   /* ¤÷°õ¦æºü¤u§@¡A¤l°õ¦æºüµL¤u§@ */
-   clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &t1);  /* ÀËµø°õ¦æºü®É¶¡ */
+       while(i--);   /* çˆ¶åŸ·è¡Œç·’å·¥ä½œï¼Œå­åŸ·è¡Œç·’ç„¡å·¥ä½œ */
+   clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &t1);  /* æª¢è¦–åŸ·è¡Œç·’æ™‚é–“ */
    printf("process %d, CLOCK_PROCESS_CPUTIME_ID time: ", getpid());
    printf("tv_sec=%ld,tv_nsec=%ld\n", t1.tv_sec, t1.tv_nsec);
 }

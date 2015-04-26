@@ -4,19 +4,19 @@ int main (void)
    pid_t pid;
    if ((pid = fork()) < 0)
       err_exit("fork error");
-   else if (pid == 0) {	            /* ²Ä¤@­Ó¤l°õ¦æºü */
-      if ((pid = fork()) < 0) 	    /* ¦A¦¸­l¥Í¤@­Ó¤l°õ¦æºü */
+   else if (pid == 0) {	            /* ç¬¬ä¸€å€‹å­åŸ·è¡Œç·’ */
+      if ((pid = fork()) < 0) 	    /* å†æ¬¡è¡ç”Ÿä¸€å€‹å­åŸ·è¡Œç·’ */
          err_exit("fork error ");
       else if (pid > 0) {
          printf("child exit\n");
-         exit(EXIT_SUCCESS);	      /*  ²×¤î²Ä¤@¦¸­l¥Íªº¤l°õ¦æºü */
+         exit(EXIT_SUCCESS);	      /*  çµ‚æ­¢ç¬¬ä¸€æ¬¡è¡ç”Ÿçš„å­åŸ·è¡Œç·’ */
       }
-      /*  ³o¬O²Ä¤G­Ó¤l°õ¦æºü.·í¤÷°õ¦æºü°õ¦æexit«á,¥¦³QinitÄ~©Ó. */
-      sleep(2);                 /* ¦b¦¹°µ»İ¤l°õ¦æºü°µªº¤u§@  */
+      /*  é€™æ˜¯ç¬¬äºŒå€‹å­åŸ·è¡Œç·’.ç•¶çˆ¶åŸ·è¡Œç·’åŸ·è¡Œexitå¾Œ,å®ƒè¢«initç¹¼æ‰¿. */
+      sleep(2);                 /* åœ¨æ­¤åšéœ€å­åŸ·è¡Œç·’åšçš„å·¥ä½œ  */
       printf("grandchild's parent pid = %d\n", getppid ());
       exit(EXIT_SUCCESS);
    }
-   if (waitpid(pid, NULL, 0) != pid) 	    /*  µ¥«İ²Ä¤@­Ó¤l°õ¦æºü  */
+   if (waitpid(pid, NULL, 0) != pid) 	    /*  ç­‰å¾…ç¬¬ä¸€å€‹å­åŸ·è¡Œç·’  */
       err_exit("waitpid error");
    printf ("parent exit\n");
    exit(EXIT_SUCCESS);

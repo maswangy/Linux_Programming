@@ -4,10 +4,10 @@ void pr_exit(int status, pid_t pid)
 {
    int sig;
 
-   if (WIFEXITED(status))           /* ¼Ğ·Ç²×¤îªº¤l°õ¦æºü  */
+   if (WIFEXITED(status))           /* æ¨™æº–çµ‚æ­¢çš„å­åŸ·è¡Œç·’  */
       printf("process %d normal termination, exit status = %d\n", pid,
               WEXITSTATUS(status));
-   else if (WIFSIGNALED(status)){   /* ¨Ò¥~²×¤îªº¤l°õ¦æºü  */
+   else if (WIFSIGNALED(status)){   /* ä¾‹å¤–çµ‚æ­¢çš„å­åŸ·è¡Œç·’  */
       sig = WTERMSIG(status);
       printf("process %d abnormal termination, signal number = %d%s:\n", pid, sig,
 #ifdef WCOREDUMP
@@ -16,7 +16,7 @@ void pr_exit(int status, pid_t pid)
               "");
 #endif
       psignal(sig, "");
-   } else if(WIFSTOPPED (status)){   /* ³Q°±¤îªº¤l°õ¦æºü  */
+   } else if(WIFSTOPPED (status)){   /* è¢«åœæ­¢çš„å­åŸ·è¡Œç·’  */
       sig = WSTOPSIG (status);
       printf("process %d stopped, signal number = %d: ", pid, sig);
       psignal(sig, "");

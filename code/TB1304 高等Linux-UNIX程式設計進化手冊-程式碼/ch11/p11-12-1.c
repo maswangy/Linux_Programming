@@ -1,31 +1,31 @@
 #include "p11-12.h"
 
-int main(void) /* «È¤áµ{¦¡ */
+int main(void) /* å®¢æˆ¶ç¨‹å¼ */
 {
     struct exchange *shm;
     int shmid, producer_ok,consumer_ok,i;
 
-    /* ¶}±Ò°T¸¹¶qconsumer©Mproducer */
+    /* é–‹å•Ÿè¨Šè™Ÿé‡consumerå’Œproducer */
     consumer_ok = open_semaphore_set(key1, 1);
     //init_a_semaphore(consumer_ok, 0, 0);
-    /* «Ø¥ß°T¸¹¶qproducer */
+    /* å»ºç«‹è¨Šè™Ÿé‡producer */
     producer_ok = open_semaphore_set(key2, 1);
     //init_a_semaphore(producer_ok, 0, 0);
 
-    /* Àò±o¨Ã³s½u¦W¬°"shared"ªº¦@¨ÉÀx¦s¬q */
+    /* ç²å¾—ä¸¦é€£ç·šåç‚º"shared"çš„å…±äº«å„²å­˜æ®µ */
     shm = (struct exchange *)shminit(ftok("shared",0),&shmid);
 
-    /* ±q¦@¨ÉÀx¦s¬qÅªªA°È°õ¦æºü©Ò¼gªº¸ê®Æ¡A¨Ã¿é¥X¥¦­Ì*/
+    /* å¾å…±äº«å„²å­˜æ®µè®€æœå‹™åŸ·è¡Œç·’æ‰€å¯«çš„è³‡æ–™ï¼Œä¸¦è¼¸å‡ºå®ƒå€‘*/
     while(1){
-       semaphore_P(producer_ok);   /* µ¥«İ¸ê®Æ²£¥Í§¹²¦ */
-       /* ³B²z¸ê®Æ¡A¹J¨ì"end"µ²§ô´`Àô */
+       semaphore_P(producer_ok);   /* ç­‰å¾…è³‡æ–™ç”¢ç”Ÿå®Œç•¢ */
+       /* è™•ç†è³‡æ–™ï¼Œé‡åˆ°"end"çµæŸå¾ªç’° */
        printf("%d recieived:Sequence=%d,data=%s",getpid(), shm->seq, shm->buf);
        if (strncmp(shm->buf, "end", 3) == 0)
           break;
-       semaphore_V(consumer_ok);  /* ÅıªA°È°õ¦æºü²£¥Í¸ê®Æ */        
+       semaphore_V(consumer_ok);  /* è®“æœå‹™åŸ·è¡Œç·’ç”¢ç”Ÿè³‡æ–™ */        
     }
-    /* ¤ÀÂ÷¦@¨ÉÀx¦s¬q */
+    /* åˆ†é›¢å…±äº«å„²å­˜æ®µ */
     shmdt(shm);
-    semaphore_V(consumer_ok);  /* ÅıªA°È°õ¦æºü²£¥Í¸ê®Æ */        
+    semaphore_V(consumer_ok);  /* è®“æœå‹™åŸ·è¡Œç·’ç”¢ç”Ÿè³‡æ–™ */        
     exit(0);
 }

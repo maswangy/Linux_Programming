@@ -7,38 +7,38 @@ pthread_mutex_t  mtx;
 int pred;
 } sync_struct_t;
 #define KEY  1234
-/* «Ø¥ß°õ¦æºü¦@¨É¥ş§½±ø¥óÅÜ¼Æ©M¤¬¥¸ÅÜ¼Æ */
+/* å»ºç«‹åŸ·è¡Œç·’å…±äº«å…¨å±€æ¢ä»¶è®Šæ•¸å’Œäº’æ–¥è®Šæ•¸ */
 create_pshared_cond_sync_data (sync_struct_t  *sync_data)
 {
    pthread_mutexattr_t mtx_attr;
    pthread_condattr_t cond_attr;
    int rv, shmid;
 
-   /* °_©l¤ÆÄİ©Êª«¥ó */
+   /* èµ·å§‹åŒ–å±¬æ€§ç‰©ä»¶ */
    rv =pthread_mutexattr_init(&mtx_attr);
    check_error(rv, "mutexattr_init");
    rv =pthread_condattr_init(&cond_attr);
    check_error(rv, "condattr_init");
 
-   /* ³]©wÄİ©Êª«¥óªº°õ¦æºü¦@¨ÉÄİ©Ê */
+   /* è¨­å®šå±¬æ€§ç‰©ä»¶çš„åŸ·è¡Œç·’å…±äº«å±¬æ€§ */
    rv=pthread_mutexattr_setpshared(&mtx_attr, PTHREAD_PROCESS_SHARED);
    check_error(rv, "mutexattr_setpshared");
    rv=pthread_condattr_setpshared(&cond_attr, PTHREAD_PROCESS_SHARED);
    check_error(rv, "condattr_setpshared");
 
-   /* ¬°¦P¨BÅÜ¼Æsync_data¤À°t¦@¨ÉÀx¦sªÅ¶¡ */
+   /* ç‚ºåŒæ­¥è®Šæ•¸sync_dataåˆ†é…å…±äº«å„²å­˜ç©ºé–“ */
    if ((shmid=shmget(KEY, sizeof(sync_struct_t), 066|IPC_CREAT))<0)
       err_exit("shmget");
    if ((sync_data=(sync_struct_t *)shmat(shmid, NULL, 0))==(sync_struct_t *)-1)
       err_exit("shmat");
 
-   /* °_©l¤Æ¤¬¥¸ÅÜ¼Æ©M±ø¥óÅÜ¼Æ */
+   /* èµ·å§‹åŒ–äº’æ–¥è®Šæ•¸å’Œæ¢ä»¶è®Šæ•¸ */
    rv=pthread_mutex_init(&sync_data->mtx, &mtx_attr);
    check_error(rv, "mutex_init")
    rv=pthread_cond_init(&sync_data->cond, &cond_attr);
    check_error(rv, "cond_init");
 
-   /* ¾P·´Äİ©Êª«¥ó */
+   /* éŠ·æ¯€å±¬æ€§ç‰©ä»¶ */
    rv = pthread_mutexattr_destroy(&mtx_attr);  
    check_error(rv, "mutexattr_destroy");
    rv = pthread_condattr_destroy(&cond_attr);   

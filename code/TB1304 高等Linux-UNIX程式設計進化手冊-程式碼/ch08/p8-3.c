@@ -6,9 +6,9 @@ int main(void)
     time_t the_time;
     char buf[256];
     char *result;
-    (void)time (&the_time);            /* Àò±o®É¶¡­È */
-    tm_ptr = localtime (&the_time);    /* Âà¬°¤À¸Ñ®É¶¡­È */
-  	strftime (buf, 256, "%A %d %B, %I:%S %p",tm_ptr); /* Âà¬°¦r¤¸®æ¦¡ */
+    (void)time (&the_time);            /* ç²å¾—æ™‚é–“å€¼ */
+    tm_ptr = localtime (&the_time);    /* è½‰ç‚ºåˆ†è§£æ™‚é–“å€¼ */
+  	strftime (buf, 256, "%A %d %B, %I:%S %p",tm_ptr); /* è½‰ç‚ºå­—å…ƒæ ¼å¼ */
  	printf("strftime gives: %s\n",buf);
 	strcpy (buf, "Mon 1 February 1999 17:53 will do fine");
  	printf ("calling strptime with: %s\n", buf);

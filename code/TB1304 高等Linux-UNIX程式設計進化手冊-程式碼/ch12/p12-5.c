@@ -6,14 +6,14 @@ int make_un_socket(int type, const char *filename)
     int sock;
     socklen_t size;
 
-    /* «Ø¥ß®M±µ¦r */
+    /* å»ºç«‹å¥—æŽ¥å­— */
     sock = socket(AF_UNIX, type, 0);
     if (sock < 0) 
         err_exit("socket");
-    /* ©R¦W®M±µ¦r */
+    /* å‘½åå¥—æŽ¥å­— */
     name.sun_family = AF_UNIX;
     strcpy(name.sun_path, filename);
-    /* ¦ì§}ªº¤j¤p¬OÀÉ¦W¶}©lªº°¾²¾»P¨äªø«×¤§©M¥[1¡]¥Î©ó²×¤îªºªÅ¦ì¤¸²Õ¡^*/
+    /* ä½å€çš„å¤§å°æ˜¯æª”åé–‹å§‹çš„åç§»èˆ‡å…¶é•·åº¦ä¹‹å’ŒåŠ 1ï¼ˆç”¨æ–¼çµ‚æ­¢çš„ç©ºä½å…ƒçµ„ï¼‰*/
     size = sizeof(struct sockaddr_un) + 1;
     if (bind (sock, (struct sockaddr *)&name, size) < 0)
         err_exit("bind");

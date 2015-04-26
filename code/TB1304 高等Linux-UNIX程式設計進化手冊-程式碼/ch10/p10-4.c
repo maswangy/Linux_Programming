@@ -4,17 +4,17 @@ int main(void)
 {
    int fd;
    pid_t pid;
-   /* «Ø¥ßÀÉ®×¨Ã¼g¨â­Ó¦ì¤¸²Õ*/
+   /* å»ºç«‹æª”æ¡ˆä¸¦å¯«å…©å€‹ä½å…ƒçµ„*/
    if ((fd = creat("templock", 0666)) < 0)
        err_exit("creat error");
    write(fd, "ab", 2) ;
-   if((pid = fork())==0) {              /* ¤l°õ¦æºü */
+   if((pid = fork())==0) {              /* å­åŸ·è¡Œç·’ */
        lockabyte("child", fd, 1);
-       sleep(2);                /* ¯d¥X®É¶¡¥H«K¤÷°õ¦æºüÂê¦í¦ì¤¸²Õ2 */
+       sleep(2);                /* ç•™å‡ºæ™‚é–“ä»¥ä¾¿çˆ¶åŸ·è¡Œç·’é–ä½ä½å…ƒçµ„2 */
        lockabyte("child", fd, 2);
-   } else {                      /* ¤÷°õ¦æºü */
+   } else {                      /* çˆ¶åŸ·è¡Œç·’ */
        lockabyte("parent", fd, 2);
-       sleep(2);                /* ¯d¥X®É¶¡¥H«K¤l°õ¦æºüÂê¦í¦ì¤¸²Õ1 */
+       sleep(2);                /* ç•™å‡ºæ™‚é–“ä»¥ä¾¿å­åŸ·è¡Œç·’é–ä½ä½å…ƒçµ„1 */
        lockabyte("parent", fd, 1);
    }
    exit(EXIT_SUCCESS);

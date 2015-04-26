@@ -1,4 +1,4 @@
-﻿#include "ch03.h"
+#include "ch03.h"
 /* 如果value非0，设置desc的O_NONBLOCK标志,否则清除该标志。成功返回0，失败返回-1.*/
 int set_nonblock_flag (int desc, int value)
 {

@@ -10,43 +10,43 @@ void list_add(struct list *add)
 {
    struct list *curr, *prev;
    int rv;
-   rv = pthread_rwlock_wrlock(&rw);   // ¥[·s¶µ±N§ó·sªí¡A¦]¦¹¥H¼g¼Ò¦¡¥Ó½ÐÅª¼gÂê 
+   rv = pthread_rwlock_wrlock(&rw);   // åŠ æ–°é …å°‡æ›´æ–°è¡¨ï¼Œå› æ­¤ä»¥å¯«æ¨¡å¼ç”³è«‹è®€å¯«éŽ– 
    check_error(rv, "add: write lock");
-   if (list_head == (struct list *)NULL){ // ªÅªí¡A´¡¤J²Ä¤@¶µ
+   if (list_head == (struct list *)NULL){ // ç©ºè¡¨ï¼Œæ’å…¥ç¬¬ä¸€é …
       list_head = add;
       add->prev = add->next = NULL;
    } else {
-      for (curr=list_head; curr !=NULL; curr=curr->next){ // §ä¥X´¡¤JÂI 
+      for (curr=list_head; curr !=NULL; curr=curr->next){ // æ‰¾å‡ºæ’å…¥é»ž 
          if (curr->id > add->id) 
             break;
          prev = curr;
       }
-      if (curr == NULL){ //´¡¤J¦ì¸m¦bªí§À
+      if (curr == NULL){ //æ’å…¥ä½ç½®åœ¨è¡¨å°¾
          add->next = NULL;
          add->prev = prev;
          prev->next = add;
-      } else {           //´¡¤J¦ì¸m¦bªí¤¤¶¡
+      } else {           //æ’å…¥ä½ç½®åœ¨è¡¨ä¸­é–“
          add->next = curr;
          add->prev = prev;
          prev->next = add;
          curr->prev = add;
       }
    }
-   rv = pthread_rwlock_unlock(&rw);   /* ÄÀ©ñÅª¼gÂê */
+   rv = pthread_rwlock_unlock(&rw);   /* é‡‹æ”¾è®€å¯«éŽ– */
    check_error(rv, "add: write unlock");
 }
 struct list * list_lookup(int lookup_id)
 {
    struct list *curr;
    int rv;
-   rv=pthread_rwlock_rdlock(&rw);   // ¥uÅªªí¡A¦]¦¹¥HÅª¼Ò¦¡¥Ó½ÐÅª¼gÂê 
+   rv=pthread_rwlock_rdlock(&rw);   // åªè®€è¡¨ï¼Œå› æ­¤ä»¥è®€æ¨¡å¼ç”³è«‹è®€å¯«éŽ– 
    check_error(rv, "lookup: read lock");
-   for (curr=list_head; curr !=NULL; curr=curr->next) // ¬d¸ß°O¿ý¦ì¸m 
+   for (curr=list_head; curr !=NULL; curr=curr->next) // æŸ¥è©¢è¨˜éŒ„ä½ç½® 
          if (curr->id >= lookup_id) 
             break;
    if (curr != NULL && curr->id != lookup_id)
-      curr = (struct list *)NULL;    // ¨S¦³§ä¨ì
-   rv = pthread_rwlock_unlock(&rw);   // ÄÀ©ñÅª¼gÂê 
+      curr = (struct list *)NULL;    // æ²’æœ‰æ‰¾åˆ°
+   rv = pthread_rwlock_unlock(&rw);   // é‡‹æ”¾è®€å¯«éŽ– 
    check_error(rv, "add: write unlock");
    return (curr);
 }

@@ -3,18 +3,18 @@ int main (int argc, char **argv)
 {
    int n, from, to;
    char buf[1024] ;
-   if (argc != 3) {      /* ÀË¬d°Ñ¼Æ­Ó¼Æ¡C*/
+   if (argc != 3) {      /* æª¢æŸ¥åƒæ•¸å€‹æ•¸ã€‚*/
       printf("Usage : %s from-file to-file\n", argv[0]);
       exit (1);
    }
-   if ((from = open (argv[1],O_RDONLY)) < 0)  /* ¬°Åª¦Ó¶}±ÒÀÉ®×from */
+   if ((from = open (argv[1],O_RDONLY)) < 0)  /* ç‚ºè®€è€Œé–‹å•Ÿæª”æ¡ˆfrom */
       err_exit (argv[1] ); 
-  /* ¥H¥[¤J¼Ò¦¡¶}±ÒÀÉ®×to. ­YÀÉ®×¤£¦s¦b¡Aopen() ±N¥H¼Ò¦¡644¡]-rw-r--r--)«Ø¥ß¥¦¡C*/
+  /* ä»¥åŠ å…¥æ¨¡å¼é–‹å•Ÿæª”æ¡ˆto. è‹¥æª”æ¡ˆä¸å­˜åœ¨ï¼Œopen() å°‡ä»¥æ¨¡å¼644ï¼ˆ-rw-r--r--)å»ºç«‹å®ƒã€‚*/
    if ((to = open(argv[2], O_WRONLY|O_CREAT|O_APPEND, 0644)) < 0)
       err_exit (argv[2] );
-   /* ±qÀÉ®×fromÅª¸ê®Æ¨Ã¼g¦Üto.¨C¦¸¼g¥Xªº¦r¤¸­Ó¼Æ¬O¨C¦¸Åª¤Jªº¦r¤¸­Ó¼Æ */
+   /* å¾æª”æ¡ˆfromè®€è³‡æ–™ä¸¦å¯«è‡³to.æ¯æ¬¡å¯«å‡ºçš„å­—å…ƒå€‹æ•¸æ˜¯æ¯æ¬¡è®€å…¥çš„å­—å…ƒå€‹æ•¸ */
    while ((n = read(from, buf, sizeof(buf))) > 0)
        write (to, buf, n) ;
-   close(from) ;     /* Ãö³¬ÀÉ®× */
+   close(from) ;     /* é—œé–‰æª”æ¡ˆ */
    close(to) ;
 }
